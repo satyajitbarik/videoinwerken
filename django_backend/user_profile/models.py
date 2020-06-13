@@ -8,3 +8,7 @@ class UserProfile(models.Model):
     # custom fields for user
     iban = models.CharField(max_length=255, blank=True, null=True)
     expiration_date = models.DateField(blank=True, null=True)
+
+    # Admin (Luke)
+    # Manager (store manager)
+    # Employee

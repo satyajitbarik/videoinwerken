@@ -17,4 +17,7 @@ urlpatterns = [
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     url(r'^account/', include('allauth.urls')),
     url(r'^api/',  include(router.urls)),
+
+    #url(r'^video/', include('videoinwerken_admin.urls')),
+
 ]
