@@ -18,6 +18,6 @@ urlpatterns = [
     url(r'^account/', include('allauth.urls')),
     url(r'^api/',  include(router.urls)),
 
-    #url(r'^video/', include('videoinwerken_admin.urls')),
+    url(r'^courses/', include('videoinwerken_manager.urls')),
 
 ]

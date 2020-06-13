@@ -14,25 +14,27 @@ import PasswordReset from "./auth/PasswordReset";
 import PasswordResetDone from "./auth/PasswordResetDone";
 import PasswordResetConfirm from "./auth/PasswordResetConfirm";
 import NoMatch from "./NoMatch";
+import Course from "./auth/Course";
 
 const MainContent = () => (
-    <div>
-        <Switch>
-            <Route exact path="/" component={Landing}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/logout" component={Logout}/>
-            <Route path="/signup" component={Signup}/>
-            <Route path="/account/confirm-email/:key" component={AccountActivation}/>
-            <Route path="/signup_done" component={SignupDone}/>
-            <Route path="/reset_password" component={PasswordReset}/>
-            <Route path="/reset_password_done" component={PasswordResetDone}/>
-            <Route path="/reset/:uid/:token/" component={PasswordResetConfirm}/>
-            <Route path="/profile" component={RequireAuth(UserProfile)}/>
-            <Route path="/profile_edit" component={RequireAuth(UserProfileEdit)}/>
-            <Route path="/change_password" component={RequireAuth(PasswordChange)}/>
-            <Route component={NoMatch}/>
-        </Switch>
-    </div>
+  <div>
+    <Switch>
+      <Route exact path="/" component={Landing} />
+      <Route path="/login" component={Login} />
+      <Route path="/logout" component={Logout} />
+      <Route path="/signup" component={Signup} />
+      <Route path="/account/confirm-email/:key" component={AccountActivation} />
+      <Route path="/signup_done" component={SignupDone} />
+      <Route path="/reset_password" component={PasswordReset} />
+      <Route path="/reset_password_done" component={PasswordResetDone} />
+      <Route path="/reset/:uid/:token/" component={PasswordResetConfirm} />
+      <Route path="/profile" component={RequireAuth(UserProfile)} />
+      <Route path="/profile_edit" component={RequireAuth(UserProfileEdit)} />
+      <Route path="/change_password" component={RequireAuth(PasswordChange)} />
+      <Route path="/courses" component={Course} />
+      <Route component={NoMatch} />
+    </Switch>
+  </div>
 );
 
 export default MainContent;

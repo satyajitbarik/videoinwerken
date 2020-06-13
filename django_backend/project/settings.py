@@ -55,7 +55,8 @@ INSTALLED_APPS = (
     'corsheaders',
 
     'user_profile',
-    'videoinwerken_admin'
+    'videoinwerken_admin',
+    'videoinwerken_manager'
 )
 
 MIDDLEWARE_CLASSES = (
