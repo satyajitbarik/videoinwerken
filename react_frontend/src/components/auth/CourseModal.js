@@ -11,46 +11,37 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
-
-function CreateCourseForm() {
+function CourseDialogContent() {
   return (
-    <TextField
-      autoFocus
-      margin="dense"
-      id="name"
-      label="Email Address"
-      type="email"
-      fullWidth
-    />
+    <DialogContent>
+      <DialogContentText>
+        Please fill in the details of the course.
+      </DialogContentText>
+      <TextField
+        id="course_title"
+        label="Title"
+        variant="outlined"
+        margin="dense"
+        fullWidth
+      />
+      <TextField
+        autoFocus
+        id="course_description"
+        label="Description"
+        variant="outlined"
+        margin="dense"
+        fullWidth
+      />
+    </DialogContent>
   );
 }
-
-//export default CourseModal;
 
 export default function CourseModal({ open, handleSubmit, handleClose }) {
   return (
     <div>
       <Dialog open={open} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add course</DialogTitle>
-        <DialogContentText>
-          Fill in the details of the course.
-        </DialogContentText>
-        <DialogContent>
-          <CreateCourseForm />
-        </DialogContent>
+        <CourseDialogContent />
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
