@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthUrls } from "../../constants/urls";
+import Modal from "material-ui/Modal";
+import Button from "material-ui/Button";
 
 class Course extends Component {
   constructor(props) {
@@ -17,7 +19,12 @@ class Course extends Component {
     };
   }
 
-  getCourses = () => {
+  // This is called upon finishing loading
+  componentDidMount() {
+    this.refreshList();
+  }
+
+  refreshList = () => {
     axios
       .get(AuthUrls.COURSES)
       .then((response) => {
@@ -28,6 +35,37 @@ class Course extends Component {
       });
   };
 
+  createItem = () => {
+    //const item = { title: "", description: "", completed: false };
+    this.setState({ modal: !this.state.modal });
+  };
+
+  // Toggle modal
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
+  handleSubmit = (item) => {
+    this.toggle(); // modal toggle
+    if (item.id) {
+      axios
+        .put(`http://localhost:8000/courses/${item.id}/`, item, {
+          headers: {
+            Authorization: `JWT ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => this.refreshList());
+      return;
+    }
+    axios
+      .post("http://localhost:8000/courses/", item, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => this.refreshList());
+  };
+
   renderCourses = () => {
     const courses = this.state.coursesList;
 
@@ -35,7 +73,20 @@ class Course extends Component {
   };
 
   render() {
-    return <ul>{this.coursesList()}</ul>;
+    return (
+      <div>
+        <h1>Courses:</h1>
+        <ul>{this.coursesList}</ul>
+
+        <Button onClick={this.createItem} className="btn btn-primary">
+          Add task
+        </Button>
+
+        <Modal>
+          <div>test</div>
+        </Modal>
+      </div>
+    );
   }
 }
 
