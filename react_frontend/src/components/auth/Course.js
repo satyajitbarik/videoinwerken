@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthUrls } from "../../constants/urls";
-import Modal from "material-ui/Modal";
-import Button from "material-ui/Button";
+import { Modal } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 class Course extends Component {
   constructor(props) {
@@ -82,9 +82,13 @@ class Course extends Component {
           Add task
         </Button>
 
-        <Modal>
-          <div>test</div>
-        </Modal>
+        {this.state.modal ? (
+          <Modal
+            activeItem={this.state.activeItem}
+            toggle={this.toggle}
+            onSave={this.handleSubmit}
+          />
+        ) : null}
       </div>
     );
   }
