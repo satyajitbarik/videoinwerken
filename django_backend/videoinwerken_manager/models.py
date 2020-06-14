@@ -8,3 +8,6 @@ class Course(models.Model):
     #individual_result = models.BooleanField() # can employee see individual result per question?
     #course_duration = models.TimeField()
     #video = models.CharField(max_length=255) # different model for this? website url?
+
+    def __str__(self):
+        return self.title

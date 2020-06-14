@@ -2,19 +2,16 @@ import React, { Component } from "react";
 import axios from "axios";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthUrls } from "../../constants/urls";
-import { Modal } from "@material-ui/core";
 import { Button } from "@material-ui/core";
+
+import { getUserToken1 } from "../../utils/authUtils";
+import CourseModal from "../auth/CourseModal";
 
 class Course extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      viewCompleted: false,
-      activeItem: {
-        title: "",
-        description: "",
-        completed: false,
-      },
+      showModal: false,
       coursesList: [],
     };
   }
@@ -26,69 +23,83 @@ class Course extends Component {
 
   refreshList = () => {
     axios
-      .get(AuthUrls.COURSES)
+      .get(AuthUrls.COURSES, {
+        headers: {
+          authorization: "Token " + getUserToken1(),
+        },
+      })
       .then((response) => {
         this.setState({ coursesList: response.data });
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
-  };
-
-  createItem = () => {
-    //const item = { title: "", description: "", completed: false };
-    this.setState({ modal: !this.state.modal });
-  };
-
-  // Toggle modal
-  toggle = () => {
-    this.setState({ modal: !this.state.modal });
-  };
-
-  handleSubmit = (item) => {
-    this.toggle(); // modal toggle
-    if (item.id) {
-      axios
-        .put(`http://localhost:8000/courses/${item.id}/`, item, {
-          headers: {
-            Authorization: `JWT ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => this.refreshList());
-      return;
-    }
-    axios
-      .post("http://localhost:8000/courses/", item, {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => this.refreshList());
   };
 
   renderCourses = () => {
     const courses = this.state.coursesList;
 
-    return courses.map((item) => <li key={item.id}>item.id</li>);
+    return (
+      <ul>
+        {courses.map((item) => (
+          <li key={item.id}>{item.title}</li>
+        ))}
+      </ul>
+    );
+  };
+
+  createItem = () => {
+    const item = { title: "", description: "" };
+    this.setState({ activeItem: item, modal: !this.state.modal });
+  };
+
+  showModal = () => {
+    this.setState({ showModal: true });
+  };
+
+  hideModal = () => {
+    this.setState({ showModal: false });
+  };
+
+  handleSubmit = () => {
+    this.hideModal(); // hide modal
+    /*if (item.id) {
+      axios
+        .put(`http://localhost:8000/courses/${item.id}/`, item, {
+          headers: {
+            authorization: "Token " + getUserToken1(),
+          },
+        })
+        .then((response) => this.refreshList());
+      return;
+    }*/
+    axios
+      .post("http://localhost:8000/courses/", {
+        headers: {
+          authorization: "Token " + getUserToken1(),
+        },
+      })
+      .then((response) => this.refreshList());
+  };
+
+  handleClose = () => {
+    this.hideModal();
   };
 
   render() {
     return (
       <div>
         <h1>Courses:</h1>
-        <ul>{this.coursesList}</ul>
+        {this.renderCourses()}
 
-        <Button onClick={this.createItem} className="btn btn-primary">
+        <Button onClick={this.showModal} className="btn btn-primary">
           Add task
         </Button>
-
-        {this.state.modal ? (
-          <Modal
-            activeItem={this.state.activeItem}
-            toggle={this.toggle}
-            onSave={this.handleSubmit}
-          />
-        ) : null}
+        <CourseModal
+          open={this.state.showModal}
+          handleSubmit={this.handleSubmit}
+          handleClose={this.handleClose}
+        />
       </div>
     );
   }
