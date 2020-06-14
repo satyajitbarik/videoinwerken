@@ -5,7 +5,7 @@ import { AuthUrls } from "../../constants/urls";
 import { Button } from "@material-ui/core";
 
 import { getUserToken1 } from "../../utils/authUtils";
-import CourseModal from "../auth/CourseModal";
+import CourseModal1 from "../auth/CourseModal";
 
 class Course extends Component {
   constructor(props) {
@@ -13,6 +13,10 @@ class Course extends Component {
     this.state = {
       showModal: false,
       coursesList: [],
+      activeItem: {
+        title: "",
+        description: "",
+      },
     };
   }
 
@@ -61,8 +65,10 @@ class Course extends Component {
     this.setState({ showModal: false });
   };
 
-  handleSubmit = () => {
+  handleSubmit = (item) => {
     this.hideModal(); // hide modal
+    console.log("Hello");
+    console.log(item);
     /*if (item.id) {
       axios
         .put(`http://localhost:8000/courses/${item.id}/`, item, {
@@ -74,7 +80,7 @@ class Course extends Component {
       return;
     }*/
     axios
-      .post("http://localhost:8000/courses/", {
+      .post("http://localhost:8000/courses/create", item, {
         headers: {
           authorization: "Token " + getUserToken1(),
         },
@@ -92,14 +98,24 @@ class Course extends Component {
         <h1>Courses:</h1>
         {this.renderCourses()}
 
-        <Button onClick={this.showModal} className="btn btn-primary">
+        <Button onClick={this.createItem} className="btn btn-primary">
           Add task
         </Button>
-        <CourseModal
+
+        {this.state.modal ? (
+          <CourseModal1
+            activeItem={this.state.activeItem}
+            toggle={this.toggle}
+            onSave={this.handleSubmit}
+          />
+        ) : null}
+
+        {/*<CourseModal1
           open={this.state.showModal}
+          activeItem={this.state.activeItem}
           handleSubmit={this.handleSubmit}
           handleClose={this.handleClose}
-        />
+        />*/}
       </div>
     );
   }
