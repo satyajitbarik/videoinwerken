@@ -1,8 +1,8 @@
-from django.conf.urls import include, url
+from django.urls import path
+
 from . import views
 
 urlpatterns = [
-    url(r'^', views.ListCourse.as_view()),
-    #url(r'^create/', views.CreateCourse.as_view()),
-    url(r'^<int:pk>/', views.DetailCourse.as_view()),
+    path('', views.ListCourse.as_view()), #also used for create
+    path('<int:pk>/', views.DetailCourse.as_view()),
 ]

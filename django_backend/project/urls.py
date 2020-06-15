@@ -1,25 +1,22 @@
-from django.conf.urls import include, url
+from django.urls import path, include
 from django.contrib import admin
-from django.views.generic import TemplateView
 from rest_framework import routers
 
-from user_profile.views import UserViewSet
-
 router = routers.DefaultRouter()
-router.register(r'user', UserViewSet,)
+#router.register(r'user', UserViewSet,)
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    path('admin/', admin.site.urls),
 
     # This is used for user reset password
-    url(r'^', include('django.contrib.auth.urls')),
-    url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-    url(r'^account/', include('allauth.urls')),
-    url(r'^api/',  include(router.urls)),
+    path('', include('django.contrib.auth.urls')),
+    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    path('account/', include('allauth.urls')),
+    path('api/',  include(router.urls)),
 
-    url(r'^accounts/', include('user_profile.urls')),
+    path('accounts/', include('user_profile.urls')),
 
-    url(r'^courses/', include('videoinwerken_manager.urls')),
+    path('courses/', include('videoinwerken_manager.urls')),
 
 ]
