@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import { AuthUrls } from "../../constants/urls";
+import { AuthUrls } from "../../../constants/urls";
 import { Button } from "@material-ui/core";
 
-import { getUserToken1 } from "../../utils/authUtils";
-import CourseModal from "../auth/CourseModal";
+import { getUserToken1 } from "../../../utils/authUtils";
+import CourseModal from "../Courses/CourseModal";
 
 class Course extends Component {
   constructor(props) {

@@ -14,7 +14,7 @@ import PasswordReset from "./auth/PasswordReset";
 import PasswordResetDone from "./auth/PasswordResetDone";
 import PasswordResetConfirm from "./auth/PasswordResetConfirm";
 import NoMatch from "./NoMatch";
-import Course from "./auth/Course";
+import Course from "./Manager/Courses/Course";
 
 const MainContent = () => (
   <div>
