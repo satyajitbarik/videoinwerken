@@ -80,7 +80,7 @@ class Course extends Component {
       return;
     }*/
     axios
-      .post("http://localhost:8000/courses/create", item, {
+      .post("http://localhost:8000/courses/", item, {
         headers: {
           authorization: "Token " + getUserToken1(),
         },

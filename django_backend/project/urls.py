@@ -18,6 +18,8 @@ urlpatterns = [
     url(r'^account/', include('allauth.urls')),
     url(r'^api/',  include(router.urls)),
 
+    url(r'^accounts/', include('user_profile.urls')),
+
     url(r'^courses/', include('videoinwerken_manager.urls')),
 
 ]
