@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     url(r'^', views.ListCourse.as_view()),
-    url(r'^create/', views.CreateCourse.as_view()),
-    #url(r'^<int:pk>/', views.DetailCourse.as_view()),
+    #url(r'^create/', views.CreateCourse.as_view()),
+    url(r'^<int:pk>/', views.DetailCourse.as_view()),
 ]
