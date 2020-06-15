@@ -3,9 +3,15 @@ from .models import Course
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
+        model = Course
         fields = (
             'id',
             'title',
             'description',
+            'active',
+            'individual_result',
+            'course_duration',
+            'video',
+            'manager'
         )
-        model = Course
+

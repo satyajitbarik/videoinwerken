@@ -17,6 +17,7 @@ urlpatterns = [
 
     path('accounts/', include('user_profile.urls')),
 
-    path('courses/', include('videoinwerken_manager.urls')),
+    path('manager/', include('videoinwerken_manager.urls')),
+    #path('courses/', include('videoinwerken_manager.urls')),
 
 ]
