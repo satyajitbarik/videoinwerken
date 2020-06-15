@@ -7,6 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { Checkbox } from "material-ui";
 
 export default class CourseModal extends Component {
   constructor(props) {
@@ -34,24 +35,25 @@ export default class CourseModal extends Component {
           <form>
             <TextField
               autoFocus
-              //id="title"
               name="title"
               label="Title"
               variant="outlined"
-              //value={this.state.activeItem.title}
               onChange={this.handleChange}
               margin="dense"
               fullWidth
             />
             <TextField
-              //id="description"
               name="description"
               label="Description"
               variant="outlined"
-              //value={this.state.activeItem.description}
               onChange={this.handleChange}
               margin="dense"
               fullWidth
+            />
+            <Checkbox
+              color="primary"
+              margin="dense"
+              onChange={this.handleChange}
             />
           </form>
         </DialogContent>

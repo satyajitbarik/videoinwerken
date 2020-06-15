@@ -20,6 +20,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Checkbox from "@material-ui/core/Checkbox";
 import PropTypes from "prop-types";
+
 class Course extends Component {
   constructor(props) {
     super(props);
@@ -65,6 +66,7 @@ class Course extends Component {
               onClick={() => {
                 this.props.history.push("courses/" + item.id);
               }}
+              style={{ cursor: "pointer" }}
             >
               <TableCell style={{ width: 50 }}>
                 <Checkbox checked={true} disabled={true}></Checkbox>
@@ -120,8 +122,8 @@ class Course extends Component {
         <h1>Courses:</h1>
         {this.renderCourses()}
 
-        <Button onClick={this.createItem} className="btn btn-primary">
-          Add task
+        <Button onClick={this.createItem} variant="contained" color="primary">
+          Add course
         </Button>
 
         {this.state.showModal ? (
