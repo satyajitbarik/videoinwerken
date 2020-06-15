@@ -4,25 +4,35 @@ from rest_auth.serializers import UserDetailsSerializer
 
 class UserSerializer(UserDetailsSerializer):
 
-    website = serializers.URLField(source="userprofile.website", allow_blank=True, required=False)
-    about = serializers.CharField(source="userprofile.about", allow_blank=True, required=False)
+    #website = serializers.URLField(source="userprofile.website", allow_blank=True, required=False)
+    #about = serializers.CharField(source="userprofile.about", allow_blank=True, required=False)
+
+    is_admin = serializers.BooleanField(source="userprofile.is_admin", default=False)
+    is_employee = serializers.BooleanField(source="userprofile.is_employee", default=False)
+
+    is_manager = serializers.BooleanField(source="userprofile.is_manager", default=False)
+    license_expiration_date = serializers.DateField(source="userprofile.license_expiration_date", required=False)
+    business_name = serializers.CharField(source="userprofile.business_name", allow_blank=True, required=False)
+    billing_address = serializers.CharField(source="userprofile.billing_address", allow_blank=True, required=False)
+    iban = serializers.CharField(source="userprofile.iban", allow_blank=True, required=False)
 
     class Meta(UserDetailsSerializer.Meta):
-        fields = UserDetailsSerializer.Meta.fields + ('website', 'about')
+        fields = UserDetailsSerializer.Meta.fields + ('is_admin', 'is_employee', 'is_manager')
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('userprofile', {})
-        website = profile_data.get('website')
-        about = profile_data.get('about')
+        is_admin = profile_data.get('is_admin')
+        is_employee = profile_data.get('is_employee')
+        is_manager = profile_data.get('is_manager')
 
         instance = super(UserSerializer, self).update(instance, validated_data)
 
         # get and update user profile
         profile = instance.userprofile
         if profile_data:
-            if website:
-                profile.website = website
-            if about:
-                profile.about = about
+            if is_admin:
+                profile.is_admin = is_admin # what does this do??
+            if is_employee:
+                profile.is_employee = is_employee
             profile.save()
         return instance

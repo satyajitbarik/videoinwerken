@@ -10,8 +10,8 @@ class UserProfile(models.Model):
 
     # custom fields for business manager
     is_manager = models.BooleanField('is_manager', default=False)
-    business_name = models.CharField(max_length=255, blank=True, null=True)
     license_expiration_date = models.DateField(blank=True, null=True)
+    business_name = models.CharField(max_length=255, blank=True, null=True)
     billing_address = models.CharField(max_length=255, blank=True, null=True)
     iban = models.CharField(max_length=255, blank=True, null=True)
 
