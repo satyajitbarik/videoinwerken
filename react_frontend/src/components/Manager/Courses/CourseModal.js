@@ -1,13 +1,19 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { Checkbox } from "material-ui";
+import {
+  FormControl,
+  FormControlLabel,
+  Input,
+  FormHelperText,
+  TextField,
+  Checkbox,
+} from "@material-ui/core";
 
 export default class CourseModal extends Component {
   constructor(props) {
@@ -32,6 +38,7 @@ export default class CourseModal extends Component {
           <DialogContentText>
             Please fill in the details of the course.
           </DialogContentText>
+
           <form>
             <TextField
               autoFocus
@@ -39,7 +46,7 @@ export default class CourseModal extends Component {
               label="Title"
               variant="outlined"
               onChange={this.handleChange}
-              margin="dense"
+              margin="normal"
               fullWidth
             />
             <TextField
@@ -47,16 +54,47 @@ export default class CourseModal extends Component {
               label="Description"
               variant="outlined"
               onChange={this.handleChange}
-              margin="dense"
+              margin="normal"
               fullWidth
             />
-            <Checkbox
-              color="primary"
-              margin="dense"
+
+            <FormControlLabel
+              control={<Checkbox onChange={this.handleChange} name="active" />}
+              label="Active"
+              style={{ display: "block", marginTop: 5 }}
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={this.handleChange}
+                  name="individual_result"
+                  style={{ display: "block" }}
+                />
+              }
+              label="Allow to see individual result per question"
+            />
+
+            <TextField
+              name="course_duration"
+              label="Course duration"
+              variant="outlined"
               onChange={this.handleChange}
+              margin="normal"
+              fullWidth
+            />
+
+            <TextField
+              name="video"
+              label="Video"
+              variant="outlined"
+              onChange={this.handleChange}
+              margin="normal"
+              fullWidth
             />
           </form>
         </DialogContent>
+
         <DialogActions>
           <Button onClick={onCancel} color="primary">
             Cancel

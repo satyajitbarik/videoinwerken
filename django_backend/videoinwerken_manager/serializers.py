@@ -12,6 +12,6 @@ class CourseSerializer(serializers.ModelSerializer):
             'individual_result',
             'course_duration',
             'video',
-            'manager'
+            'manager_id'
         )
 

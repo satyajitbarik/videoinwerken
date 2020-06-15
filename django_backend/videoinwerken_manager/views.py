@@ -1,3 +1,5 @@
+
+
 from django.shortcuts import render
 from rest_framework import generics
 from .models import Course
@@ -8,6 +10,7 @@ from .serializers import CourseSerializer
 class ListAllCourses(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+
 
 #class ListCoursesOfManager(generics.ListCreateAPIView):
    # queryset = Course.objects.get(manager)
@@ -20,3 +23,4 @@ class ListAllCourses(generics.ListCreateAPIView):
 class DetailCourse(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+

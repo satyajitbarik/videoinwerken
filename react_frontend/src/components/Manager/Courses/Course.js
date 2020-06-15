@@ -20,6 +20,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Checkbox from "@material-ui/core/Checkbox";
 import PropTypes from "prop-types";
+import authActions from "../../../actions/authActions";
 
 class Course extends Component {
   constructor(props) {
@@ -30,13 +31,20 @@ class Course extends Component {
       activeItem: {
         title: "",
         description: "",
+        active: false,
+        individual_result: false,
+        course_duration: "",
+        video: "",
+        manager_id: null,
       },
+      current_user: {},
     };
   }
 
   // This is called upon finishing loading
   componentDidMount() {
     this.refreshList();
+    this.getCurrentUser();
   }
 
   refreshList = () => {
@@ -48,6 +56,22 @@ class Course extends Component {
       })
       .then((response) => {
         this.setState({ coursesList: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  getCurrentUser = () => {
+    axios
+      .get(AuthUrls.USER_PROFILE, {
+        headers: {
+          authorization: "Token " + getUserToken1(),
+        },
+      })
+      .then((response) => {
+        this.setState({ current_user: response.data });
+        console.log(this.state.current_user);
       })
       .catch((error) => {
         console.log(error);
@@ -81,7 +105,19 @@ class Course extends Component {
   };
 
   createItem = () => {
-    const item = { title: "", description: "" };
+    //this.getCurrentUser();
+    const currentUserID = this.state.current_user.pk;
+    console.log("current user id:" + currentUserID);
+
+    const item = {
+      title: "",
+      description: "",
+      active: false,
+      individual_result: false,
+      course_duration: "",
+      video: "",
+      manager_id: currentUserID,
+    };
     this.setState({ activeItem: item, showModal: true });
   };
 
@@ -113,7 +149,12 @@ class Course extends Component {
           authorization: "Token " + getUserToken1(),
         },
       })
-      .then((response) => this.refreshList());
+      .then((response) => {
+        this.refreshList();
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   };
 
   render() {

@@ -17,7 +17,7 @@ class UserSerializer(UserDetailsSerializer):
     iban = serializers.CharField(source="userprofile.iban", allow_blank=True, required=False)
 
     class Meta(UserDetailsSerializer.Meta):
-        fields = UserDetailsSerializer.Meta.fields + ('is_admin', 'is_employee', 'is_manager')
+        fields = UserDetailsSerializer.Meta.fields + ('is_admin', 'is_employee', 'is_manager', 'license_expiration_date', 'business_name', 'billing_address', 'iban')
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('userprofile', {})
