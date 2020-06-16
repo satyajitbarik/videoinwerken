@@ -37,8 +37,8 @@ export default class CourseEdit extends Component {
     const name = e.target.name;
     console.log(name);
     console.log(value);
-    const item = { ...this.state.item, [name]: value };
-    this.setState({ item });
+    const activeItem = { ...this.state.activeItem, [name]: value };
+    this.setState({ activeItem });
   };
 
   courseEdit = () => {
@@ -97,7 +97,11 @@ export default class CourseEdit extends Component {
 
             <FormControlLabel
               control={
-                <Checkbox onChange={this.handleCheckBox} name="active" />
+                <Checkbox
+                  onChange={this.handleCheckBox}
+                  name="active"
+                  checked={item.active}
+                />
               }
               label="Active"
               style={{ display: "block", marginTop: 5 }}
@@ -108,6 +112,7 @@ export default class CourseEdit extends Component {
                 <Checkbox
                   onChange={this.handleCheckBox}
                   name="individual_result"
+                  checked={item.individual_result}
                 />
               }
               label="Allow to see individual result per question"

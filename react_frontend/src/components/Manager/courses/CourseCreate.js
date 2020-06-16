@@ -27,7 +27,7 @@ export default class CourseCreate extends Component {
   }
 
   handleChange = (e) => {
-    let { name, value } = e.target;
+    const { name, value } = e.target;
     console.log(name);
     console.log(value);
     const activeItem = { ...this.state.activeItem, [name]: value };
@@ -35,7 +35,8 @@ export default class CourseCreate extends Component {
   };
 
   handleCheckBox = (e, value) => {
-    console.log(e.target.name);
+    const name = e.target.name;
+    console.log(name);
     console.log(value);
     const activeItem = { ...this.state.activeItem, [name]: value };
     this.setState({ activeItem });
@@ -81,7 +82,6 @@ export default class CourseCreate extends Component {
             <FormControlLabel
               control={
                 <Checkbox
-                  // value={this.currentTarget.checked ? true : false}
                   onChange={this.handleCheckBox}
                   name="individual_result"
                 />
