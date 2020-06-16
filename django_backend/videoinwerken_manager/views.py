@@ -30,6 +30,7 @@ class CourseView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 # this is used to access the api in browser
+# NOT NEEDED ANYMORE SINCE THE ABOVE DOES BOTH
 class CourseViewAll(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
