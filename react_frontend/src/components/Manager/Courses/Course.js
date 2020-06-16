@@ -54,7 +54,7 @@ class Course extends Component {
           authorization: "Token " + getUserToken1(),
         },
         params: {
-          abc: this.state.current_user.pk,
+          data: 1,
         },
       })
       .then((response) => {
