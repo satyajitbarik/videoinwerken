@@ -134,7 +134,7 @@ class Course extends Component {
 
     return (
       <CourseEdit
-        activeItem={this.state.detailItem}
+        item={this.state.detailItem}
         onSave={this.handleSubmit} //not needed
         onCancel={this.closeModal} //not needed possibly
       />

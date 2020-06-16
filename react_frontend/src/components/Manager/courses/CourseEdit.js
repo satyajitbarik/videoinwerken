@@ -21,14 +21,14 @@ export default class CourseEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeItem: this.props.activeItem,
+      item: this.props.item,
     };
   }
 
   handleChange = (e) => {
     let { name, value } = e.target;
-    const activeItem = { ...this.state.activeItem, [name]: value };
-    this.setState({ activeItem });
+    const item = { ...this.state.item, [name]: value };
+    this.setState({ item });
   };
 
   courseEdit = () => {
@@ -55,6 +55,7 @@ export default class CourseEdit extends Component {
 
   render() {
     const { onSave, onCancel } = this.props;
+    const item = this.state.item;
     return (
       <Dialog open={true} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Edit course</DialogTitle>
@@ -70,6 +71,7 @@ export default class CourseEdit extends Component {
               label="Title"
               variant="outlined"
               onChange={this.handleChange}
+              value={item.title}
               margin="normal"
               fullWidth
             />
@@ -78,6 +80,7 @@ export default class CourseEdit extends Component {
               label="Description"
               variant="outlined"
               onChange={this.handleChange}
+              value={item.description}
               margin="normal"
               fullWidth
             />
@@ -86,6 +89,7 @@ export default class CourseEdit extends Component {
               control={<Checkbox onChange={this.handleChange} name="active" />}
               label="Active"
               style={{ display: "block", marginTop: 5 }}
+              checked={item.active}
             />
 
             <FormControlLabel
@@ -94,6 +98,7 @@ export default class CourseEdit extends Component {
                   onChange={this.handleChange}
                   name="individual_result"
                   style={{ display: "block" }}
+                  checked={item.active}
                 />
               }
               label="Allow to see individual result per question"
@@ -104,6 +109,7 @@ export default class CourseEdit extends Component {
               label="Course duration"
               variant="outlined"
               onChange={this.handleChange}
+              value={item.courseDuration}
               margin="normal"
               fullWidth
             />
@@ -113,6 +119,7 @@ export default class CourseEdit extends Component {
               label="Video"
               variant="outlined"
               onChange={this.handleChange}
+              value={item.video}
               margin="normal"
               fullWidth
             />
@@ -123,7 +130,7 @@ export default class CourseEdit extends Component {
           <Button onClick={onCancel} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => onSave(this.state.activeItem)} color="primary">
+          <Button onClick={() => onSave(this.state.item)} color="primary">
             Add
           </Button>
         </DialogActions>

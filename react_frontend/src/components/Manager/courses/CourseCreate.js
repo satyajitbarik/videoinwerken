@@ -13,9 +13,12 @@ import {
   FormHelperText,
   TextField,
   Checkbox,
+  TextLabel,
 } from "@material-ui/core";
+import { checkPropTypes } from "prop-types";
+import { event } from "jquery";
 
-export default class CourseModal extends Component {
+export default class CourseCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,8 +28,15 @@ export default class CourseModal extends Component {
 
   handleChange = (e) => {
     let { name, value } = e.target;
+    console.log(name);
+    console.log(value);
     const activeItem = { ...this.state.activeItem, [name]: value };
     this.setState({ activeItem });
+  };
+
+  handleCheckBox = (name, value) => {
+    console.log(name);
+    console.log(value);
   };
 
   render() {
@@ -58,8 +68,29 @@ export default class CourseModal extends Component {
               fullWidth
             />
 
+            <label>
+              <input
+                name="active"
+                type="checkbox"
+                onClick={(name, value) =>
+                  this.handleCheckBox(
+                    "hello",
+                    event.currentTarget.checked ? true : false
+                  )
+                }
+              />
+              Active1
+            </label>
+
             <FormControlLabel
-              control={<Checkbox onChange={this.handleChange} name="active" />}
+              control={
+                <Checkbox
+                  onChange={(name, value) =>
+                    this.handleCheckBox("hello", value)
+                  }
+                  name="active"
+                />
+              }
               label="Active"
               style={{ display: "block", marginTop: 5 }}
             />
@@ -67,6 +98,7 @@ export default class CourseModal extends Component {
             <FormControlLabel
               control={
                 <Checkbox
+                  // value={this.currentTarget.checked ? true : false}
                   onChange={this.handleChange}
                   name="individual_result"
                   style={{ display: "block" }}
