@@ -53,12 +53,15 @@ class Course extends Component {
         headers: {
           authorization: "Token " + getUserToken1(),
         },
+        params: {
+          abc: this.state.current_user.pk,
+        },
       })
       .then((response) => {
         this.setState({ coursesList: response.data });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data);
       });
   };
 
@@ -74,7 +77,7 @@ class Course extends Component {
         console.log(this.state.current_user);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data);
       });
   };
 
