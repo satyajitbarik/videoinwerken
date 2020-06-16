@@ -50,13 +50,17 @@ class Course extends Component {
   }
 
   refreshList = () => {
+    const token = getUserToken1();
+    if (!token) {
+      return;
+    }
     axios
       .get(AuthUrls.COURSES, {
         headers: {
-          authorization: "Token " + getUserToken1(),
+          authorization: "Token " + token,
         },
         params: {
-          manager_id: 1,
+          manager_id: this.state.current_user.pk,
         },
       })
       .then((response) => {
@@ -124,7 +128,7 @@ class Course extends Component {
       video: "",
       manager_id: currentUserID,
     };
-    this.setState({ activeItem: item, showModal: true });
+    this.setState({ activeItemAdd: item, showModal: true });
   };
 
   detailItem = (item) => {
@@ -151,7 +155,7 @@ class Course extends Component {
 
   handleSubmit = (item) => {
     this.closeModal(); // closeModal
-    console.log("Hello");
+    console.log("handlesubmit");
     console.log(item);
     /*if (item.id) {
       axios
