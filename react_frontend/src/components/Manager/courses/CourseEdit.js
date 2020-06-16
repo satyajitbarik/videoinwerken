@@ -39,11 +39,12 @@ export default class CourseEdit extends Component {
           headers: {
             authorization: "Token " + token,
           },
-          params: {
+          /*params: {
             manager_id: 1,
-          },
+          },*/
         })
         .then((response) => {
+          // IF MANAGER_ID DOES NOT EQUAL USER THEN CANCEL?
           this.setState({ coursesList: response.data });
         })
         .catch((error) => {

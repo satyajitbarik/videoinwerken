@@ -26,9 +26,10 @@ class Course extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      detailItem: null,
       showModal: false,
       coursesList: [],
-      activeItem: {
+      activeItemAdd: {
         title: "",
         description: "",
         active: false,
@@ -83,7 +84,7 @@ class Course extends Component {
 
   renderCourses = () => {
     const courses = this.state.coursesList;
-    console.log(courses);
+    //console.log(courses);
     return (
       <Table>
         <TableBody>
@@ -91,7 +92,8 @@ class Course extends Component {
             <TableRow
               key={item.id}
               onClick={() => {
-                this.props.history.push("courses/" + item.id);
+                //this.props.history.push("courses/" + item.id);
+                this.setState({ detailItem: item });
               }}
               style={{ cursor: "pointer" }}
             >
@@ -122,6 +124,19 @@ class Course extends Component {
       manager_id: currentUserID,
     };
     this.setState({ activeItem: item, showModal: true });
+  };
+
+  detailItem = (item) => {
+    const currentUserID = this.state.current_user.pk;
+    console.log("current user id:" + currentUserID);
+    //this.setState({ activeItem: item, showModal: true });
+
+    return (
+      <div>
+        <span>hallo</span>
+        <span>{item.title}</span>
+      </div>
+    );
   };
 
   showModal = () => {
@@ -172,11 +187,13 @@ class Course extends Component {
 
         {this.state.showModal ? (
           <CourseCreate
-            activeItem={this.state.activeItem}
+            activeItem={this.state.activeItemAdd}
             onSave={this.handleSubmit}
             onCancel={this.closeModal}
           />
         ) : null}
+
+        {this.state.detailItem ? this.detailItem(this.state.detailItem) : null}
       </div>
     );
   }
