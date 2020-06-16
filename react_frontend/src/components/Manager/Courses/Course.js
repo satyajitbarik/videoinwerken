@@ -43,6 +43,10 @@ class Course extends Component {
     };
   }
 
+  handleClose() {
+    console.log("testtt");
+  }
+
   // This is called upon finishing loading
   componentDidMount() {
     this.refreshList();
@@ -149,12 +153,16 @@ class Course extends Component {
     this.setState({ showModal: true });
   };
 
-  closeModal = () => {
+  /*closeModal = () => {
+    this.setState({ showModal: false });
+  };*/
+
+  handleClose = () => {
     this.setState({ showModal: false });
   };
 
   handleSubmit = (item) => {
-    this.closeModal(); // closeModal
+    this.handleClose(); // closeModal
     console.log("handlesubmit");
     console.log(item);
     /*if (item.id) {
@@ -190,12 +198,12 @@ class Course extends Component {
         <Button onClick={this.createItem} variant="contained" color="primary">
           Add course
         </Button>
-
         {this.state.showModal ? (
           <CourseCreate
-            activeItem={this.state.activeItemAdd}
+            item={this.state.activeItemAdd}
             onSave={this.handleSubmit}
-            onCancel={this.closeModal}
+            onClose={this.handleClose}
+            showModal={this.state.showModal}
           />
         ) : null}
 

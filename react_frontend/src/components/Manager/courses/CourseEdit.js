@@ -100,7 +100,7 @@ export default class CourseEdit extends Component {
                 <Checkbox
                   onChange={this.handleCheckBox}
                   name="active"
-                  checked={item.active}
+                  defaultChecked={item.active}
                 />
               }
               label="Active"
@@ -112,7 +112,7 @@ export default class CourseEdit extends Component {
                 <Checkbox
                   onChange={this.handleCheckBox}
                   name="individual_result"
-                  checked={item.individual_result}
+                  defaultChecked={item.individual_result}
                 />
               }
               label="Allow to see individual result per question"
@@ -146,7 +146,7 @@ export default class CourseEdit extends Component {
             Cancel
           </Button>
           <Button onClick={() => onSave(this.state.item)} color="primary">
-            Add
+            Confirm
           </Button>
         </DialogActions>
       </Dialog>
