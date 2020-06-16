@@ -54,7 +54,7 @@ class Course extends Component {
           authorization: "Token " + getUserToken1(),
         },
         params: {
-          data: 1,
+          manager_id: 1,
         },
       })
       .then((response) => {
