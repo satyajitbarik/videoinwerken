@@ -34,8 +34,8 @@ class DetailCourse(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CourseSerializer
 
 class CourseView(viewsets.ModelViewSet):
-    #serializer_class = CourseSerializer
-    #queryset = Course.objects.all()
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
 
     def list(self, request):
         print("manager_id="+request.query_params['manager_id'])   #query_params if GET, data if POST!
@@ -43,7 +43,3 @@ class CourseView(viewsets.ModelViewSet):
         queryset = Course.objects.filter(manager_id=manager_id)
         serializer = CourseSerializer(queryset, many=True)
         return Response(serializer.data)
-
-class CourseViewAll(viewsets.ModelViewSet):
-        queryset = Course.objects.all()
-        serializer_class = CourseSerializer
