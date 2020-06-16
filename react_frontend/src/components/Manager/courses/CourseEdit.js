@@ -57,7 +57,7 @@ export default class CourseEdit extends Component {
     const { onSave, onCancel } = this.props;
     return (
       <Dialog open={true} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Add course</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit course</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Please fill in the details of the course.

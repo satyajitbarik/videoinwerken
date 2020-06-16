@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core";
 
 import { getUserToken1 } from "../../../utils/authUtils";
 import CourseCreate from "./CourseCreate";
+import CourseEdit from "./CourseEdit";
 
 import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -132,10 +133,11 @@ class Course extends Component {
     //this.setState({ activeItem: item, showModal: true });
 
     return (
-      <div>
-        <span>hallo</span>
-        <span>{item.title}</span>
-      </div>
+      <CourseEdit
+        activeItem={this.state.detailItem}
+        onSave={this.handleSubmit} //not needed
+        onCancel={this.closeModal} //not needed possibly
+      />
     );
   };
 
