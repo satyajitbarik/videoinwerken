@@ -34,9 +34,11 @@ export default class CourseCreate extends Component {
     this.setState({ activeItem });
   };
 
-  handleCheckBox = (name, value) => {
-    console.log(name);
+  handleCheckBox = (e, value) => {
+    console.log(e.target.name);
     console.log(value);
+    const activeItem = { ...this.state.activeItem, [name]: value };
+    this.setState({ activeItem });
   };
 
   render() {
@@ -68,28 +70,9 @@ export default class CourseCreate extends Component {
               fullWidth
             />
 
-            <label>
-              <input
-                name="active"
-                type="checkbox"
-                onClick={(name, value) =>
-                  this.handleCheckBox(
-                    "hello",
-                    event.currentTarget.checked ? true : false
-                  )
-                }
-              />
-              Active1
-            </label>
-
             <FormControlLabel
               control={
-                <Checkbox
-                  onChange={(name, value) =>
-                    this.handleCheckBox("hello", value)
-                  }
-                  name="active"
-                />
+                <Checkbox onChange={this.handleCheckBox} name="active" />
               }
               label="Active"
               style={{ display: "block", marginTop: 5 }}
@@ -99,12 +82,12 @@ export default class CourseCreate extends Component {
               control={
                 <Checkbox
                   // value={this.currentTarget.checked ? true : false}
-                  onChange={this.handleChange}
+                  onChange={this.handleCheckBox}
                   name="individual_result"
-                  style={{ display: "block" }}
                 />
               }
               label="Allow to see individual result per question"
+              style={{ display: "block" }}
             />
 
             <TextField

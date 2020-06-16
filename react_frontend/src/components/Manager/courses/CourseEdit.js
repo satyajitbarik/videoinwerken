@@ -27,6 +27,16 @@ export default class CourseEdit extends Component {
 
   handleChange = (e) => {
     let { name, value } = e.target;
+    console.log(name);
+    console.log(value);
+    const item = { ...this.state.item, [name]: value };
+    this.setState({ item });
+  };
+
+  handleCheckBox = (e, value) => {
+    const name = e.target.name;
+    console.log(name);
+    console.log(value);
     const item = { ...this.state.item, [name]: value };
     this.setState({ item });
   };
@@ -86,22 +96,22 @@ export default class CourseEdit extends Component {
             />
 
             <FormControlLabel
-              control={<Checkbox onChange={this.handleChange} name="active" />}
+              control={
+                <Checkbox onChange={this.handleCheckBox} name="active" />
+              }
               label="Active"
               style={{ display: "block", marginTop: 5 }}
-              checked={item.active}
             />
 
             <FormControlLabel
               control={
                 <Checkbox
-                  onChange={this.handleChange}
+                  onChange={this.handleCheckBox}
                   name="individual_result"
-                  style={{ display: "block" }}
-                  checked={item.active}
                 />
               }
               label="Allow to see individual result per question"
+              style={{ display: "block" }}
             />
 
             <TextField
