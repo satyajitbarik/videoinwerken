@@ -6,8 +6,8 @@ from user_profile.views import UserViewSet
 from videoinwerken_manager.views import CourseViewSet
 
 router = routers.DefaultRouter()
-router.register('user', UserViewSet)
-router.register('course', CourseViewSet)
+router.register('accounts', UserViewSet)
+router.register('manager/courses', CourseViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

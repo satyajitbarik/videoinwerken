@@ -9,5 +9,5 @@ export const AuthUrls = {
   USER_ACTIVATION: `${ROOT_URL}rest-auth/registration/verify-email/`,
   USER_PROFILE: `${ROOT_URL}rest-auth/user/`,
 
-  COURSES: `${ROOT_URL}manager/courses/`,
+  COURSES: `${ROOT_URL}api/manager/courses/`,
 };
