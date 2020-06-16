@@ -5,7 +5,7 @@ import { AuthUrls } from "../../../constants/urls";
 import { Button } from "@material-ui/core";
 
 import { getUserToken1 } from "../../../utils/authUtils";
-import CourseModal from "../Courses/CourseModal";
+import CourseCreate from "./CourseCreate";
 
 import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -171,7 +171,7 @@ class Course extends Component {
         </Button>
 
         {this.state.showModal ? (
-          <CourseModal
+          <CourseCreate
             activeItem={this.state.activeItem}
             onSave={this.handleSubmit}
             onCancel={this.closeModal}
