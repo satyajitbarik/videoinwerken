@@ -20,21 +20,9 @@ class Course extends Component {
       detailItem: null,
       showModal: false,
       coursesList: [],
-      activeItemAdd: {
-        title: "",
-        description: "",
-        active: false,
-        individual_result: false,
-        course_duration: "",
-        video: "",
-        manager_id: null,
-      },
+      activeItemAdd: null,
       current_user: {},
     };
-  }
-
-  handleClose() {
-    console.log("testtt");
   }
 
   // This is called upon finishing loading
