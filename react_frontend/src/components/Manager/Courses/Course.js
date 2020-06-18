@@ -144,7 +144,7 @@ class Course extends Component {
       <CourseEdit
         item={this.state.detailItem}
         onSave={this.handleSubmit} //not needed
-        onCancel={this.closeModal} //not needed possibly
+        onClose={this.handleClose} //not needed possibly
       />
     );
   };
@@ -172,7 +172,7 @@ class Course extends Component {
             authorization: "Token " + getUserToken1(),
           },
         })
-        .then((response) => this.refreshList());
+        .then((response) => this.refreshList()); this.state.detailItem = null
       return;
     }
     axios
