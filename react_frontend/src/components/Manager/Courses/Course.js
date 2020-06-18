@@ -165,16 +165,16 @@ class Course extends Component {
     this.handleClose(); // closeModal
     console.log("handlesubmit");
     console.log(item);
-    /*if (item.id) {
+    if (item.id) {
       axios
-        .put(`http://localhost:8000/courses/${item.id}/`, item, {
+      .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
           headers: {
             authorization: "Token " + getUserToken1(),
           },
         })
         .then((response) => this.refreshList());
       return;
-    }*/
+    }
     axios
       .post(AuthUrls.COURSES, item, {
         headers: {
