@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthUrls } from "../../../constants/urls";
 import { Button } from "@material-ui/core";
 
@@ -8,20 +7,11 @@ import { getUserToken1 } from "../../../utils/authUtils";
 import CourseCreate from "./CourseCreate";
 import CourseEdit from "./CourseEdit";
 
-import List from "@material-ui/core/List";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemLink from "../../../utils/utils";
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Checkbox from "@material-ui/core/Checkbox";
-import PropTypes from "prop-types";
-import authActions from "../../../actions/authActions";
 
 class Course extends Component {
   constructor(props) {
