@@ -32,28 +32,6 @@ export default function CourseEdit(props) {
     item = { ...item, [name]: value };
     console.log(item);
   };
-
-  const courseEdit = () => {
-    const token = getUserToken1();
-    if (token) {
-      axios
-        .get("localhost:8000/api/manager/courses/", {
-          headers: {
-            authorization: "Token " + token,
-          },
-          /*params: {
-            manager_id: 1,
-          },*/
-        })
-        .then((response) => {
-          // IF MANAGER_ID DOES NOT EQUAL USER THEN CANCEL?
-          this.setState({ coursesList: response.data });
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
-    }
-  };
   
     return (
       <Dialog open={true} aria-labelledby="form-dialog-title">
