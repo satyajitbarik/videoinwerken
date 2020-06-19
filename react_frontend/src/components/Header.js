@@ -24,6 +24,9 @@ const renderLinks = (authenticated, setAuthenticated) => {
   if (authenticated) {
     return (
       <React.Fragment>
+        <Button color="inherit" href="../manager/courses">
+          Manage Courses
+        </Button>
         <Button color="inherit" href="../profile">
           Profile
         </Button>

@@ -19,7 +19,7 @@ import MainContent from "./MainContent";
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
   return (
-    <div className="container">
+    <div /* className="container"*/>
       <Notifs />
       <Header
         authenticated={authenticated}

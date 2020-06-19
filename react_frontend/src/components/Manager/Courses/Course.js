@@ -171,10 +171,15 @@ class Course extends Component {
   render() {
     return (
       <div>
-        <h1>Courses:</h1>
+        <h3>Courses</h3>
         {this.renderCourses()}
 
-        <Button onClick={this.createItem} variant="contained" color="primary">
+        <Button
+          onClick={this.createItem}
+          variant="contained"
+          color="primary"
+          style={{ marginTop: 20 }}
+        >
           Make new course
         </Button>
         {this.state.showModal ? (

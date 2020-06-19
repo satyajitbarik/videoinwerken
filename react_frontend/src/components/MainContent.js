@@ -17,7 +17,7 @@ import NoMatch from "./NoMatch";
 import Course from "./Manager/Courses/Course";
 
 const MainContent = () => (
-  <div>
+  <div className="container" style={{ marginTop: 20 }}>
     <Switch>
       <Route exact path="/" component={Landing} />
       <Route path="/login" component={Login} />
