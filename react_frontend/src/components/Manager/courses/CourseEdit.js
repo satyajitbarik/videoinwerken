@@ -5,11 +5,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import {
-  FormControlLabel,
-  TextField,
-  Checkbox,
-} from "@material-ui/core";
+import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
 
 export default function CourseEdit(props) {
   let { item } = props;
@@ -32,90 +28,90 @@ export default function CourseEdit(props) {
     item = { ...item, [name]: value };
     console.log(item);
   };
-  
-    return (
-      <Dialog open={true} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Edit course</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Please fill in the details of the course.
-          </DialogContentText>
 
-          <form>
-            <TextField
-              autoFocus
-              name="title"
-              label="Title"
-              variant="outlined"
-              onChange={handleChange}
-              defaultValue={item.title}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="description"
-              label="Description"
-              variant="outlined"
-              onChange={handleChange}
-              defaultValue={item.description}
-              margin="normal"
-              fullWidth
-            />
+  return (
+    <Dialog open={true} aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title">Edit course</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Please fill in the details of the course.
+        </DialogContentText>
 
-            <FormControlLabel
-              control={
-                <Checkbox
-                  onChange={handleCheckBox}
-                  name="active"
-                  defaultChecked={item.active}
-                />
-              }
-              label="Active"
-              style={{ display: "block", marginTop: 5 }}
-            />
+        <form>
+          <TextField
+            autoFocus
+            name="title"
+            label="Title"
+            variant="outlined"
+            onChange={handleChange}
+            defaultValue={item.title}
+            margin="normal"
+            fullWidth
+          />
+          <TextField
+            name="description"
+            label="Description"
+            variant="outlined"
+            onChange={handleChange}
+            defaultValue={item.description}
+            margin="normal"
+            fullWidth
+          />
 
-            <FormControlLabel
-              control={
-                <Checkbox
-                  onChange={handleCheckBox}
-                  name="individual_result"
-                  defaultChecked={item.individual_result}
-                />
-              }
-              label="Allow to see individual result per question"
-              style={{ display: "block" }}
-            />
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={handleCheckBox}
+                name="active"
+                defaultChecked={item.active}
+              />
+            }
+            label="Active"
+            style={{ display: "block", marginTop: 5 }}
+          />
 
-            <TextField
-              name="course_duration"
-              label="Course duration"
-              variant="outlined"
-              onChange={handleChange}
-              defaultValue={item.courseDuration}
-              margin="normal"
-              fullWidth
-            />
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={handleCheckBox}
+                name="individual_result"
+                defaultChecked={item.individual_result}
+              />
+            }
+            label="Allow to see individual result per question"
+            style={{ display: "block" }}
+          />
 
-            <TextField
-              name="video"
-              label="Video"
-              variant="outlined"
-              onChange={handleChange}
-              defaultValue={item.video}
-              margin="normal"
-              fullWidth
-            />
-          </form>
-        </DialogContent>
+          <TextField
+            name="course_duration"
+            label="Course duration"
+            variant="outlined"
+            onChange={handleChange}
+            defaultValue={item.courseDuration}
+            margin="normal"
+            fullWidth
+          />
 
-        <DialogActions>
-          <Button onClick={onClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={() => onSave(item)} color="primary">
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <TextField
+            name="video"
+            label="Video"
+            variant="outlined"
+            onChange={handleChange}
+            defaultValue={item.video}
+            margin="normal"
+            fullWidth
+          />
+        </form>
+      </DialogContent>
+
+      <DialogActions>
+        <Button onClick={onClose} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={() => onSave(item)} color="primary">
+          Confirm
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

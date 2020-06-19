@@ -145,12 +145,13 @@ class Course extends Component {
     console.log(item);
     if (item.id) {
       axios
-      .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
+        .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
           headers: {
             authorization: "Token " + getUserToken1(),
           },
         })
-        .then((response) => this.refreshList()); this.state.detailItem = null
+        .then((response) => this.refreshList());
+      this.state.detailItem = null;
       return;
     }
     axios
