@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AuthUrls } from "../../../constants/urls";
 import { Button } from "@material-ui/core";
@@ -16,7 +16,16 @@ function Course() {
   const [coursesList, setCoursesList] = useState([]);
   const [activeItemAdd, setActiveItemAdd] = useState(null);
   const [current_user, setCurrent_user] = useState({});
+  //const timeToChangeIngredients = 0;
+  //let current_user = {};
 
+  // useEffect will run on initial render, and after update on current_user
+  /*useEffect(() => {
+    console.log("hello");
+    getCurrentUser();
+    console.log("hello2");
+  }, [timeToChangeIngredients]);
+*/
   const getCurrentUser = () => {
     axios
       .get(AuthUrls.USER_PROFILE, {
@@ -26,7 +35,8 @@ function Course() {
       })
       .then((response) => {
         setCurrent_user(response.data);
-        console.log(current_user);
+        //current_user = response.data;
+        console.log(current_user.pk);
         refreshList();
       })
       .catch((error) => {
