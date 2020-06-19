@@ -27,9 +27,26 @@ class Course extends Component {
 
   // This is called upon finishing loading
   componentDidMount() {
-    this.refreshList();
     this.getCurrentUser();
+    //this.refreshList(); // This is now called in getCurrentUser.
   }
+
+  getCurrentUser = () => {
+    axios
+      .get(AuthUrls.USER_PROFILE, {
+        headers: {
+          authorization: "Token " + getUserToken1(),
+        },
+      })
+      .then((response) => {
+        this.setState({ current_user: response.data });
+        console.log(this.state.current_user);
+        this.refreshList();
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
 
   refreshList = () => {
     const token = getUserToken1();
@@ -47,22 +64,6 @@ class Course extends Component {
       })
       .then((response) => {
         this.setState({ coursesList: response.data });
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  };
-
-  getCurrentUser = () => {
-    axios
-      .get(AuthUrls.USER_PROFILE, {
-        headers: {
-          authorization: "Token " + getUserToken1(),
-        },
-      })
-      .then((response) => {
-        this.setState({ current_user: response.data });
-        console.log(this.state.current_user);
       })
       .catch((error) => {
         console.log(error.response.data);
