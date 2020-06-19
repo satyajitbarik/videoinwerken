@@ -122,7 +122,7 @@ class Course extends Component {
       <CourseEdit
         item={this.state.detailItem}
         onSave={this.handleSubmit} //not needed
-        onClose={this.handleClose} //not needed possibly
+        onClose={this.handleCloseEdit} //not needed possibly
       />
     );
   };
@@ -131,18 +131,18 @@ class Course extends Component {
     this.setState({ showModal: true });
   };
 
-  /*closeModal = () => {
-    this.setState({ showModal: false });
-  };*/
-
-  handleClose = () => {
+  handleCloseAdd = () => {
     this.setState({ showModal: false });
   };
 
+  handleCloseEdit = () => {
+    this.setState({ detailItem: null });
+  };
+
   handleSubmit = (item) => {
-    this.handleClose(); // closeModal
     console.log("handlesubmit");
     console.log(item);
+    // Edit item
     if (item.id) {
       axios
         .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
@@ -151,9 +151,10 @@ class Course extends Component {
           },
         })
         .then((response) => this.refreshList());
-      this.state.detailItem = null;
+      this.handleCloseEdit();
       return;
     }
+    // Create item
     axios
       .post(AuthUrls.COURSES, item, {
         headers: {
@@ -162,6 +163,7 @@ class Course extends Component {
       })
       .then((response) => {
         this.refreshList();
+        this.handleCloseAdd();
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -181,7 +183,7 @@ class Course extends Component {
           <CourseCreate
             item={this.state.activeItemAdd}
             onSave={this.handleSubmit}
-            onClose={this.handleClose}
+            onClose={this.handleCloseAdd}
             showModal={this.state.showModal}
           />
         ) : null}
