@@ -47,12 +47,7 @@ const renderLinks = (authenticated, setAuthenticated) => {
 };
 
 function Header(props) {
-  const [authenticated, setAuthenticated] = useState(props.authenticated);
   const classes = useStyles();
-
-  /*useEffect(() => {
-    console.log("hello");
-  });*/
 
   return (
     <div className={classes.root}>
@@ -70,7 +65,7 @@ function Header(props) {
             Video Inwerken
           </Typography>
 
-          {renderLinks(authenticated, setAuthenticated)}
+          {renderLinks(props.authenticated, props.setAuthenticated)}
         </Toolbar>
       </AppBar>
     </div>
@@ -78,12 +73,8 @@ function Header(props) {
 }
 
 function mapStateToProps(state) {
-  console.log(state.auth.authenticated);
-  //const [authenticated, setAuthenticated] = useState(ownProps.authenticated);
-  //console.log(authenticated);
   return {
     authenticated: state.auth.authenticated, // DEZE DOET DUS WEL DAADWERKELIJK IETSSSSSS
-    //SSSSSSSS,
   };
 }
 export default connect(mapStateToProps)(Header);
