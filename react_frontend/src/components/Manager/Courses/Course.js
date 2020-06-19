@@ -85,9 +85,6 @@ class Course extends Component {
               }}
               style={{ cursor: "pointer" }}
             >
-              <TableCell style={{ width: 50 }}>
-                <Checkbox checked={true} disabled={true}></Checkbox>
-              </TableCell>
               <TableCell style={{ width: 50 }}>{item.id}</TableCell>
               <TableCell>{item.title}</TableCell>
             </TableRow>
@@ -178,7 +175,7 @@ class Course extends Component {
         {this.renderCourses()}
 
         <Button onClick={this.createItem} variant="contained" color="primary">
-          Add course
+          Make new course
         </Button>
         {this.state.showModal ? (
           <CourseCreate
