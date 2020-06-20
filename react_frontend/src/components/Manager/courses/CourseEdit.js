@@ -9,7 +9,7 @@ import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
 
 export default function CourseEdit(props) {
   let { item } = props;
-  const { onSave, onClose } = props;
+  const { onSave, onClose, handleDelete } = props;
 
   //const [open, setOpen] = useState(true);
 
@@ -101,6 +101,15 @@ export default function CourseEdit(props) {
             margin="normal"
             fullWidth
           />
+
+          <Button
+            onClick={() => handleDelete(item)}
+            variant="contained"
+            color="secondary"
+            style={{ marginTop: 10 }}
+          >
+            Delete Course
+          </Button>
         </form>
       </DialogContent>
 

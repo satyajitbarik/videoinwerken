@@ -130,6 +130,7 @@ function Course() {
         item={detailItem}
         onSave={handleSubmit} //not needed
         onClose={handleCloseEdit} //not needed possibly
+        handleDelete={handleDelete}
       />
     );
   };
@@ -140,6 +141,23 @@ function Course() {
 
   const handleCloseEdit = () => {
     setDetailItem(null);
+  };
+
+  const handleDelete = (item) => {
+    console.log("handledelete");
+    console.log(item);
+    // Edit item
+    if (item.id) {
+      axios
+        .delete(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
+          headers: {
+            authorization: "Token " + getUserToken1(),
+          },
+        })
+        .then((response) => refreshList());
+      handleCloseEdit();
+      return;
+    }
   };
 
   const handleSubmit = (item) => {
@@ -172,6 +190,7 @@ function Course() {
         console.log(error.response.data);
       });
   };
+
   return (
     <div>
       <h3>Courses</h3>
@@ -185,6 +204,16 @@ function Course() {
       >
         Make new course
       </Button>
+
+      <Button
+        onClick={createItem}
+        variant="contained"
+        color="primary"
+        style={{ marginTop: 20, marginLeft: 10 }}
+      >
+        Delete all courses
+      </Button>
+
       {showModal ? (
         <CourseCreate
           item={activeItemAdd}
