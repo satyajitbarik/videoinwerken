@@ -6,6 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
+import { MyCheckBox } from "../../../utils/utils";
 
 export default function CourseCreate(props) {
   let { item, showModal } = props;
@@ -56,18 +57,12 @@ export default function CourseCreate(props) {
             fullWidth
           />
 
-          <FormControlLabel
-            control={<Checkbox onChange={handleCheckBox} name="active" />}
-            label="Active"
-            style={{ display: "block", marginTop: 5 }}
-          />
+          <MyCheckBox onChange={handleCheckBox} label="Active" name="active" />
 
-          <FormControlLabel
-            control={
-              <Checkbox onChange={handleCheckBox} name="individual_result" />
-            }
-            label="Allow to see individual result per question"
-            style={{ display: "block" }}
+          <MyCheckBox
+            onChange={handleCheckBox}
+            label="Individual result"
+            name="individual_result"
           />
 
           <TextField
