@@ -160,6 +160,13 @@ function Course() {
     }
   };
 
+  const deleteAllCourses = () => {
+    let i = 0;
+    for (i = 0; i < coursesList.length; i++) {
+      handleDelete(coursesList[i]);
+    }
+  };
+
   const handleSubmit = (item) => {
     console.log("handlesubmit");
     console.log(item);
@@ -206,7 +213,7 @@ function Course() {
       </Button>
 
       <Button
-        onClick={createItem}
+        onClick={deleteAllCourses}
         variant="contained"
         color="primary"
         style={{ marginTop: 20, marginLeft: 10 }}
