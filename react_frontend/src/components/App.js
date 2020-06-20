@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { Notifs } from "redux-notifications";
-
 import Header from "./Header";
 import MainContent from "./MainContent";
-
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 
+// If you want to use this, add <Typography> in code
 const theme = createMuiTheme({
   typography: {
     subtitle1: {
