@@ -9,6 +9,7 @@ import {
   InputLabel,
   Input,
   FormHelperText,
+  Button,
 } from "@material-ui/core";
 
 function Signup(props) {
@@ -20,7 +21,6 @@ function Signup(props) {
         <h4>Sign Up</h4>
         <hr />
 
-        {/*
         <fieldset className="form-group">
           <Field
             name="email"
@@ -29,7 +29,6 @@ function Signup(props) {
             type="text"
           />
         </fieldset>
-*/}
 
         <fieldset className="form-group">
           <Field
@@ -64,9 +63,9 @@ function Signup(props) {
         {renderError(error)}
 
         <fieldset className="form-group">
-          <button action="submit" className="btn btn-primary">
+          <Button type="submit" variant="contained" color="primary">
             Sign Up
-          </button>
+          </Button>
         </fieldset>
       </form>
     </div>
