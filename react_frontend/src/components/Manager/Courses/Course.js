@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AuthUrls } from "../../../constants/urls";
@@ -9,23 +10,33 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+import { render } from "enzyme";
 
 function Course() {
   const [detailItem, setDetailItem] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [coursesList, setCoursesList] = useState([]);
+  const [coursesList, setCoursesList] = useState(null);
   const [activeItemAdd, setActiveItemAdd] = useState(null);
-  const [current_user, setCurrent_user] = useState({});
-  //const timeToChangeIngredients = 0;
-  //let current_user = {};
+  const [current_user, setCurrent_user] = useState(null);
 
-  // useEffect will run on initial render, and after update on current_user
-  /*useEffect(() => {
-    console.log("hello");
-    getCurrentUser();
-    console.log("hello2");
-  }, [timeToChangeIngredients]);
-*/
+  // Runs on initial render
+  useEffect(() => {
+    console.log("current_user:" + current_user);
+    if (current_user) console.log("current_user:" + current_user.pk);
+    console.log("courseslist:" + coursesList);
+
+    if (current_user == null) {
+      getCurrentUser();
+      return;
+    }
+
+    if (coursesList != null) {
+      return;
+    }
+
+    refreshList();
+  });
+
   const getCurrentUser = () => {
     axios
       .get(AuthUrls.USER_PROFILE, {
@@ -36,8 +47,8 @@ function Course() {
       .then((response) => {
         setCurrent_user(response.data);
         //current_user = response.data;
-        console.log(current_user.pk);
-        refreshList();
+        //console.log("hi" + response.data);
+        //refreshList();
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -45,6 +56,7 @@ function Course() {
   };
 
   const refreshList = () => {
+    //console.log("refresh list: " + current_user.pk);
     const token = getUserToken1();
     if (!token) {
       return;
@@ -67,12 +79,15 @@ function Course() {
   };
 
   const renderCourses = () => {
-    const courses = coursesList;
-    //console.log(courses);
+    if (coursesList == null) {
+      console.log("huh");
+      return;
+    }
+
     return (
       <Table>
         <TableBody>
-          {courses.map((item) => (
+          {coursesList.map((item) => (
             <TableRow
               key={item.id}
               onClick={() => {
