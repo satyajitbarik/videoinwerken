@@ -53,13 +53,40 @@ export function signupUser(formValues, dispatch, props) {
     .then((response) => {
       // If request is good...
       // you can login if email verification is turned off.
-      // const token = response.data.key;
+      //const token = response.data.key;
       // dispatch(authLogin(token));
       // localStorage.setItem("token", token);
 
       // email need to be verified, so don't login and send user to signup_done page.
       // redirect to signup done page.
       history.push("/signup_done");
+    })
+    .catch((error) => {
+      // If request is bad...
+      // Show an error to the user
+      const processedError = processServerError(error.response.data);
+      throw new SubmissionError(processedError);
+    });
+}
+
+export function activateUserAccount(formValues, dispatch, props) {
+  const { key } = props.match.params;
+  const activateUserUrl = AuthUrls.USER_ACTIVATION;
+  const data = Object.assign(formValues, { key });
+
+  return axios
+    .post(activateUserUrl, data)
+    .then((response) => {
+      dispatch(
+        notifSend({
+          message:
+            "Your account has been activated successfully, please log in",
+          kind: "info",
+          dismissAfter: 5000,
+        })
+      );
+
+      history.push("/login");
     })
     .catch((error) => {
       // If request is bad...
@@ -180,33 +207,6 @@ export function confirmPasswordChange(formValues, dispatch, props) {
       dispatch(
         notifSend({
           message: "Password has been reset successfully, please log in",
-          kind: "info",
-          dismissAfter: 5000,
-        })
-      );
-
-      history.push("/login");
-    })
-    .catch((error) => {
-      // If request is bad...
-      // Show an error to the user
-      const processedError = processServerError(error.response.data);
-      throw new SubmissionError(processedError);
-    });
-}
-
-export function activateUserAccount(formValues, dispatch, props) {
-  const { key } = props.match.params;
-  const activateUserUrl = AuthUrls.USER_ACTIVATION;
-  const data = Object.assign(formValues, { key });
-
-  return axios
-    .post(activateUserUrl, data)
-    .then((response) => {
-      dispatch(
-        notifSend({
-          message:
-            "Your account has been activated successfully, please log in",
           kind: "info",
           dismissAfter: 5000,
         })

@@ -84,6 +84,10 @@ function Course() {
       return;
     }
 
+    if (coursesList.length == 0) {
+      return <div>You have no courses!</div>;
+    }
+
     return (
       <Table>
         <TableBody>
