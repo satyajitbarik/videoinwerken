@@ -3,16 +3,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AuthUrls } from "../../../constants/urls";
-import { Button } from "@material-ui/core";
 import { getUserToken1 } from "../../../utils/authUtils";
-import CourseCreate from "./CourseAdd";
-import CourseEdit from "./CourseEdit";
 import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import { render } from "enzyme";
+import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 import CourseAdd from "./CourseAdd";
+import CourseEdit from "./CourseEdit";
 
 function Course() {
   const [detailItem, setDetailItem] = useState(null);
