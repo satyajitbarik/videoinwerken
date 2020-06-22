@@ -9,7 +9,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import axios from "axios";
-import { getUserToken1 } from "../../../utils/authUtils";
+import { getUserToken } from "../../../utils/authUtils";
 import {
   myRenderField,
   myRenderCheckBoxField,
@@ -17,9 +17,12 @@ import {
 import { AuthUrls } from "../../../constants/urls";
 import { reduxForm, Field, propTypes } from "redux-form";
 import { required } from "redux-form-validators";
+import { connect } from "react-redux";
 
 function CourseCreate(props) {
   const { manager_id, open, onClose, handleSubmit /*redux*/, error } = props;
+
+  const test = 1;
 
   const handleClose = () => {
     onClose();
@@ -83,23 +86,26 @@ function CourseCreate(props) {
   );
 }
 
-const handleSubmit = (handleClose, item) => {
+const handleSubmit = (props, item) => {
+  const { onClose } = props;
+
   axios
     .post(AuthUrls.COURSES, item, {
       headers: {
-        authorization: "Token " + getUserToken1(),
+        authorization: "Token " + getUserToken(),
       },
     })
     .then((response) => {
-      handleClose();
+      onClose();
+      props.reset();
     })
     .catch((error) => {
       console.log(error.response);
     });
 };
 
-const onSubmit = (values, dispath, props) => {
-  const { manager_id, onClose } = props;
+const onSubmit = (values, dispatch, props) => {
+  //const { manager_id, handleClose } = props;
 
   const item = {
     title: values.title,
@@ -108,14 +114,18 @@ const onSubmit = (values, dispath, props) => {
     individual_result: values.individual_result,
     course_duration: values.course_duration,
     video: values.video,
-    manager_id: manager_id,
+    manager_id: props.manager_id,
   };
 
-  handleSubmit(onClose, item);
-  props.onClose();
+  handleSubmit(props, item);
+};
+
+// state
+const mapStateToProps = (state) => {
+  return { manager_id: state.manager_id };
 };
 
 export default reduxForm({
   form: "course-create-form",
   onSubmit,
-})(CourseCreate);
+})(connect(mapStateToProps)(CourseCreate));

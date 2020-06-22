@@ -42,8 +42,8 @@ export function MyEditCheckBox(props) {
   );
 }
 
-//axios
-export function apiGet(url, handleResponse, params) {
+//axios  -- doesnt work.. unused
+export function apiGetByUserId(url, handleResponse, userId) {
   const token = getUserToken();
   if (!token) {
     return;
@@ -53,12 +53,14 @@ export function apiGet(url, handleResponse, params) {
       headers: {
         authorization: "Token " + token,
       },
-      params,
+      params: {
+        user_id: userId,
+      },
     })
     .then((response) => {
-      handleResponse();
+      handleResponse(response);
     })
     .catch((error) => {
-      console.log(error.response.data);
+      console.log(error.response);
     });
 }

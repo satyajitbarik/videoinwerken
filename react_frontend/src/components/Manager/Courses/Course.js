@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AuthUrls } from "../../../constants/urls";
 import { getUserToken } from "../../../utils/authUtils";
+import { apiGetByUserId } from "../../../utils/utils";
 import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 import CourseAdd from "./CourseAdd";
@@ -47,7 +48,14 @@ function Course() {
       });
   };
 
+  const handleResponse = (response) => {
+    setCoursesList(response.data);
+  };
+
   const refreshList = () => {
+    apiGetByUserId(AuthUrls.COURSES, handleResponse, current_user.pk);
+
+    /*
     const token = getUserToken();
     if (!token) {
       return;
@@ -58,7 +66,7 @@ function Course() {
           authorization: "Token " + token,
         },
         params: {
-          manager_id: current_user.pk,
+          user_id: current_user.pk,
         },
       })
       .then((response) => {
@@ -66,7 +74,7 @@ function Course() {
       })
       .catch((error) => {
         console.log(error.response.data);
-      });
+      });*/
   };
 
   const renderCourses = () => {

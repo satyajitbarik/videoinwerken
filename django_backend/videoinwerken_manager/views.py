@@ -24,7 +24,7 @@ class CourseView(viewsets.ModelViewSet):
         #print("manager_id="+request.query_params['manager_id'])   #query_params if GET, data if POST!
         queryset = Course.objects.all()
         if request.query_params:
-            manager_id = request.query_params['manager_id']
+            manager_id = request.query_params['user_id']
             queryset = Course.objects.filter(manager_id=manager_id)
         serializer = CourseSerializer(queryset, many=True)
         return Response(serializer.data)
