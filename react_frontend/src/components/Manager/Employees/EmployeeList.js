@@ -4,39 +4,45 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AuthUrls } from "../../../constants/urls";
 import { getUserToken } from "../../../utils/authUtils";
-import Table from "@material-ui/core/Table";
-import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
-import CourseAdd from "./CourseAdd";
-import CourseEdit from "./CourseEdit";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Button,
+} from "@material-ui/core";
 import { apiGet } from "../../../utils/utils";
 
 function EmployeeList() {
   const [employeeList, setEmployeeList] = React.useState(null);
 
+  // Runs on initial render
+  useEffect(() => {
+    if (employeeList != null) {
+      return;
+    }
+    refreshList();
+  }, [employeeList]);
+
   const refreshList = () => {
-    apiGet("http://localhost:8000/api/accounts", handleResponse);
+    apiGet("http://localhost:8000/api/accounts/", handleResponse);
   };
 
   const handleResponse = (response) => {
     setEmployeeList(response.data);
-    alert("hi");
+    console.log(response.data);
   };
 
+  // WHAT TO DO ABOUT THE WARNINGGGG????
   const renderEmployees = () => {
     return (
       <Table>
         <TableBody>
-          {employeeList.map((item) => (
-            <TableRow
-              key={item.id}
-              onClick={() => {
-                //handleOpenEdit(item);
-                alert(item);
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              <TableCell style={{ width: 50 }}>{item.id}</TableCell>
-              <TableCell>{item.title}</TableCell>
+          {console.log(employeeList)}
+          {employeeList.map((emp) => (
+            <TableRow key={emp.id} style={{ cursor: "pointer" }}>
+              <TableCell style={{ width: 50 }}>Hoi</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -47,7 +53,7 @@ function EmployeeList() {
   return (
     <div>
       <h3>Employees</h3>
-      {renderEmployees()}
+      {employeeList && renderEmployees()}
     </div>
   );
 }

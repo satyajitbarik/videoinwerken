@@ -16,6 +16,7 @@ import PasswordResetConfirm from "./auth/PasswordResetConfirm";
 import NoMatch from "./NoMatch";
 import Course from "./Manager/Courses/Course";
 import ReduxTest from "./Manager/Courses/ReduxTest";
+import EmployeeList from "./Manager/Employees/EmployeeList";
 
 const MainContent = () => (
   <div className="container" style={{ marginTop: 20 }}>
@@ -33,6 +34,7 @@ const MainContent = () => (
       <Route path="/profile_edit" component={RequireAuth(UserProfileEdit)} />
       <Route path="/change_password" component={RequireAuth(PasswordChange)} />
       <Route path="/manager/courses" component={RequireAuth(Course)} />
+      <Route path="/manager/employees" component={RequireAuth(EmployeeList)} />
       <Route path="/testredux" component={ReduxTest} />
       <Route component={NoMatch} />
     </Switch>
