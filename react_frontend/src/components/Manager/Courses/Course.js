@@ -4,13 +4,14 @@ import axios from "axios";
 import { AuthUrls } from "../../../constants/urls";
 import { Button } from "@material-ui/core";
 import { getUserToken1 } from "../../../utils/authUtils";
-import CourseCreate from "./CourseCreate";
+import CourseCreate from "./CourseAdd";
 import CourseEdit from "./CourseEdit";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import { render } from "enzyme";
+import CourseAdd from "./CourseAdd";
 
 function Course() {
   const [detailItem, setDetailItem] = useState(null);
@@ -143,8 +144,9 @@ function Course() {
   };
 
   const handleCloseAdd = () => {
-    setShowModal(false);
+    //setShowModal(false);
     setOpenCourseAdd(false);
+    refreshList();
   };
 
   const handleCloseEdit = () => {
@@ -229,7 +231,7 @@ function Course() {
         Delete all courses
       </Button>
 
-      <CourseCreate
+      <CourseAdd
         item={activeItemAdd}
         onSave={handleSubmit}
         onClose={handleCloseAdd}

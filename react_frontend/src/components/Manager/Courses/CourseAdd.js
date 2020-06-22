@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React from "react";
@@ -9,11 +10,15 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
 import { MyCheckBox } from "../../../utils/utils";
-import { reduxForm } from "redux-form";
 import axios from "axios";
 import { getUserToken1 } from "../../../utils/authUtils";
-
+import { renderField, renderError } from "../../../utils/renderUtils";
 import { AuthUrls } from "../../../constants/urls";
+
+import { reduxForm, Field, propTypes } from "redux-form";
+
+import { required } from "redux-form-validators";
+
 function CourseCreate(props) {
   let { item } = props;
   const { open, onSave, onClose, handleSubmit /*redux*/ } = props;
@@ -43,15 +48,16 @@ function CourseCreate(props) {
         </DialogContentText>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            autoFocus
-            name="title"
-            label="Title"
-            variant="outlined"
-            onChange={handleChange}
-            margin="normal"
-            fullWidth
-          />
+          <fieldset className="form-group">
+            <Field
+              name="title"
+              label="title"
+              component={renderField}
+              type="text"
+              validate={[required({ message: "This field i." })]}
+            />
+          </fieldset>
+
           <TextField
             name="description"
             label="Description"
@@ -105,6 +111,10 @@ function CourseCreate(props) {
 }
 
 const handleSubmit = (onClose, item) => {
+  console.log("handleSubmit:");
+
+  console.log(item);
+  console.log("1");
   // Create item
   axios
     .post(AuthUrls.COURSES, item, {
@@ -113,21 +123,21 @@ const handleSubmit = (onClose, item) => {
       },
     })
     .then((response) => {
-      //refreshList();
-      //handleCloseAdd();
       onClose();
     })
     .catch((error) => {
-      console.log(error.response);
+      console.log(error.response.data);
     });
 };
 
 const onSubmit = (values, dispath, props) => {
-  alert("hi");
-  console.log("hi");
-  console.log(values);
-  //  handleSubmit();
-  console.log(props.item);
+  const { onClose, item } = props;
+  // console.log("hi");
+  console.log(values.title);
+  console.log("onsubmit item");
+  console.log((item.title = values.title));
+  handleSubmit(onClose, item);
+  props.onClose();
 };
 
 export default reduxForm({
