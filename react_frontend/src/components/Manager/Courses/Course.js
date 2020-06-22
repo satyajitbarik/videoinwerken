@@ -135,7 +135,6 @@ function Course() {
     return (
       <CourseEdit
         item={detailItem}
-        onSave={handleSubmit} //not needed
         onClose={handleCloseEdit} //not needed possibly
         handleDelete={handleDelete}
       />
@@ -149,6 +148,7 @@ function Course() {
 
   const handleCloseEdit = () => {
     setDetailItem(null);
+    refreshList();
   };
 
   const handleDelete = (item) => {
@@ -173,37 +173,6 @@ function Course() {
     for (i = 0; i < coursesList.length; i++) {
       handleDelete(coursesList[i]);
     }
-  };
-
-  const handleSubmit = (item) => {
-    //console.log("handlesubmit");
-    //console.log(item);
-    // Edit item
-    if (item.id) {
-      axios
-        .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
-          headers: {
-            authorization: "Token " + getUserToken1(),
-          },
-        })
-        .then((response) => refreshList());
-      handleCloseEdit();
-      return;
-    }
-    // Create item
-    axios
-      .post(AuthUrls.COURSES, item, {
-        headers: {
-          authorization: "Token " + getUserToken1(),
-        },
-      })
-      .then((response) => {
-        refreshList();
-        handleCloseAdd();
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
   };
 
   return (
@@ -231,7 +200,6 @@ function Course() {
 
       <CourseAdd
         item={activeItemAdd}
-        onSave={handleSubmit}
         onClose={handleCloseAdd}
         open={openCourseAdd}
       />

@@ -26,7 +26,7 @@ import { required } from "redux-form-validators";
 
 function CourseCreate(props) {
   let { item } = props;
-  const { open, onSave, onClose, handleSubmit /*redux*/, error } = props;
+  const { open, onClose, handleSubmit /*redux*/, error } = props;
 
   const handleClose = () => {
     onClose();
@@ -80,11 +80,8 @@ function CourseCreate(props) {
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={() => onSave(item)} color="primary">
-              Add
-            </Button>
             <Button type="submit" color="primary">
-              Terst Redux
+              Add
             </Button>
           </DialogActions>
         </form>

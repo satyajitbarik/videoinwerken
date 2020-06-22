@@ -8,31 +8,51 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
 import { MyCheckBox, MyEditCheckBox } from "../../../utils/utils";
+import axios from "axios";
+import { getUserToken1 } from "../../../utils/authUtils";
 
 export default function CourseEdit(props) {
   let { item } = props;
-  const { onSave, onClose, handleDelete } = props;
-
-  //const [open, setOpen] = useState(true);
+  const { onClose, handleDelete } = props;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name);
-    console.log(value);
     item = { ...item, [name]: value };
-    console.log(item);
   };
 
   const handleCheckBox = (e, value) => {
     const name = e.target.name;
-    console.log(name);
-    console.log(value);
     item = { ...item, [name]: value };
-    console.log(item);
+  };
+
+  const handleClose = () => {
+    onClose();
+  };
+
+  const handleSubmit = (item) => {
+    if (item.id) {
+      axios
+        .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
+          headers: {
+            authorization: "Token " + getUserToken1(),
+          },
+        })
+        .then((response) => {
+          handleClose();
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+      return;
+    }
   };
 
   return (
-    <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
+    <Dialog
+      open={true}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title"
+    >
       <DialogTitle id="form-dialog-title">Edit course</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -109,7 +129,7 @@ export default function CourseEdit(props) {
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={() => onSave(item)} color="primary">
+        <Button onClick={() => handleSubmit(item)} color="primary">
           Confirm
         </Button>
       </DialogActions>
