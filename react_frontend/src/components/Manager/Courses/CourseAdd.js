@@ -104,7 +104,9 @@ function CourseCreate(props) {
   );
 }
 
-const handleSubmit = (onClose, item, handleClose) => {
+const handleSubmit = (handleClose, item) => {
+  console.log("handlesubmit");
+  console.log(item);
   axios
     .post(AuthUrls.COURSES, item, {
       headers: {

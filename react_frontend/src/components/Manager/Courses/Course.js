@@ -59,7 +59,7 @@ function Course() {
   };
 
   const refreshList = () => {
-    //console.log("refresh list: " + current_user.pk);
+    console.log("refreshing list");
     const token = getUserToken1();
     if (!token) {
       return;
