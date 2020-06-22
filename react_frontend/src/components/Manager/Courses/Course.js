@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AuthUrls } from "../../../constants/urls";
-import { getUserToken1 } from "../../../utils/authUtils";
+import { getUserToken } from "../../../utils/authUtils";
 import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 import CourseAdd from "./CourseAdd";
@@ -36,7 +36,7 @@ function Course() {
     axios
       .get(AuthUrls.USER_PROFILE, {
         headers: {
-          authorization: "Token " + getUserToken1(),
+          authorization: "Token " + getUserToken(),
         },
       })
       .then((response) => {
@@ -48,7 +48,7 @@ function Course() {
   };
 
   const refreshList = () => {
-    const token = getUserToken1();
+    const token = getUserToken();
     if (!token) {
       return;
     }
@@ -123,7 +123,7 @@ function Course() {
       axios
         .delete(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
           headers: {
-            authorization: "Token " + getUserToken1(),
+            authorization: "Token " + getUserToken(),
           },
         })
         .then((response) => refreshList());

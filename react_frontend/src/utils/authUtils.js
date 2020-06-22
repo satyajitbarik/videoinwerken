@@ -1,9 +1,9 @@
 import store from "../store";
 
-export function getUserToken(state) {
+export function getUserTokenOld(state) {
   return state.auth.token;
 }
 
-export function getUserToken1() {
+export function getUserToken() {
   return store.getState().auth.token;
 }
