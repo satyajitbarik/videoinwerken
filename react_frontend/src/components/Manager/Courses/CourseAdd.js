@@ -19,7 +19,7 @@ import { reduxForm, Field, propTypes } from "redux-form";
 import { required } from "redux-form-validators";
 import { connect } from "react-redux";
 
-function CourseCreate(props) {
+function CourseAdd(props) {
   const { manager_id, open, onClose, handleSubmit /*redux*/, error } = props;
 
   const test = 1;
@@ -128,4 +128,4 @@ const mapStateToProps = (state) => {
 export default reduxForm({
   form: "course-create-form",
   onSubmit,
-})(connect(mapStateToProps)(CourseCreate));
+})(connect(mapStateToProps)(CourseAdd));

@@ -13,50 +13,25 @@ import { apiGet } from "../../../utils/utils";
 function EmployeeList() {
   const [employeeList, setEmployeeList] = React.useState(null);
 
+  const refreshList = () => {
+    apiGet("http://localhost:8000/api/accounts", handleResponse);
+  };
+
   const handleResponse = (response) => {
     setEmployeeList(response.data);
     alert("hi");
   };
-  const refreshList = () => {
-    const token = getUserToken();
-    if (!token) {
-      return;
-    }
-    axios
-      .get(AuthUrls.COURSES, {
-        headers: {
-          authorization: "Token " + token,
-        },
-        /*params: {
-          manager_id: current_user.pk,
-        },*/
-      })
-      .then((response) => {
-        handleResponse(response);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  };
 
-  const renderCourses = () => {
-    if (coursesList == null) {
-      //console.log("huh");
-      return;
-    }
-
-    if (coursesList.length == 0) {
-      return <div>You have no courses!</div>;
-    }
-
+  const renderEmployees = () => {
     return (
       <Table>
         <TableBody>
-          {coursesList.map((item) => (
+          {employeeList.map((item) => (
             <TableRow
               key={item.id}
               onClick={() => {
-                handleOpenEdit(item);
+                //handleOpenEdit(item);
+                alert(item);
               }}
               style={{ cursor: "pointer" }}
             >
@@ -71,8 +46,8 @@ function EmployeeList() {
 
   return (
     <div>
-      <h3>Courses</h3>
-      {renderCourses()}
+      <h3>Employees</h3>
+      {renderEmployees()}
     </div>
   );
 }

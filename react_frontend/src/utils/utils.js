@@ -42,7 +42,25 @@ export function MyEditCheckBox(props) {
   );
 }
 
-//axios  -- doesnt work.. unused
+export function apiGet(url, handleResponse) {
+  const token = getUserToken();
+  if (!token) {
+    return;
+  }
+  axios
+    .get(url, {
+      headers: {
+        authorization: "Token " + token,
+      },
+    })
+    .then((response) => {
+      handleResponse(response);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+}
+
 export function apiGetByUserId(url, handleResponse, userId) {
   const token = getUserToken();
   if (!token) {
