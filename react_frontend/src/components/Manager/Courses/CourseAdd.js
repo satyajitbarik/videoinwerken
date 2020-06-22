@@ -8,25 +8,18 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
-import { MyCheckBox } from "../../../utils/utils";
 import axios from "axios";
 import { getUserToken1 } from "../../../utils/authUtils";
 import {
-  renderField,
-  renderError,
   myRenderField,
   myRenderCheckBoxField,
 } from "../../../utils/renderUtils";
 import { AuthUrls } from "../../../constants/urls";
-
 import { reduxForm, Field, propTypes } from "redux-form";
-
 import { required } from "redux-form-validators";
 
 function CourseCreate(props) {
-  let { item } = props;
-  const { open, onClose, handleSubmit /*redux*/, error } = props;
+  const { manager_id, open, onClose, handleSubmit /*redux*/, error } = props;
 
   const handleClose = () => {
     onClose();
@@ -106,13 +99,18 @@ const handleSubmit = (handleClose, item) => {
 };
 
 const onSubmit = (values, dispath, props) => {
-  const { item, onClose } = props;
-  item.title = values.title;
-  item.description = values.description;
-  item.active = values.active;
-  item.individual_result = values.individual_result;
-  item.course_duration = values.course_duration;
-  item.video = values.video;
+  const { manager_id, onClose } = props;
+
+  const item = {
+    title: values.title,
+    description: values.description,
+    active: values.active,
+    individual_result: values.individual_result,
+    course_duration: values.course_duration,
+    video: values.video,
+    manager_id: manager_id,
+  };
+
   handleSubmit(onClose, item);
   props.onClose();
 };

@@ -21,13 +21,10 @@ function Course() {
   const [current_user, setCurrent_user] = useState(null);
 
   const [openCourseAdd, setOpenCourseAdd] = useState(false);
+  const [openCourseEdit, setOpenCourseEdit] = useState(false);
 
   // Runs on initial render
   useEffect(() => {
-    //console.log("current_user:" + current_user);
-    //if (current_user) console.log("current_user:" + current_user.pk);
-    //console.log("courseslist:" + coursesList);
-
     if (current_user == null) {
       getCurrentUser();
       return;
@@ -49,9 +46,6 @@ function Course() {
       })
       .then((response) => {
         setCurrent_user(response.data);
-        //current_user = response.data;
-        //console.log("hi" + response.data);
-        //refreshList();
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -59,7 +53,6 @@ function Course() {
   };
 
   const refreshList = () => {
-    console.log("refreshing list");
     const token = getUserToken1();
     if (!token) {
       return;
@@ -98,7 +91,7 @@ function Course() {
             <TableRow
               key={item.id}
               onClick={() => {
-                setDetailItem(item);
+                handleOpenEdit(item);
               }}
               style={{ cursor: "pointer" }}
             >
@@ -113,7 +106,6 @@ function Course() {
 
   const createItem = () => {
     const currentUserID = current_user.pk;
-    //console.log("current user id:" + currentUserID);
 
     const item = {
       title: "",
@@ -128,17 +120,8 @@ function Course() {
     setOpenCourseAdd(true);
   };
 
-  const detailItem1 = (item) => {
-    const currentUserID = current_user.pk;
-    //console.log("current user id:" + currentUserID);
-
-    return (
-      <CourseEdit
-        item={detailItem}
-        onClose={handleCloseEdit} //not needed possibly
-        handleDelete={handleDelete}
-      />
-    );
+  const handleOpenAdd = () => {
+    setOpenCourseAdd(true);
   };
 
   const handleCloseAdd = () => {
@@ -146,15 +129,17 @@ function Course() {
     refreshList();
   };
 
+  const handleOpenEdit = (item) => {
+    setDetailItem(item);
+    setOpenCourseEdit(true);
+  };
+
   const handleCloseEdit = () => {
-    setDetailItem(null);
+    setOpenCourseEdit(false);
     refreshList();
   };
 
   const handleDelete = (item) => {
-    //console.log("handledelete");
-    //console.log(item);
-    // Edit item
     if (item.id) {
       axios
         .delete(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
@@ -181,7 +166,7 @@ function Course() {
       {renderCourses()}
 
       <Button
-        onClick={createItem}
+        onClick={handleOpenAdd}
         variant="contained"
         color="primary"
         style={{ marginTop: 20 }}
@@ -198,13 +183,22 @@ function Course() {
         Delete all courses
       </Button>
 
-      <CourseAdd
-        item={activeItemAdd}
-        onClose={handleCloseAdd}
-        open={openCourseAdd}
-      />
+      {current_user && (
+        <CourseAdd
+          onClose={handleCloseAdd}
+          open={openCourseAdd}
+          manager_id={current_user.pk}
+        />
+      )}
 
-      {detailItem ? detailItem1(detailItem) : null}
+      {detailItem ? (
+        <CourseEdit
+          item={detailItem}
+          onClose={handleCloseEdit} //not needed possibly
+          handleDelete={handleDelete}
+          open={openCourseEdit}
+        />
+      ) : null}
     </div>
   );
 }

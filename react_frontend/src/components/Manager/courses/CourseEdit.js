@@ -13,7 +13,7 @@ import { getUserToken1 } from "../../../utils/authUtils";
 
 export default function CourseEdit(props) {
   let { item } = props;
-  const { onClose, handleDelete } = props;
+  const { onClose, handleDelete, open } = props;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,7 +49,7 @@ export default function CourseEdit(props) {
 
   return (
     <Dialog
-      open={true}
+      open={open}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
