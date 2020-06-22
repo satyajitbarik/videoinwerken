@@ -24,9 +24,9 @@ function Course() {
 
   // Runs on initial render
   useEffect(() => {
-    console.log("current_user:" + current_user);
-    if (current_user) console.log("current_user:" + current_user.pk);
-    console.log("courseslist:" + coursesList);
+    //console.log("current_user:" + current_user);
+    //if (current_user) console.log("current_user:" + current_user.pk);
+    //console.log("courseslist:" + coursesList);
 
     if (current_user == null) {
       getCurrentUser();
@@ -83,7 +83,7 @@ function Course() {
 
   const renderCourses = () => {
     if (coursesList == null) {
-      console.log("huh");
+      //console.log("huh");
       return;
     }
 
@@ -131,7 +131,7 @@ function Course() {
 
   const detailItem1 = (item) => {
     const currentUserID = current_user.pk;
-    console.log("current user id:" + currentUserID);
+    //console.log("current user id:" + currentUserID);
 
     return (
       <CourseEdit
@@ -154,8 +154,8 @@ function Course() {
   };
 
   const handleDelete = (item) => {
-    console.log("handledelete");
-    console.log(item);
+    //console.log("handledelete");
+    //console.log(item);
     // Edit item
     if (item.id) {
       axios
@@ -178,8 +178,8 @@ function Course() {
   };
 
   const handleSubmit = (item) => {
-    console.log("handlesubmit");
-    console.log(item);
+    //console.log("handlesubmit");
+    //console.log(item);
     // Edit item
     if (item.id) {
       axios

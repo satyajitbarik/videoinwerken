@@ -21,7 +21,7 @@ import { required } from "redux-form-validators";
 
 function CourseCreate(props) {
   let { item } = props;
-  const { open, onSave, onClose, handleSubmit /*redux*/ } = props;
+  const { open, onSave, onClose, handleSubmit /*redux*/, error } = props;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +40,7 @@ function CourseCreate(props) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
+    <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle id="form-dialog-title">Add course</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -48,23 +48,17 @@ function CourseCreate(props) {
         </DialogContentText>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <fieldset className="form-group">
-            <Field
-              name="title"
-              label="title"
-              component={renderField}
-              type="text"
-              validate={[required({ message: "This field i." })]}
-            />
-          </fieldset>
+          <Field
+            name="title"
+            label="Title"
+            component={renderField}
+            validate={[required({ message: "This field is required." })]}
+          />
 
-          <TextField
+          <Field
             name="description"
             label="Description"
-            variant="outlined"
-            onChange={handleChange}
-            margin="normal"
-            fullWidth
+            component={renderField}
           />
 
           <MyCheckBox onChange={handleCheckBox} label="Active" name="active" />
@@ -75,23 +69,13 @@ function CourseCreate(props) {
             name="individual_result"
           />
 
-          <TextField
+          <Field
             name="course_duration"
             label="Course duration"
-            variant="outlined"
-            onChange={handleChange}
-            margin="normal"
-            fullWidth
+            component={renderField}
           />
 
-          <TextField
-            name="video"
-            label="Video"
-            variant="outlined"
-            onChange={handleChange}
-            margin="normal"
-            fullWidth
-          />
+          <Field name="video" label="Video" component={renderField} />
 
           <DialogActions>
             <Button onClick={onClose} color="primary">
@@ -111,11 +95,6 @@ function CourseCreate(props) {
 }
 
 const handleSubmit = (onClose, item) => {
-  console.log("handleSubmit:");
-
-  console.log(item);
-  console.log("1");
-  // Create item
   axios
     .post(AuthUrls.COURSES, item, {
       headers: {
@@ -132,10 +111,12 @@ const handleSubmit = (onClose, item) => {
 
 const onSubmit = (values, dispath, props) => {
   const { onClose, item } = props;
-  // console.log("hi");
-  console.log(values.title);
-  console.log("onsubmit item");
-  console.log((item.title = values.title));
+  console.log("values");
+  console.log(values);
+  item.title = values.title;
+  item.description = values.description;
+  console.log("item");
+  console.log(item);
   handleSubmit(onClose, item);
   props.onClose();
 };
