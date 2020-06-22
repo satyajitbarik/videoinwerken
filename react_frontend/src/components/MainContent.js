@@ -31,7 +31,7 @@ const MainContent = () => (
       <Route path="/profile" component={RequireAuth(UserProfile)} />
       <Route path="/profile_edit" component={RequireAuth(UserProfileEdit)} />
       <Route path="/change_password" component={RequireAuth(PasswordChange)} />
-      <Route path="/manager/courses" component={Course} />
+      <Route path="/manager/courses" component={RequireAuth(Course)} />
       <Route component={NoMatch} />
     </Switch>
   </div>
