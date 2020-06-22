@@ -25,14 +25,16 @@ import { reduxForm, Field, propTypes } from "redux-form";
 import { required } from "redux-form-validators";
 
 function CourseCreate(props) {
-  const { item, open, onSave, onClose, handleSubmit /*redux*/, error } = props;
+  let { item } = props;
+  const { open, onSave, onClose, handleSubmit /*redux*/, error } = props;
 
   const handleClose = () => {
     onClose();
+    props.reset();
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth>
+    <Dialog open={open} onClose={handleClose} fullWidth>
       <DialogTitle id="form-dialog-title">Add course</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -92,8 +94,6 @@ function CourseCreate(props) {
 }
 
 const handleSubmit = (handleClose, item) => {
-  console.log("handlesubmit");
-  console.log(item);
   axios
     .post(AuthUrls.COURSES, item, {
       headers: {
@@ -109,21 +109,15 @@ const handleSubmit = (handleClose, item) => {
 };
 
 const onSubmit = (values, dispath, props) => {
-  const { onClose, item } = props;
-  console.log("values");
-  console.log(values);
+  const { item, onClose } = props;
   item.title = values.title;
   item.description = values.description;
   item.active = values.active;
   item.individual_result = values.individual_result;
-  console.log("item");
-  console.log(item);
+  item.course_duration = values.course_duration;
+  item.video = values.video;
   handleSubmit(onClose, item);
   props.onClose();
-
-  console.log("individiual result:" + values.individual_result);
-
-  props.reset(); // this is to reset the form, only needed for dialog like this
 };
 
 export default reduxForm({

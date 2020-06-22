@@ -70,7 +70,7 @@ export default function CourseEdit(props) {
           <MyEditCheckBox
             name="individual_result"
             label="Allow to see individual result per question"
-            defaultChecked={item.active}
+            defaultChecked={item.individual_result}
             onChange={handleCheckBox}
           />
 
@@ -79,7 +79,7 @@ export default function CourseEdit(props) {
             label="Course duration"
             variant="outlined"
             onChange={handleChange}
-            defaultValue={item.courseDuration}
+            defaultValue={item.course_duration}
             margin="normal"
             fullWidth
           />

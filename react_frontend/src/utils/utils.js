@@ -12,10 +12,11 @@ export function ListItemLink(props) {
 export function MyCheckBox(props) {
   const { onChange, label, name } = props;
   return (
-    <FormControlLabel
-      control={<Checkbox onChange={onChange} name={name} />}
+    <MyEditCheckBox
+      onChange={onChange}
       label={label}
-      style={{ display: "block", marginTop: 10 }}
+      name={name}
+      defaultChecked={false}
     />
   );
 }
