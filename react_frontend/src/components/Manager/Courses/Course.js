@@ -104,22 +104,6 @@ function Course() {
     );
   };
 
-  const createItem = () => {
-    const currentUserID = current_user.pk;
-
-    const item = {
-      title: "",
-      description: "",
-      active: false,
-      individual_result: false,
-      course_duration: "",
-      video: "",
-      manager_id: currentUserID,
-    };
-    setActiveItemAdd(item);
-    setOpenCourseAdd(true);
-  };
-
   const handleOpenAdd = () => {
     setOpenCourseAdd(true);
   };
