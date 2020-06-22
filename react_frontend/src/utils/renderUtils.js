@@ -5,10 +5,16 @@ export const myRenderField = ({
   input,
   label,
   type,
+  autoFocus,
   meta: { touched, error },
 }) => (
   <div>
-    <TextField label={label} variant="outlined" {...input} />
+    <TextField
+      autoFocus={autoFocus}
+      label={label}
+      variant="outlined"
+      {...input}
+    />
 
     {touched && error && (
       <div className="alert alert-danger p-1">

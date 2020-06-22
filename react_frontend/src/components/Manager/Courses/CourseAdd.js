@@ -61,12 +61,13 @@ function CourseCreate(props) {
             label="Title"
             component={myRenderField}
             validate={[required({ message: "This field is required." })]}
+            autoFocus={true}
           />
 
           <Field
             name="description"
             label="Description"
-            component={renderField}
+            component={myRenderField}
           />
 
           <MyCheckBox onChange={handleCheckBox} label="Active" name="active" />
@@ -80,10 +81,10 @@ function CourseCreate(props) {
           <Field
             name="course_duration"
             label="Course duration"
-            component={renderField}
+            component={myRenderField}
           />
 
-          <Field name="video" label="Video" component={renderField} />
+          <Field name="video" label="Video" component={myRenderField} />
 
           <DialogActions>
             <Button onClick={handleClose} color="primary">
