@@ -9,7 +9,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
 import { MyCheckBox, MyEditCheckBox } from "../../../utils/utils";
 import axios from "axios";
-import { getUserToken1 } from "../../../utils/authUtils";
+import { getUserToken } from "../../../utils/authUtils";
 
 export default function CourseEdit(props) {
   let { item } = props;
@@ -34,7 +34,7 @@ export default function CourseEdit(props) {
       axios
         .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
           headers: {
-            authorization: "Token " + getUserToken1(),
+            authorization: "Token " + getUserToken(),
           },
         })
         .then((response) => {
