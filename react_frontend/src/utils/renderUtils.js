@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
+import { MyCheckBox } from "../utils/utils";
 
 export const myRenderField = ({
   input,
@@ -13,6 +15,8 @@ export const myRenderField = ({
       autoFocus={autoFocus}
       label={label}
       variant="outlined"
+      fullWidth
+      margin="normal"
       {...input}
     />
 
@@ -21,6 +25,12 @@ export const myRenderField = ({
         <small>{error}</small>
       </div>
     )}
+  </div>
+);
+
+export const myRenderCheckBoxField = ({ input, label, name }) => (
+  <div>
+    <MyCheckBox label={label} name={name} onChange={input.onChange} />
   </div>
 );
 

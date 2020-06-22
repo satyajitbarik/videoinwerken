@@ -16,6 +16,7 @@ import {
   renderField,
   renderError,
   myRenderField,
+  myRenderCheckBoxField,
 } from "../../../utils/renderUtils";
 import { AuthUrls } from "../../../constants/urls";
 
@@ -24,24 +25,7 @@ import { reduxForm, Field, propTypes } from "redux-form";
 import { required } from "redux-form-validators";
 
 function CourseCreate(props) {
-  let { item } = props;
-  const { open, onSave, onClose, handleSubmit /*redux*/, error } = props;
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    console.log(name);
-    console.log(value);
-    item = { ...item, [name]: value };
-    console.log(item);
-  };
-
-  const handleCheckBox = (e, value) => {
-    const name = e.target.name;
-    console.log(name);
-    console.log(value);
-    item = { ...item, [name]: value };
-    console.log(item);
-  };
+  const { item, open, onSave, onClose, handleSubmit /*redux*/, error } = props;
 
   const handleClose = () => {
     onClose();
@@ -70,12 +54,16 @@ function CourseCreate(props) {
             component={myRenderField}
           />
 
-          <MyCheckBox onChange={handleCheckBox} label="Active" name="active" />
+          <Field
+            label="Active result"
+            name="active"
+            component={myRenderCheckBoxField}
+          />
 
-          <MyCheckBox
-            onChange={handleCheckBox}
+          <Field
             label="Individual result"
             name="individual_result"
+            component={myRenderCheckBoxField}
           />
 
           <Field
@@ -126,10 +114,14 @@ const onSubmit = (values, dispath, props) => {
   console.log(values);
   item.title = values.title;
   item.description = values.description;
+  item.active = values.active;
+  item.individual_result = values.individual_result;
   console.log("item");
   console.log(item);
   handleSubmit(onClose, item);
   props.onClose();
+
+  console.log("individiual result:" + values.individual_result);
 
   props.reset(); // this is to reset the form, only needed for dialog like this
 };
