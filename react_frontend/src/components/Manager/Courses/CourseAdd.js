@@ -26,7 +26,6 @@ import { required } from "redux-form-validators";
 function CourseCreate(props) {
   let { item } = props;
   const { open, onSave, onClose, handleSubmit /*redux*/, error } = props;
-  const [open1, setOpen1] = React.useState(props.open);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +44,6 @@ function CourseCreate(props) {
   };
 
   const handleClose = () => {
-    setOpen1(false);
     onClose();
   };
 
