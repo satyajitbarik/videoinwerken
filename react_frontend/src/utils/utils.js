@@ -5,7 +5,7 @@ import React from "react";
 import ListItem from "@material-ui/core/ListItem";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
 import axios from "axios";
-import { getUserToken } from "../../../utils/authUtils";
+import { getUserToken } from "./authUtils";
 
 export function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
