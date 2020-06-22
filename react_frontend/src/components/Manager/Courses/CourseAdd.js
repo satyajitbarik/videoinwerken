@@ -12,7 +12,11 @@ import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
 import { MyCheckBox } from "../../../utils/utils";
 import axios from "axios";
 import { getUserToken1 } from "../../../utils/authUtils";
-import { renderField, renderError } from "../../../utils/renderUtils";
+import {
+  renderField,
+  renderError,
+  myRenderField,
+} from "../../../utils/renderUtils";
 import { AuthUrls } from "../../../constants/urls";
 
 import { reduxForm, Field, propTypes } from "redux-form";
@@ -22,6 +26,7 @@ import { required } from "redux-form-validators";
 function CourseCreate(props) {
   let { item } = props;
   const { open, onSave, onClose, handleSubmit /*redux*/, error } = props;
+  const [open1, setOpen1] = React.useState(props.open);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,6 +44,11 @@ function CourseCreate(props) {
     console.log(item);
   };
 
+  const handleClose = () => {
+    setOpen1(false);
+    onClose();
+  };
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle id="form-dialog-title">Add course</DialogTitle>
@@ -51,7 +61,7 @@ function CourseCreate(props) {
           <Field
             name="title"
             label="Title"
-            component={renderField}
+            component={myRenderField}
             validate={[required({ message: "This field is required." })]}
           />
 
@@ -78,7 +88,7 @@ function CourseCreate(props) {
           <Field name="video" label="Video" component={renderField} />
 
           <DialogActions>
-            <Button onClick={onClose} color="primary">
+            <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
             <Button onClick={() => onSave(item)} color="primary">
@@ -94,7 +104,7 @@ function CourseCreate(props) {
   );
 }
 
-const handleSubmit = (onClose, item) => {
+const handleSubmit = (onClose, item, handleClose) => {
   axios
     .post(AuthUrls.COURSES, item, {
       headers: {
@@ -102,10 +112,10 @@ const handleSubmit = (onClose, item) => {
       },
     })
     .then((response) => {
-      onClose();
+      handleClose();
     })
     .catch((error) => {
-      console.log(error.response.data);
+      console.log(error.response);
     });
 };
 
@@ -119,6 +129,8 @@ const onSubmit = (values, dispath, props) => {
   console.log(item);
   handleSubmit(onClose, item);
   props.onClose();
+
+  props.reset(); // this is to reset the form, only needed for dialog like this
 };
 
 export default reduxForm({

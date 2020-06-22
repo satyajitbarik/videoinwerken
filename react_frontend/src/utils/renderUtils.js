@@ -1,4 +1,22 @@
 import React from "react";
+import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
+
+export const myRenderField = ({
+  input,
+  label,
+  type,
+  meta: { touched, error },
+}) => (
+  <div>
+    <TextField label={label} variant="outlined" {...input} />
+
+    {touched && error && (
+      <div className="alert alert-danger p-1">
+        <small>{error}</small>
+      </div>
+    )}
+  </div>
+);
 
 export const renderField = ({
   input,

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -15,7 +16,6 @@ import CourseAdd from "./CourseAdd";
 
 function Course() {
   const [detailItem, setDetailItem] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const [coursesList, setCoursesList] = useState(null);
   const [activeItemAdd, setActiveItemAdd] = useState(null);
   const [current_user, setCurrent_user] = useState(null);
@@ -113,7 +113,7 @@ function Course() {
 
   const createItem = () => {
     const currentUserID = current_user.pk;
-    console.log("current user id:" + currentUserID);
+    //console.log("current user id:" + currentUserID);
 
     const item = {
       title: "",
@@ -125,7 +125,6 @@ function Course() {
       manager_id: currentUserID,
     };
     setActiveItemAdd(item);
-    setShowModal(true);
     setOpenCourseAdd(true);
   };
 
@@ -144,7 +143,6 @@ function Course() {
   };
 
   const handleCloseAdd = () => {
-    //setShowModal(false);
     setOpenCourseAdd(false);
     refreshList();
   };
@@ -236,7 +234,6 @@ function Course() {
         onSave={handleSubmit}
         onClose={handleCloseAdd}
         open={openCourseAdd}
-        setOpen={setOpenCourseAdd}
       />
 
       {detailItem ? detailItem1(detailItem) : null}
