@@ -54,32 +54,10 @@ function Course() {
 
   const refreshList = () => {
     apiGetByUserId(AuthUrls.COURSES, handleResponse, current_user.pk);
-
-    /*
-    const token = getUserToken();
-    if (!token) {
-      return;
-    }
-    axios
-      .get(AuthUrls.COURSES, {
-        headers: {
-          authorization: "Token " + token,
-        },
-        params: {
-          user_id: current_user.pk,
-        },
-      })
-      .then((response) => {
-        setCoursesList(response.data);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });*/
   };
 
   const renderCourses = () => {
     if (coursesList == null) {
-      //console.log("huh");
       return;
     }
 
