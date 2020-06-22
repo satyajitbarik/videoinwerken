@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { MyCheckBox } from "../utils/utils";
 
 export const myRenderField = ({
