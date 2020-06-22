@@ -19,6 +19,8 @@ function Course() {
   const [activeItemAdd, setActiveItemAdd] = useState(null);
   const [current_user, setCurrent_user] = useState(null);
 
+  const [openCourseAdd, setOpenCourseAdd] = useState(false);
+
   // Runs on initial render
   useEffect(() => {
     console.log("current_user:" + current_user);
@@ -123,6 +125,7 @@ function Course() {
     };
     setActiveItemAdd(item);
     setShowModal(true);
+    setOpenCourseAdd(true);
   };
 
   const detailItem1 = (item) => {
@@ -141,6 +144,7 @@ function Course() {
 
   const handleCloseAdd = () => {
     setShowModal(false);
+    setOpenCourseAdd(false);
   };
 
   const handleCloseEdit = () => {
@@ -225,14 +229,13 @@ function Course() {
         Delete all courses
       </Button>
 
-      {showModal ? (
-        <CourseCreate
-          item={activeItemAdd}
-          onSave={handleSubmit}
-          onClose={handleCloseAdd}
-          showModal={showModal}
-        />
-      ) : null}
+      <CourseCreate
+        item={activeItemAdd}
+        onSave={handleSubmit}
+        onClose={handleCloseAdd}
+        open={openCourseAdd}
+        setOpen={setOpenCourseAdd}
+      />
 
       {detailItem ? detailItem1(detailItem) : null}
     </div>

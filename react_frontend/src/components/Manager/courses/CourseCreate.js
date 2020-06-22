@@ -14,8 +14,9 @@ const onSubmit = (values) => {
 };
 
 function CourseCreate(props) {
-  let { item, showModal } = props;
-  const { onSave, onClose, handleSubmit /*redux*/ } = props;
+  //const [open, setOpen] = React.useState(props.open);
+  let { item } = props;
+  const { open, onSave, onClose, handleSubmit /*redux*/ } = props;
 
   //const [open, setOpen] = useState(true);
 
@@ -36,7 +37,7 @@ function CourseCreate(props) {
   };
 
   return (
-    <Dialog open={showModal} aria-labelledby="form-dialog-title">
+    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Add course</DialogTitle>
       <DialogContent>
         <DialogContentText>
