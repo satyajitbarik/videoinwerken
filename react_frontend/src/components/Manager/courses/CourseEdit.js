@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -6,6 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
+import { MyCheckBox, MyEditCheckBox } from "../../../utils/utils";
 
 export default function CourseEdit(props) {
   let { item } = props;
@@ -58,28 +60,18 @@ export default function CourseEdit(props) {
             fullWidth
           />
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                onChange={handleCheckBox}
-                name="active"
-                defaultChecked={item.active}
-              />
-            }
+          <MyEditCheckBox
+            name="active"
             label="Active"
-            style={{ display: "block", marginTop: 5 }}
+            defaultChecked={item.active}
+            onChange={handleCheckBox}
           />
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                onChange={handleCheckBox}
-                name="individual_result"
-                defaultChecked={item.individual_result}
-              />
-            }
+          <MyEditCheckBox
+            name="individual_result"
             label="Allow to see individual result per question"
-            style={{ display: "block" }}
+            defaultChecked={item.active}
+            onChange={handleCheckBox}
           />
 
           <TextField

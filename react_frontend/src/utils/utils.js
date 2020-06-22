@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import ListItem from "@material-ui/core/ListItem";
-import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
+import { FormControlLabel, Checkbox } from "@material-ui/core";
 
 export function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
@@ -14,7 +15,24 @@ export function MyCheckBox(props) {
     <FormControlLabel
       control={<Checkbox onChange={onChange} name={name} />}
       label={label}
-      style={{ display: "block", marginTop: 5 }}
+      style={{ display: "block", marginTop: 10 }}
+    />
+  );
+}
+
+export function MyEditCheckBox(props) {
+  const { name, label, defaultChecked, onChange } = props;
+  return (
+    <FormControlLabel
+      control={
+        <Checkbox
+          onChange={onChange}
+          name={name}
+          defaultChecked={defaultChecked}
+        />
+      }
+      label={label}
+      style={{ display: "block", marginTop: 10 }}
     />
   );
 }
