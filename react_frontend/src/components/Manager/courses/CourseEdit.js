@@ -30,7 +30,7 @@ export default function CourseEdit(props) {
   };
 
   return (
-    <Dialog open={true} aria-labelledby="form-dialog-title">
+    <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Edit course</DialogTitle>
       <DialogContent>
         <DialogContentText>

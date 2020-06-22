@@ -14,11 +14,8 @@ const onSubmit = (values) => {
 };
 
 function CourseCreate(props) {
-  //const [open, setOpen] = React.useState(props.open);
   let { item } = props;
   const { open, onSave, onClose, handleSubmit /*redux*/ } = props;
-
-  //const [open, setOpen] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
