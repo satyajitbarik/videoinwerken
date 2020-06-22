@@ -7,10 +7,15 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
 import { MyCheckBox } from "../../../utils/utils";
+import { reduxForm } from "redux-form";
 
-export default function CourseCreate(props) {
+const onSubmit = (values) => {
+  alert("hi");
+};
+
+function CourseCreate(props) {
   let { item, showModal } = props;
-  const { onSave, onClose } = props;
+  const { onSave, onClose, handleSubmit /*redux*/ } = props;
 
   //const [open, setOpen] = useState(true);
 
@@ -38,7 +43,7 @@ export default function CourseCreate(props) {
           Please fill in the details of the course.
         </DialogContentText>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <TextField
             autoFocus
             name="title"
@@ -82,17 +87,25 @@ export default function CourseCreate(props) {
             margin="normal"
             fullWidth
           />
+
+          <DialogActions>
+            <Button onClick={onClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={() => onSave(item)} color="primary">
+              Add
+            </Button>
+            <Button type="submit" color="primary">
+              Terst Redux
+            </Button>
+          </DialogActions>
         </form>
       </DialogContent>
-
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={() => onSave(item)} color="primary">
-          Add
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 }
+
+export default reduxForm({
+  form: "course-create-form",
+  onSubmit,
+})(CourseCreate);
