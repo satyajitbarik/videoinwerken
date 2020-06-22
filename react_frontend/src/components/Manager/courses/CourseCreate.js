@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 import React from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -8,11 +10,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { FormControlLabel, TextField, Checkbox } from "@material-ui/core";
 import { MyCheckBox } from "../../../utils/utils";
 import { reduxForm } from "redux-form";
+import axios from "axios";
+import { getUserToken1 } from "../../../utils/authUtils";
 
-const onSubmit = (values) => {
-  alert("hi");
-};
-
+import { AuthUrls } from "../../../constants/urls";
 function CourseCreate(props) {
   let { item } = props;
   const { open, onSave, onClose, handleSubmit /*redux*/ } = props;
@@ -41,7 +42,7 @@ function CourseCreate(props) {
           Please fill in the details of the course.
         </DialogContentText>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             autoFocus
             name="title"
@@ -102,6 +103,32 @@ function CourseCreate(props) {
     </Dialog>
   );
 }
+
+const handleSubmit = (onClose, item) => {
+  // Create item
+  axios
+    .post(AuthUrls.COURSES, item, {
+      headers: {
+        authorization: "Token " + getUserToken1(),
+      },
+    })
+    .then((response) => {
+      //refreshList();
+      //handleCloseAdd();
+      onClose();
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+};
+
+const onSubmit = (values, dispath, props) => {
+  alert("hi");
+  console.log("hi");
+  console.log(values);
+  //  handleSubmit();
+  console.log(props.item);
+};
 
 export default reduxForm({
   form: "course-create-form",
