@@ -13,14 +13,16 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+# display all your employees (as manager)
 class UserViewSet1(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def list(self, request):
         #queryset = User.objects.filter(iban="a") # how to do is_employee=True
-        queryset= User.objects.filter(userprofile__is_employee=True)
-        serializer = UserSerializer(queryset, many=True)
+        #queryset= User.objects.filter(userprofile__is_employee=True)
+        queryset= User.objects.filter(pk=request.user.pk)
+        serializer = UserSerializer(queryset, many=True) #many =true for multiple results
         return Response(serializer.data)
 
 class EmployeeManagerViewSet(viewsets.ModelViewSet):

@@ -43,6 +43,7 @@ function EmployeeList() {
               <TableCell style={{ width: 50 }}>{emp.pk}</TableCell>
               <TableCell style={{ width: 50 }}>{emp.email}</TableCell>
               <TableCell style={{ width: 50 }}>{emp.business_name}</TableCell>
+              <TableCell style={{ width: 50 }}>{emp.employees}</TableCell>
             </TableRow>
           ))}
         </TableBody>
