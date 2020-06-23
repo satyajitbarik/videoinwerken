@@ -1,6 +1,8 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_auth.serializers import UserDetailsSerializer
 
+User = get_user_model()
 
 class UserSerializer(UserDetailsSerializer):
 
@@ -13,7 +15,7 @@ class UserSerializer(UserDetailsSerializer):
     iban = serializers.CharField(source="userprofile.iban", allow_blank=True, required=False)
 
     class Meta(UserDetailsSerializer.Meta):
-        fields = UserDetailsSerializer.Meta.fields + ('is_admin', 'is_employee', 'is_manager', 'license_expiration_date', 'business_name', 'billing_address', 'iban')
+        fields = UserDetailsSerializer.Meta.fields + ('is_admin', 'is_employee', 'is_manager', 'license_expiration_date', 'business_name', 'billing_address', 'iban', 'employees')
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('userprofile', {})
@@ -24,6 +26,7 @@ class UserSerializer(UserDetailsSerializer):
         business_name = profile_data.get('business_name')
         billing_address = profile_data.get('billing_address')
         iban = profile_data.get('iban')
+        employees = profile_data.get('employees')
 
         instance = super(UserSerializer, self).update(instance, validated_data)
 
@@ -45,5 +48,17 @@ class UserSerializer(UserDetailsSerializer):
                 profile.billing_address = billing_address
             if iban:
                 profile.iban = iban
+
+            if employees:
+                profile.employees = employees
             profile.save()
         return instance
+
+class EmployeeManagerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'employee_user_id',
+            'manager_user_id',
+        )
+
