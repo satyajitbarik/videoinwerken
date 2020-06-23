@@ -2,9 +2,12 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_auth.serializers import UserDetailsSerializer
 
+from user_profile.models import UserProfile
+
 User = get_user_model()
 
 class UserSerializer(UserDetailsSerializer):
+
 
     is_admin = serializers.BooleanField(source="userprofile.is_admin", default=False)
     is_employee = serializers.BooleanField(source="userprofile.is_employee", default=False)
@@ -14,8 +17,15 @@ class UserSerializer(UserDetailsSerializer):
     billing_address = serializers.CharField(source="userprofile.billing_address", allow_blank=True, required=False)
     iban = serializers.CharField(source="userprofile.iban", allow_blank=True, required=False)
 
+    #employees = serializers.RelatedField(source="userprofile.employees", many=True)
+    #employees = serializers.SerializerMethodField()
+
     class Meta(UserDetailsSerializer.Meta):
+
         fields = UserDetailsSerializer.Meta.fields + ('is_admin', 'is_employee', 'is_manager', 'license_expiration_date', 'business_name', 'billing_address', 'iban', 'employees')
+
+    #def get_employees(self, obj):
+       # return obj.employees.all()
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('userprofile', {})
@@ -48,7 +58,6 @@ class UserSerializer(UserDetailsSerializer):
                 profile.billing_address = billing_address
             if iban:
                 profile.iban = iban
-
             if employees:
                 profile.employees = employees
             profile.save()

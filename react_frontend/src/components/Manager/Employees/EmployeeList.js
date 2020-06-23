@@ -30,6 +30,7 @@ function EmployeeList() {
   };
 
   const handleResponse = (response) => {
+    console.log(response);
     setEmployeeList(response.data);
   };
 
