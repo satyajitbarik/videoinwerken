@@ -20,15 +20,12 @@ class UserViewSet1(viewsets.ModelViewSet):
 
 
     def list(self, request):
-        #queryset = User.objects.get(pk=19).get_employees(self).all()
-        queryset = self.queryset.filter(id__in=User.objects.get(pk=19).employees.all())
+        current_user_id = 19;
+        if (request.user.pk):
+            current_user_id = request.user.pk
+        queryset = self.queryset.filter(id__in=User.objects.get(pk=current_user_id).employees.all())
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)
-
-
-
-
-
 
 
 class EmployeeManagerViewSet(viewsets.ModelViewSet):
