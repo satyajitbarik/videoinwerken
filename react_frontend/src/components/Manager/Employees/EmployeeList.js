@@ -12,7 +12,7 @@ import {
   TableRow,
   Button,
 } from "@material-ui/core";
-import { apiGet } from "../../../utils/utils";
+import { apiGet, apiGetEmp } from "../../../utils/utils";
 
 function EmployeeList() {
   const [employeeList, setEmployeeList] = React.useState(null);
@@ -26,7 +26,7 @@ function EmployeeList() {
   });
 
   const refreshList = () => {
-    apiGet("http://localhost:8000/api/accounts/", handleResponse);
+    apiGetEmp("http://localhost:8000/api/manager/employees/", handleResponse);
   };
 
   const handleResponse = (response) => {
