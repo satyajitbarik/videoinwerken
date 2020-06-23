@@ -21,18 +21,17 @@ class UserSerializer(UserDetailsSerializer):
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('userprofile', {})
-        is_admin = profile_data.get('is_admin')
-        is_employee = profile_data.get('is_employee')
-        is_manager = profile_data.get('is_manager')
+        iban = profile_data.get('iban')
+        #is_admin = profile_data.get('is_admin')
+     #   is_employee = profile_data.get('is_employee')
+        #is_manager = profile_data.get('is_manager')
 
         instance = super(UserSerializer, self).update(instance, validated_data)
 
         # get and update user profile
         profile = instance.userprofile
         if profile_data:
-            if is_admin:
-                profile.is_admin = is_admin # what does this do??
-            if is_employee:
-                profile.is_employee = is_employee
+            if iban:
+                profile.iban = iban
             profile.save()
         return instance

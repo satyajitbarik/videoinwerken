@@ -23,7 +23,7 @@ function EmployeeList() {
       return;
     }
     refreshList();
-  }, [employeeList]);
+  });
 
   const refreshList = () => {
     apiGet("http://localhost:8000/api/accounts/", handleResponse);
@@ -31,7 +31,6 @@ function EmployeeList() {
 
   const handleResponse = (response) => {
     setEmployeeList(response.data);
-    console.log(response.data);
   };
 
   // WHAT TO DO ABOUT THE WARNINGGGG????
@@ -39,10 +38,11 @@ function EmployeeList() {
     return (
       <Table>
         <TableBody>
-          {console.log(employeeList)}
           {employeeList.map((emp) => (
-            <TableRow key={emp.id} style={{ cursor: "pointer" }}>
-              <TableCell style={{ width: 50 }}>Hoi</TableCell>
+            <TableRow key={emp.pk} style={{ cursor: "pointer" }}>
+              <TableCell style={{ width: 50 }}>{emp.pk}</TableCell>
+              <TableCell style={{ width: 50 }}>{emp.email}</TableCell>
+              <TableCell style={{ width: 50 }}>{emp.business_name}</TableCell>
             </TableRow>
           ))}
         </TableBody>
