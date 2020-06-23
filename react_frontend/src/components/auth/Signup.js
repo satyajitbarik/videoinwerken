@@ -29,16 +29,17 @@ function Signup(props) {
             type="text"
           />
         </fieldset>
-
+        {/*
         <fieldset className="form-group">
           <Field
             name="username"
             label="Username"
             component={renderField}
             type="text"
-            validate={[required({ message: "This field is required." })]}
+            //validate={[required({ message: "This field is required." })]}
           />
         </fieldset>
+*/}
 
         <fieldset className="form-group">
           <Field
