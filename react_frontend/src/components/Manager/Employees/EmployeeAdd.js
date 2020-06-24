@@ -9,6 +9,10 @@ import { required } from "redux-form-validators";
 import { connect } from "react-redux";
 
 import { MyTextField, apiPost } from "../../../utils/utils";
+import {
+  myRenderField,
+  myRenderCheckBoxField,
+} from "../../../utils/renderUtils";
 
 import {
   Dialog,
@@ -19,8 +23,8 @@ import {
   Button,
 } from "@material-ui/core";
 
-export default function EmployeeAdd(props) {
-  const { open, onClose } = props; // handlesubmit & error are redux props
+function EmployeeAdd(props) {
+  const { open, onClose, handleSubmit, error } = props; // handlesubmit & error are redux props
   //const [employee, setEmployee] = React.useState(null);
   let employee = {
     email: "",
@@ -43,7 +47,7 @@ export default function EmployeeAdd(props) {
     employee = { ...employee, [name]: value };
   };
 
-  const handleSubmit = (employee) => {
+  /*const handleSubmit = (employee) => {
     console.log(employee);
     //apiPost("http://localhost:8000/api/accounts/", handleResponse, employee);
 
@@ -53,7 +57,7 @@ export default function EmployeeAdd(props) {
       handleFail,
       employee
     );
-  };
+  };*/
 
   const handleResponse = (response) => {
     console.log("handle response");
@@ -78,8 +82,8 @@ export default function EmployeeAdd(props) {
         <DialogContentText>
           Please fill in the details of the employee.
         </DialogContentText>
-        <form>
-          <MyTextField
+        <form onSubmit={handleSubmit}>
+          {/* <MyTextField
             label="Email address"
             name="email"
             onChange={handleChange}
@@ -89,17 +93,61 @@ export default function EmployeeAdd(props) {
             name="password"
             onChange={handleChange}
           />
-        </form>
-      </DialogContent>
+         */}
 
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
+          <Field name="email" label="Email" component={myRenderField} />
+          <Field name="password" label="Password" component={myRenderField} />
+
+          <DialogActions>
+            {/*<Button onClick={onClose} color="primary">
           Cancel
         </Button>
         <Button onClick={() => handleSubmit(employee)} color="primary">
           Confirm
-        </Button>
-      </DialogActions>
+        </Button>*/}
+            <Button onClick={onClose} color="primary">
+              Cancel
+            </Button>
+            <Button type="submit" color="primary">
+              Add
+            </Button>
+          </DialogActions>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }
+
+// Sync field level validation for password match
+const validateForm = (values) => {
+  const errors = {};
+  //const { password1, password2 } = values;
+  //if (password1 !== password2) {
+  //  errors.password2 = "Password does not match.";
+  //}
+  errors.email = "Email does not match";
+  return errors;
+};
+
+const onSubmit = (values) => {
+  alert("yo");
+  console.log("Helloooo?");
+
+  /* const item = {
+    title: values.title,
+    description: values.description,
+    active: values.active,
+    individual_result: values.individual_result,
+    course_duration: values.course_duration,
+    video: values.video,
+    manager_id: props.manager_id,
+  };
+
+  handleSubmit(props, item);*/
+};
+
+export default reduxForm({
+  form: "signup",
+  validate: validateForm,
+  onSubmit,
+})(EmployeeAdd);
