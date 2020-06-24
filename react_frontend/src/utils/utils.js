@@ -16,14 +16,14 @@ export function ListItemLink(props) {
 }
 
 export function MyTextField(props) {
-  const { label, name, handleChange, defaultValue } = props;
+  const { label, name, onChange } = props;
   return (
     <TextField
       autoFocus
       name={name}
       label={label}
-      onChange={handleChange}
-      defaultValue={defaultValue}
+      onChange={onChange}
+      //defaultValue={defaultValue}
       variant="outlined"
       margin="normal"
       fullWidth
@@ -81,7 +81,7 @@ export function apiGet(url, handleResponse) {
     });
 }
 
-export function apiPost(url, handleResponse, object) {
+export function apiPost(url, handleResponse, handleFail, object) {
   const token = getUserToken();
   if (!token) {
     return;
@@ -96,7 +96,7 @@ export function apiPost(url, handleResponse, object) {
       handleResponse(response);
     })
     .catch((error) => {
-      console.log(error.response);
+      handleFail(error.response);
     });
 }
 

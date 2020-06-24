@@ -23,12 +23,18 @@ export default function EmployeeAdd(props) {
   const { open, onClose } = props; // handlesubmit & error are redux props
   //const [employee, setEmployee] = React.useState(null);
   let employee = {
-    email: null,
-    password: null,
+    email: "",
+    password: "",
   };
 
   const handleChange = (e) => {
+    console.log("handlechange");
     const { name, value } = e.target;
+    if (name == "password") {
+      employee = { ...employee, ["password1"]: value };
+      employee = { ...employee, ["password2"]: value };
+      return;
+    }
     employee = { ...employee, [name]: value };
   };
 
@@ -39,16 +45,26 @@ export default function EmployeeAdd(props) {
 
   const handleSubmit = (employee) => {
     console.log(employee);
+    //apiPost("http://localhost:8000/api/accounts/", handleResponse, employee);
+
     apiPost(
-      "http://localhost:8000/api/manager/employees/",
+      "http://localhost:8000/rest-auth/registration/",
       handleResponse,
+      handleFail,
       employee
     );
   };
 
   const handleResponse = (response) => {
-    console.log(response);
+    console.log("handle response");
+    console.log(response.data);
     //setEmployeeList(response.data);
+  };
+
+  const handleFail = (response) => {
+    console.log("handle fail");
+    console.log(response.data);
+    console.log("error:" + response.data.email);
   };
 
   return (
@@ -62,6 +78,11 @@ export default function EmployeeAdd(props) {
           <MyTextField
             label="Email address"
             name="email"
+            onChange={handleChange}
+          />
+          <MyTextField
+            label="Password"
+            name="password"
             onChange={handleChange}
           />
         </form>
