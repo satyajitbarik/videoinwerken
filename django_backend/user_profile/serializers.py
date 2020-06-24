@@ -43,7 +43,6 @@ class UserSerializer(UserDetailsSerializer):
         # get and update user profile
         profile = instance.userprofile
         if profile_data:
-
             if is_admin:
                 profile.is_admin = is_admin
             if is_employee:

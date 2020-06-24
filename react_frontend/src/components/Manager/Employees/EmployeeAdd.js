@@ -16,6 +16,8 @@ import {
 } from "../../../utils/renderUtils";
 import { SubmissionError } from "redux-form";
 import authActions from "../../../actions/authActions";
+import { getUserToken } from "../../../utils/authUtils";
+import store from "../../../store";
 
 import {
   Dialog,
@@ -28,15 +30,17 @@ import {
 
 export default function EmployeeAdd(props) {
   const { open, onClose } = props;
-  //const [error, setError] = React.useState("");
-
   const [emailError, setEmailError] = React.useState("");
   const [passwordError, setPasswordError] = React.useState("");
-  const [employee, setEmployee] = React.useState(null);
-  //let employee = null;
+  const [employee, setEmployee] = React.useState({
+    email: "",
+    password1: "",
+    password2: "",
+    is_employee: true,
+    iban: "555",
+  });
 
   const handleClose = () => {
-    console.log("handleclose");
     onClose();
     setEmailError("");
     setPasswordError("");
@@ -48,11 +52,8 @@ export default function EmployeeAdd(props) {
     console.log(name);
     console.log(value);
     if (name == "password") {
-      //employee = { ...employee, ["password1"]: value };
-      //employee = { ...employee, ["password2"]: value };
       setEmployee({ ...employee, ["password1"]: value, ["password2"]: value });
     } else {
-      // employee = { ...employee, [name]: value };
       setEmployee({ ...employee, [name]: value });
     }
     console.log(employee);
@@ -60,14 +61,13 @@ export default function EmployeeAdd(props) {
 
   const handleCheckBox = (e, value) => {
     const name = e.target.name;
-    // employee = { ...employee, [name]: value };
     setEmployee({ ...employee, [name]: value });
   };
 
   const handleSubmit = (employee) => {
     console.log("employee to submit:");
     console.log(employee);
-    //apiPost("http://localhost:8000/api/accounts/", handleResponse, employee);
+    const token = getUserToken(store.getState());
 
     apiPost(
       "http://localhost:8000/rest-auth/registration/",
@@ -75,28 +75,39 @@ export default function EmployeeAdd(props) {
       handleFail,
       employee
     );
+
+    console.log("patch");
+    console.log(employee);
+    axios
+      .patch("http://localhost:8000/rest-auth/user/", employee, {
+        headers: {
+          authorization: "Token " + token,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleResponse = (response) => {
     console.log("handle response");
     console.log(response.data);
-    //setEmployeeList(response.data);
     handleClose();
   };
 
   const handleFail = (response) => {
-    console.log("handle fail");
     console.log(response.data);
 
     if (response.data.email) {
-      //setError("Email address: " + response.data.email);
       setEmailError(response.data.email);
     } else {
       setEmailError(null);
     }
 
     if (response.data.password1) {
-      //setError("Password: " + response.data.password1);
       setPasswordError(response.data.password1);
     } else {
       setPasswordError(null);
