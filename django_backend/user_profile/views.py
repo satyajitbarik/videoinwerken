@@ -23,10 +23,9 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         current_user_id = 19;
         if (request.user.pk):
             current_user_id = request.user.pk
+
+        # get all users who are employee of current_user and are employee
         queryset = self.queryset.filter(userprofile__is_employee=True, id__in=User.objects.get(pk=current_user_id).employees.all())
-
-        #queryset = User.objects.filter(userprofile__is_employee=True)
-
 
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)
