@@ -38,6 +38,7 @@ export default function EmployeeAdd(props) {
   };
 
   const handleSubmit = (employee) => {
+    console.log(employee);
     apiPost(
       "http://localhost:8000/api/manager/employees/",
       handleResponse,
