@@ -62,12 +62,3 @@ class UserSerializer(UserDetailsSerializer):
                 profile.employees = employees
             profile.save()
         return instance
-
-class EmployeeManagerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = (
-            'employee_user_id',
-            'manager_user_id',
-        )
-

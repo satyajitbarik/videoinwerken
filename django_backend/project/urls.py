@@ -2,7 +2,7 @@ from django.urls import include, path
 from django.contrib import admin
 from rest_framework import routers
 
-from user_profile.views import UserViewSet, EmployeeViewSet, EmployeeManagerViewSet
+from user_profile.views import UserViewSet, EmployeeViewSet
 from videoinwerken_manager.views import CourseView, CourseViewAll
 
 router = routers.DefaultRouter()
@@ -11,7 +11,6 @@ router.register('manager/employees', EmployeeViewSet)
 router.register('manager/courses', CourseView, base_name="CourseView")
 router.register('manager/coursesviewall', CourseViewAll, base_name="CourseViewAll")
 
-router.register('manager/employeemanager', EmployeeManagerViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

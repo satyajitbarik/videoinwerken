@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 
-from .models import UserProfile, EmployeeManager
-from .serializers import UserSerializer, EmployeeManagerSerializer
+from .models import UserProfile
+from .serializers import UserSerializer
 from rest_framework import viewsets, request
 from rest_framework import generics
 
@@ -23,20 +23,11 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         current_user_id = 19;
         if (request.user.pk):
             current_user_id = request.user.pk
-        queryset = self.queryset.filter(id__in=User.objects.get(pk=current_user_id).employees.all())
-        #queryset = queryset.filter(is_employee=True);
+       # queryset = self.queryset.filter(id__in=User.objects.get(pk=current_user_id).employees.all())
+
+        queryset = User.objects.filter(userprofile__is_employee=True)
+
+
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)
-
-
-class EmployeeManagerViewSet(viewsets.ModelViewSet):
-    queryset = EmployeeManager.objects.all()
-    serializer_class = EmployeeManagerSerializer
-
-    def list(self, request):
-        queryset = EmployeeManager.objects.all()#filter(iban="a")
-        #queryset= User.objects.filter(userprofile__is_employee=True)
-        serializer = EmployeeManagerSerializer(queryset, many=True)
-        return Response(serializer.data)
-
 
