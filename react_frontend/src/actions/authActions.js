@@ -250,7 +250,7 @@ export function updateUserProfile(formValues, dispatch, props) {
     });
 }
 // util functions
-function processServerError(error) {
+export function processServerError(error) {
   return Object.keys(error).reduce(
     function (newDict, key) {
       if (key === "non_field_errors") {

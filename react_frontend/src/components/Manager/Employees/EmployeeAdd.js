@@ -10,9 +10,12 @@ import { connect } from "react-redux";
 
 import { MyTextField, apiPost } from "../../../utils/utils";
 import {
+  renderError,
   myRenderField,
   myRenderCheckBoxField,
 } from "../../../utils/renderUtils";
+import { SubmissionError } from "redux-form";
+import authActions from "../../../actions/authActions";
 
 import {
   Dialog,
@@ -25,10 +28,17 @@ import {
 
 function EmployeeAdd(props) {
   const { open, onClose, handleSubmit, error } = props; // handlesubmit & error are redux props
+  const [errors, setErrors] = React.useState("");
   //const [employee, setEmployee] = React.useState(null);
   let employee = {
     email: "",
     password: "",
+  };
+
+  const handleClose = (props) => {
+    onClose();
+    //props.reset();??
+    //error.reset();??
   };
 
   const handleChange = (e) => {
@@ -76,13 +86,13 @@ function EmployeeAdd(props) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth>
+    <Dialog open={open} onClose={handleClose} fullWidth>
       <DialogTitle id="form-dialog-title">Add employee</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Please fill in the details of the employee.
         </DialogContentText>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           {/* <MyTextField
             label="Email address"
             name="email"
@@ -95,8 +105,20 @@ function EmployeeAdd(props) {
           />
          */}
 
-          <Field name="email" label="Email" component={myRenderField} />
-          <Field name="password" label="Password" component={myRenderField} />
+          <Field
+            name="email"
+            label="Email"
+            component={myRenderField}
+            validate={[required({ message: "This field is required." })]}
+          />
+          <Field
+            name="password"
+            label="Password"
+            component={myRenderField}
+            validate={[required({ message: "This field is required." })]}
+          />
+
+          {renderError(error)}
 
           <DialogActions>
             {/*<Button onClick={onClose} color="primary">
@@ -105,7 +127,7 @@ function EmployeeAdd(props) {
         <Button onClick={() => handleSubmit(employee)} color="primary">
           Confirm
         </Button>*/}
-            <Button onClick={onClose} color="primary">
+            <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
             <Button type="submit" color="primary">
@@ -118,6 +140,34 @@ function EmployeeAdd(props) {
   );
 }
 
+const handleResponse = (response) => {
+  console.log("handle response");
+  console.log(response.data);
+  //setEmployeeList(response.data);
+};
+
+const handleFail = (response) => {
+  console.log("handle fail");
+  console.log(response.data);
+  for (const [key, value] of Object.entries(response.data)) {
+    console.log(key, value);
+  }
+
+  console.log("end");
+};
+
+const handleSubmit = (employee) => {
+  console.log(employee);
+  //apiPost("http://localhost:8000/api/accounts/", handleResponse, employee);
+
+  apiPost(
+    "http://localhost:8000/rest-auth/registration/",
+    handleResponse,
+    handleFail,
+    employee
+  );
+};
+
 // Sync field level validation for password match
 const validateForm = (values) => {
   const errors = {};
@@ -125,13 +175,47 @@ const validateForm = (values) => {
   //if (password1 !== password2) {
   //  errors.password2 = "Password does not match.";
   //}
-  errors.email = "Email does not match";
+  // errors.email = "Email does not match";
   return errors;
 };
 
-const onSubmit = (values) => {
-  alert("yo");
+const onSubmit1 = (values, dispatch, props) => {
+  return axios
+    .post("http://localhost:8000/rest-auth/registration/", values)
+    .then((response) => {
+      // If request is good...
+      // you can login if email verification is turned off.
+      //const token = response.data.key;
+      // dispatch(authLogin(token));
+      // localStorage.setItem("token", token);
+
+      // email need to be verified, so don't login and send user to signup_done page.
+      // redirect to signup done page.
+      //history.push("/signup_done");
+      console.log(response);
+    })
+    .catch((error) => {
+      // If request is bad...
+      // Show an error to the user
+      const processedError = authActions.processServerError(
+        error.response.data
+      );
+      throw new SubmissionError(processedError);
+    });
+};
+
+const onSubmit = (values, dispatch, props) => {
+  //alert("yo");
+  console.log(props);
   console.log("Helloooo?");
+
+  const employee = {
+    email: values.email,
+    password1: values.password,
+    password2: values.password,
+  };
+
+  handleSubmit(employee);
 
   /* const item = {
     title: values.title,
@@ -149,5 +233,5 @@ const onSubmit = (values) => {
 export default reduxForm({
   form: "signup",
   validate: validateForm,
-  onSubmit,
+  onSubmit1,
 })(EmployeeAdd);
