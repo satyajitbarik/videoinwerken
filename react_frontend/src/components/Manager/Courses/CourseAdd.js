@@ -44,7 +44,7 @@ function CourseAdd(props) {
             name="title"
             label="Title"
             component={myRenderField}
-            validate={[required({ message: "This field is required." })]}
+            // validate={[required({ message: "This field is required." })]}
             autoFocus={true}
           />
 

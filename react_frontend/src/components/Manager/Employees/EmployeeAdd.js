@@ -64,7 +64,11 @@ export default function EmployeeAdd(props) {
   const handleFail = (response) => {
     console.log("handle fail");
     console.log(response.data);
-    console.log("error:" + response.data.email);
+    for (const [key, value] of Object.entries(response.data)) {
+      console.log(key, value);
+    }
+
+    console.log("end");
   };
 
   return (
