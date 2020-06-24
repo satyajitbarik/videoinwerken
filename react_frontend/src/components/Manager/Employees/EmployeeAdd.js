@@ -50,12 +50,12 @@ export default function EmployeeAdd(props) {
     if (name == "password") {
       //employee = { ...employee, ["password1"]: value };
       //employee = { ...employee, ["password2"]: value };
-      setEmployee({ ...employee, ["password1"]: value });
-      setEmployee({ ...employee, ["password2"]: value });
-      return;
+      setEmployee({ ...employee, ["password1"]: value, ["password2"]: value });
+    } else {
+      // employee = { ...employee, [name]: value };
+      setEmployee({ ...employee, [name]: value });
     }
-    // employee = { ...employee, [name]: value };
-    setEmployee({ ...employee, [name]: value });
+    console.log(employee);
   };
 
   const handleCheckBox = (e, value) => {
