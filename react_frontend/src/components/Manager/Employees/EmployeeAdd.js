@@ -26,38 +26,46 @@ import {
   Button,
 } from "@material-ui/core";
 
-function EmployeeAdd(props) {
-  const { open, onClose, handleSubmit, error } = props; // handlesubmit & error are redux props
-  const [errors, setErrors] = React.useState("");
-  //const [employee, setEmployee] = React.useState(null);
-  let employee = {
-    email: "",
-    password: "",
-  };
+export default function EmployeeAdd(props) {
+  const { open, onClose } = props;
+  //const [error, setError] = React.useState("");
 
-  const handleClose = (props) => {
+  const [emailError, setEmailError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState("");
+  const [employee, setEmployee] = React.useState(null);
+  //let employee = null;
+
+  const handleClose = () => {
+    console.log("handleclose");
     onClose();
-    //props.reset();??
-    //error.reset();??
+    setEmailError("");
+    setPasswordError("");
   };
 
   const handleChange = (e) => {
     console.log("handlechange");
     const { name, value } = e.target;
+    console.log(name);
+    console.log(value);
     if (name == "password") {
-      employee = { ...employee, ["password1"]: value };
-      employee = { ...employee, ["password2"]: value };
+      //employee = { ...employee, ["password1"]: value };
+      //employee = { ...employee, ["password2"]: value };
+      setEmployee({ ...employee, ["password1"]: value });
+      setEmployee({ ...employee, ["password2"]: value });
       return;
     }
-    employee = { ...employee, [name]: value };
+    // employee = { ...employee, [name]: value };
+    setEmployee({ ...employee, [name]: value });
   };
 
   const handleCheckBox = (e, value) => {
     const name = e.target.name;
-    employee = { ...employee, [name]: value };
+    // employee = { ...employee, [name]: value };
+    setEmployee({ ...employee, [name]: value });
   };
 
-  /*const handleSubmit = (employee) => {
+  const handleSubmit = (employee) => {
+    console.log("employee to submit:");
     console.log(employee);
     //apiPost("http://localhost:8000/api/accounts/", handleResponse, employee);
 
@@ -67,22 +75,32 @@ function EmployeeAdd(props) {
       handleFail,
       employee
     );
-  };*/
+  };
 
   const handleResponse = (response) => {
     console.log("handle response");
     console.log(response.data);
     //setEmployeeList(response.data);
+    handleClose();
   };
 
   const handleFail = (response) => {
     console.log("handle fail");
     console.log(response.data);
-    for (const [key, value] of Object.entries(response.data)) {
-      console.log(key, value);
+
+    if (response.data.email) {
+      //setError("Email address: " + response.data.email);
+      setEmailError(response.data.email);
+    } else {
+      setEmailError(null);
     }
 
-    console.log("end");
+    if (response.data.password1) {
+      //setError("Password: " + response.data.password1);
+      setPasswordError(response.data.password1);
+    } else {
+      setPasswordError(null);
+    }
   };
 
   return (
@@ -92,46 +110,30 @@ function EmployeeAdd(props) {
         <DialogContentText>
           Please fill in the details of the employee.
         </DialogContentText>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* <MyTextField
+        <form>
+          <MyTextField
             label="Email address"
             name="email"
             onChange={handleChange}
+            autoFocus
           />
+
+          {renderError(emailError)}
+
           <MyTextField
             label="Password"
             name="password"
             onChange={handleChange}
           />
-         */}
 
-          <Field
-            name="email"
-            label="Email"
-            component={myRenderField}
-            validate={[required({ message: "This field is required." })]}
-          />
-          <Field
-            name="password"
-            label="Password"
-            component={myRenderField}
-            validate={[required({ message: "This field is required." })]}
-          />
-
-          {renderError(error)}
+          {renderError(passwordError)}
 
           <DialogActions>
-            {/*<Button onClick={onClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={() => handleSubmit(employee)} color="primary">
-          Confirm
-        </Button>*/}
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button type="submit" color="primary">
-              Add
+            <Button onClick={() => handleSubmit(employee)} color="primary">
+              Confirm
             </Button>
           </DialogActions>
         </form>
@@ -139,99 +141,3 @@ function EmployeeAdd(props) {
     </Dialog>
   );
 }
-
-const handleResponse = (response) => {
-  console.log("handle response");
-  console.log(response.data);
-  //setEmployeeList(response.data);
-};
-
-const handleFail = (response) => {
-  console.log("handle fail");
-  console.log(response.data);
-  for (const [key, value] of Object.entries(response.data)) {
-    console.log(key, value);
-  }
-
-  console.log("end");
-};
-
-const handleSubmit = (employee) => {
-  console.log(employee);
-  //apiPost("http://localhost:8000/api/accounts/", handleResponse, employee);
-
-  apiPost(
-    "http://localhost:8000/rest-auth/registration/",
-    handleResponse,
-    handleFail,
-    employee
-  );
-};
-
-// Sync field level validation for password match
-const validateForm = (values) => {
-  const errors = {};
-  //const { password1, password2 } = values;
-  //if (password1 !== password2) {
-  //  errors.password2 = "Password does not match.";
-  //}
-  // errors.email = "Email does not match";
-  return errors;
-};
-
-const onSubmit1 = (values, dispatch, props) => {
-  return axios
-    .post("http://localhost:8000/rest-auth/registration/", values)
-    .then((response) => {
-      // If request is good...
-      // you can login if email verification is turned off.
-      //const token = response.data.key;
-      // dispatch(authLogin(token));
-      // localStorage.setItem("token", token);
-
-      // email need to be verified, so don't login and send user to signup_done page.
-      // redirect to signup done page.
-      //history.push("/signup_done");
-      console.log(response);
-    })
-    .catch((error) => {
-      // If request is bad...
-      // Show an error to the user
-      const processedError = authActions.processServerError(
-        error.response.data
-      );
-      throw new SubmissionError(processedError);
-    });
-};
-
-const onSubmit = (values, dispatch, props) => {
-  //alert("yo");
-  console.log(props);
-  console.log("Helloooo?");
-
-  const employee = {
-    email: values.email,
-    password1: values.password,
-    password2: values.password,
-  };
-
-  handleSubmit(employee);
-
-  /* const item = {
-    title: values.title,
-    description: values.description,
-    active: values.active,
-    individual_result: values.individual_result,
-    course_duration: values.course_duration,
-    video: values.video,
-    manager_id: props.manager_id,
-  };
-
-  handleSubmit(props, item);*/
-};
-
-export default reduxForm({
-  form: "signup",
-  validate: validateForm,
-  onSubmit1,
-})(EmployeeAdd);

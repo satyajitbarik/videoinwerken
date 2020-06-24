@@ -16,10 +16,10 @@ export function ListItemLink(props) {
 }
 
 export function MyTextField(props) {
-  const { label, name, onChange } = props;
+  const { label, name, onChange, autoFocus } = props;
   return (
     <TextField
-      autoFocus
+      autoFocus={autoFocus}
       name={name}
       label={label}
       onChange={onChange}
