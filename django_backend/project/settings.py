@@ -56,7 +56,8 @@ INSTALLED_APPS = (
 
     'user_profile',
     'videoinwerken_admin',
-    'videoinwerken_manager'
+    'videoinwerken_manager',
+    'users'
 )
 
 MIDDLEWARE = (
@@ -131,7 +132,11 @@ SITE_ID = 1
 
 ## User Authentication Settings
 
-ACCOUNT_ADAPTER = 'user_profile.adapter.MyAccountAdapter'
+ACCOUNT_ADAPTER = 'users.adapter.CustomAccountAdapter'
+#ACCOUNT_ADAPTER = 'user_profile.adapter.MyAccountAdapter'
+
+
+
 # Following is added to enable registration with email instead of username
 AUTHENTICATION_BACKENDS = (
  # Needed to login by username in Django admin, regardless of `allauth`
@@ -185,3 +190,8 @@ CORS_ORIGIN_REGEX_WHITELIST = (
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/emails'
 DEFAULT_FROM_EMAIL = 'admin@admin.com'
+
+AUTH_USER_MODEL = 'users.CustomUser'
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
+}

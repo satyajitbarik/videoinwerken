@@ -13,6 +13,10 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserSerializer
+
 # display all your employees (as manager)
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
