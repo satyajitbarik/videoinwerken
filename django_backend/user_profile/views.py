@@ -14,7 +14,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 # display all your employees (as manager)
-class UserViewSet1(viewsets.ModelViewSet):
+class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -24,6 +24,7 @@ class UserViewSet1(viewsets.ModelViewSet):
         if (request.user.pk):
             current_user_id = request.user.pk
         queryset = self.queryset.filter(id__in=User.objects.get(pk=current_user_id).employees.all())
+        #queryset = queryset.filter(is_employee=True);
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)
 

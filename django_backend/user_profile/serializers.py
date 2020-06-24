@@ -25,7 +25,7 @@ class UserSerializer(UserDetailsSerializer):
         fields = UserDetailsSerializer.Meta.fields + ('is_admin', 'is_employee', 'is_manager', 'license_expiration_date', 'business_name', 'billing_address', 'iban', 'employees')
 
     #def get_employees(self, obj):
-       # return obj.employees.all()
+        #return obj.employees.all()
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('userprofile', {})

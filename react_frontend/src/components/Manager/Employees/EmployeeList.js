@@ -25,8 +25,9 @@ function EmployeeList() {
     refreshList();
   });
 
+  // get list of employees of current user (the manager)
   const refreshList = () => {
-    apiGetEmp("http://localhost:8000/api/manager/employees/", handleResponse);
+    apiGet("http://localhost:8000/api/manager/employees/", handleResponse);
   };
 
   const handleResponse = (response) => {
@@ -43,8 +44,6 @@ function EmployeeList() {
             <TableRow key={emp.pk} style={{ cursor: "pointer" }}>
               <TableCell style={{ width: 50 }}>{emp.pk}</TableCell>
               <TableCell style={{ width: 50 }}>{emp.email}</TableCell>
-              <TableCell style={{ width: 50 }}>{emp.business_name}</TableCell>
-              <TableCell style={{ width: 50 }}>{emp.employees}</TableCell>
             </TableRow>
           ))}
         </TableBody>
