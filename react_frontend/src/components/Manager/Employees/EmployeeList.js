@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AuthUrls } from "../../../constants/urls";
 import { getUserToken } from "../../../utils/authUtils";
+import EmployeeAdd from "./EmployeeAdd";
 
 import {
   Table,
@@ -16,6 +17,7 @@ import { apiGet, apiGetEmp } from "../../../utils/utils";
 
 function EmployeeList() {
   const [employeeList, setEmployeeList] = React.useState(null);
+  const [openEmployeeAdd, setOpenEmployeeAdd] = React.useState(false);
 
   // Runs on initial render
   useEffect(() => {
@@ -51,10 +53,29 @@ function EmployeeList() {
     );
   };
 
+  const handleOpenAdd = () => {
+    setOpenEmployeeAdd(true);
+  };
+
+  const handleCloseAdd = () => {
+    setOpenEmployeeAdd(false);
+  };
+
   return (
     <div>
       <h3>Employees</h3>
       {employeeList && renderEmployees()}
+
+      <Button
+        onClick={handleOpenAdd}
+        variant="contained"
+        color="primary"
+        style={{ marginTop: 20 }}
+      >
+        Add employee
+      </Button>
+
+      <EmployeeAdd open={openEmployeeAdd} onClose={handleCloseAdd} />
     </div>
   );
 }

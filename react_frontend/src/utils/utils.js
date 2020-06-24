@@ -2,13 +2,33 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from "react";
-import ListItem from "@material-ui/core/ListItem";
-import { FormControlLabel, Checkbox } from "@material-ui/core";
+import {
+  TextField,
+  ListItem,
+  FormControlLabel,
+  Checkbox,
+} from "@material-ui/core";
 import axios from "axios";
 import { getUserToken } from "./authUtils";
 
 export function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
+}
+
+export function MyTextField(props) {
+  const { label, name, handleChange, defaultValue } = props;
+  return (
+    <TextField
+      autoFocus
+      name={name}
+      label={label}
+      onChange={handleChange}
+      defaultValue={defaultValue}
+      variant="outlined"
+      margin="normal"
+      fullWidth
+    />
+  );
 }
 
 // Checkbox with newline and proper margin
@@ -49,6 +69,25 @@ export function apiGet(url, handleResponse) {
   }
   axios
     .get(url, {
+      headers: {
+        authorization: "Token " + token,
+      },
+    })
+    .then((response) => {
+      handleResponse(response);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+}
+
+export function apiPost(url, handleResponse, object) {
+  const token = getUserToken();
+  if (!token) {
+    return;
+  }
+  axios
+    .post(url, object, {
       headers: {
         authorization: "Token " + token,
       },
