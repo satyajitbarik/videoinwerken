@@ -39,11 +39,14 @@ export default function EmployeeAdd(props) {
     is_employee: true,
     iban: "555",
   });
+  const [test, setTest] = React.useState("ha");
 
   const handleClose = () => {
     onClose();
     setEmailError("");
     setPasswordError("");
+    console.log("testtt");
+    setTest("yo");
   };
 
   const handleChange = (e) => {
@@ -78,6 +81,7 @@ export default function EmployeeAdd(props) {
 
     console.log("patch");
     console.log(employee);
+    /*
     axios
       .patch("http://localhost:8000/rest-auth/user/", employee, {
         headers: {
@@ -90,6 +94,7 @@ export default function EmployeeAdd(props) {
       .catch((error) => {
         console.log(error);
       });
+      */
   };
 
   const handleResponse = (response) => {

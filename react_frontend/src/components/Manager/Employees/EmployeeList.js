@@ -60,6 +60,7 @@ function EmployeeList() {
 
   const handleCloseAdd = () => {
     setOpenEmployeeAdd(false);
+    refreshList();
   };
 
   return (
