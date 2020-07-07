@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 import React from "react";
 import Button from "@material-ui/core/Button";
@@ -9,36 +10,39 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
-import { MyEditCheckBox } from "../../../utils/utils";
 import axios from "axios";
 import { getUserToken } from "../../../utils/authUtils";
 
-export default function CourseEdit(props) {
-  let { item } = props;
+export default function EmployeeEdit(props) {
+  let { employee } = props;
   const { onClose, handleDelete, open } = props;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    item = { ...item, [name]: value };
+    employee = { ...employee, [name]: value };
   };
 
   const handleCheckBox = (e, value) => {
     const name = e.target.name;
-    item = { ...item, [name]: value };
+    employee = { ...employee, [name]: value };
   };
 
   const handleClose = () => {
     onClose();
   };
 
-  const handleSubmit = (item) => {
-    if (item.id) {
+  const handleSubmit = (employee) => {
+    if (employee.id) {
       axios
-        .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
-          headers: {
-            authorization: "Token " + getUserToken(),
-          },
-        })
+        .put(
+          `http://localhost:8000/api/manager/courses/${employee.id}/`,
+          employee,
+          {
+            headers: {
+              authorization: "Token " + getUserToken(),
+            },
+          }
+        )
         .then((response) => {
           handleClose();
         })
@@ -68,7 +72,7 @@ export default function CourseEdit(props) {
             label="Title"
             variant="outlined"
             onChange={handleChange}
-            defaultValue={item.title}
+            defaultValue={employee.email}
             margin="normal"
             fullWidth
           />
@@ -77,47 +81,13 @@ export default function CourseEdit(props) {
             label="Description"
             variant="outlined"
             onChange={handleChange}
-            defaultValue={item.description}
-            margin="normal"
-            fullWidth
-          />
-
-          <MyEditCheckBox
-            name="active"
-            label="Active"
-            defaultChecked={item.active}
-            onChange={handleCheckBox}
-          />
-
-          <MyEditCheckBox
-            name="individual_result"
-            label="Allow to see individual result per question"
-            defaultChecked={item.individual_result}
-            onChange={handleCheckBox}
-          />
-
-          <TextField
-            name="course_duration"
-            label="Course duration"
-            variant="outlined"
-            onChange={handleChange}
-            defaultValue={item.course_duration}
-            margin="normal"
-            fullWidth
-          />
-
-          <TextField
-            name="video"
-            label="Video"
-            variant="outlined"
-            onChange={handleChange}
-            defaultValue={item.video}
+            defaultValue={employee.iban}
             margin="normal"
             fullWidth
           />
 
           <Button
-            onClick={() => handleDelete(item)}
+            onClick={() => handleDelete(employee)}
             variant="contained"
             color="secondary"
             style={{ marginTop: 10 }}
@@ -131,7 +101,7 @@ export default function CourseEdit(props) {
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={() => handleSubmit(item)} color="primary">
+        <Button onClick={() => handleSubmit(employee)} color="primary">
           Confirm
         </Button>
       </DialogActions>

@@ -5,6 +5,7 @@ import axios from "axios";
 import { AuthUrls } from "../../../constants/urls";
 import { getUserToken } from "../../../utils/authUtils";
 import EmployeeAdd from "./EmployeeAdd";
+import EmployeeEdit from "./EmployeeEdit";
 
 import {
   Table,
@@ -18,6 +19,7 @@ import { apiGet, apiGetEmp } from "../../../utils/utils";
 function EmployeeList() {
   const [employeeList, setEmployeeList] = React.useState(null);
   const [openEmployeeAdd, setOpenEmployeeAdd] = React.useState(false);
+  const [openEmployeeEdit, setOpenEmployeeEdit] = React.useState(false);
 
   // Runs on initial render
   useEffect(() => {
@@ -44,7 +46,13 @@ function EmployeeList() {
       <Table>
         <TableBody>
           {employeeList.map((emp) => (
-            <TableRow key={emp.id} style={{ cursor: "pointer" }}>
+            <TableRow
+              key={emp.id}
+              onClick={() => {
+                handleOpenEdit(emp);
+              }}
+              style={{ cursor: "pointer" }}
+            >
               <TableCell style={{ width: 50 }}>{emp.id}</TableCell>
               <TableCell style={{ width: 50 }}>{emp.email}</TableCell>
             </TableRow>
@@ -63,6 +71,15 @@ function EmployeeList() {
     refreshList();
   };
 
+  const handleOpenEdit = () => {
+    setOpenEmployeeAdd(true);
+  };
+
+  const handleCloseEdit = () => {
+    setOpenEmployeeEdit(false);
+    refreshList();
+  };
+
   return (
     <div>
       <h3>Employees</h3>
@@ -78,6 +95,8 @@ function EmployeeList() {
       </Button>
 
       <EmployeeAdd open={openEmployeeAdd} onClose={handleCloseAdd} />
+
+      <EmployeeEdit open={openEmployeeEdit} onClose={handleCloseEdit} />
     </div>
   );
 }
