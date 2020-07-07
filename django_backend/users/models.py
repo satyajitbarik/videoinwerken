@@ -3,8 +3,7 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    #iban = models.CharField(max_length=2, blank=True, null=True)
-    iban = models.CharField(max_length=255, blank=True, null=True)
+
 
     is_admin = models.BooleanField('is_admin', default=False) # Luke
     is_employee = models.BooleanField('is_employee', default=False)
