@@ -29,7 +29,8 @@ function EmployeeList() {
 
   // get list of employees of current user (the manager)
   const refreshList = () => {
-    apiGet("http://localhost:8000/api/manager/employees/", handleResponse);
+    //apiGet("http://localhost:8000/api/manager/employees/", handleResponse);
+    apiGet("http://localhost:8000/api/customusers/", handleResponse);
   };
 
   const handleResponse = (response) => {
@@ -43,8 +44,8 @@ function EmployeeList() {
       <Table>
         <TableBody>
           {employeeList.map((emp) => (
-            <TableRow key={emp.pk} style={{ cursor: "pointer" }}>
-              <TableCell style={{ width: 50 }}>{emp.pk}</TableCell>
+            <TableRow key={emp.id} style={{ cursor: "pointer" }}>
+              <TableCell style={{ width: 50 }}>{emp.id}</TableCell>
               <TableCell style={{ width: 50 }}>{emp.email}</TableCell>
             </TableRow>
           ))}

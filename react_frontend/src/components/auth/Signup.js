@@ -61,6 +61,10 @@ function Signup(props) {
           />
         </fieldset>
 
+        <fieldset className="form-group">
+          <Field name="iban" label="iban" component={renderField} type="text" />
+        </fieldset>
+
         {renderError(error)}
 
         <fieldset className="form-group">

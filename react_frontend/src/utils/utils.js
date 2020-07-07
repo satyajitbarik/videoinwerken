@@ -77,7 +77,7 @@ export function apiGet(url, handleResponse) {
       handleResponse(response);
     })
     .catch((error) => {
-      console.log(error.response);
+      console.log(error);
     });
 }
 
