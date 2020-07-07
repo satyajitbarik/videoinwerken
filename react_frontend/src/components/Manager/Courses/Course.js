@@ -13,7 +13,6 @@ import CourseEdit from "./CourseEdit";
 function Course() {
   const [detailItem, setDetailItem] = useState(null);
   const [coursesList, setCoursesList] = useState(null);
-  const [activeItemAdd, setActiveItemAdd] = useState(null);
   const [current_user, setCurrent_user] = useState(null);
 
   const [openCourseAdd, setOpenCourseAdd] = useState(false);

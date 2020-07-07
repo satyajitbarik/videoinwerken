@@ -59,11 +59,13 @@ export default function EmployeeEdit(props) {
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">Edit course</DialogTitle>
+      <DialogTitle id="form-dialog-title">Edit employee</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Please fill in the details of the course.
         </DialogContentText>
+
+        {console.log(employee)}
 
         <form>
           <TextField

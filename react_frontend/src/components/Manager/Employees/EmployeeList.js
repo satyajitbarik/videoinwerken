@@ -20,6 +20,7 @@ function EmployeeList() {
   const [employeeList, setEmployeeList] = React.useState(null);
   const [openEmployeeAdd, setOpenEmployeeAdd] = React.useState(false);
   const [openEmployeeEdit, setOpenEmployeeEdit] = React.useState(false);
+  const [employeeDetail, setEmployeeDetail] = React.useState(null);
 
   // Runs on initial render
   useEffect(() => {
@@ -71,13 +72,32 @@ function EmployeeList() {
     refreshList();
   };
 
-  const handleOpenEdit = () => {
-    setOpenEmployeeAdd(true);
+  const handleOpenEdit = (employee) => {
+    setEmployeeDetail(employee);
+    setOpenEmployeeEdit(true);
   };
 
   const handleCloseEdit = () => {
     setOpenEmployeeEdit(false);
     refreshList();
+  };
+
+  const handleDelete = (employee) => {
+    if (employee.id) {
+      axios
+        .delete(
+          `http://localhost:8000/api/manager/employees/${employee.id}/`,
+          employee,
+          {
+            headers: {
+              authorization: "Token " + getUserToken(),
+            },
+          }
+        )
+        .then((response) => refreshList());
+      handleCloseEdit();
+      return;
+    }
   };
 
   return (
@@ -96,7 +116,14 @@ function EmployeeList() {
 
       <EmployeeAdd open={openEmployeeAdd} onClose={handleCloseAdd} />
 
-      <EmployeeEdit open={openEmployeeEdit} onClose={handleCloseEdit} />
+      {employeeDetail ? (
+        <EmployeeEdit
+          open={openEmployeeEdit}
+          employee={employeeDetail}
+          onClose={handleCloseEdit}
+          handleDelete={handleDelete}
+        />
+      ) : null}
     </div>
   );
 }
