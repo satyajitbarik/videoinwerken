@@ -5,6 +5,9 @@ from allauth.account.utils import setup_user_email
 
 from rest_auth.registration.serializers import RegisterSerializer
 
+# custom serializer for registering
+from users.models import CustomUser
+
 
 class CustomRegisterSerializer(RegisterSerializer):
        # iban = serializers.CharField(max_length=255, required=False)
@@ -30,3 +33,9 @@ class CustomRegisterSerializer(RegisterSerializer):
             data_dict['iban'] = self.validated_data.get('iban', '')
 
             return data_dict
+
+# serializer for viewset
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('is_admin', 'is_employee', 'is_manager', 'license_expiration_date', 'business_name', 'billing_address', 'iban')

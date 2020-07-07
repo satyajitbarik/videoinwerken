@@ -29,8 +29,8 @@ function EmployeeList() {
 
   // get list of employees of current user (the manager)
   const refreshList = () => {
-    //apiGet("http://localhost:8000/api/manager/employees/", handleResponse);
-    apiGet("http://localhost:8000/api/customusers/", handleResponse);
+    apiGet("http://localhost:8000/api/manager/employees/", handleResponse);
+    //apiGet("http://localhost:8000/api/customusers/", handleResponse);
   };
 
   const handleResponse = (response) => {

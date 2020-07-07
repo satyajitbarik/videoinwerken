@@ -2,13 +2,13 @@ from django.urls import include, path
 from django.contrib import admin
 from rest_framework import routers
 
-from user_profile.views import UserViewSet, EmployeeViewSet, UserProfileViewSet
-from users.views import CustomUserViewSet
+#from user_profile.views import UserViewSet, EmployeeViewSet, UserProfileViewSet
+from users.views import CustomUserViewSet, EmployeeViewSet
 from videoinwerken_manager.views import CourseView, CourseViewAll
 
 router = routers.DefaultRouter()
-router.register('accounts', UserViewSet)
-router.register('accountsprofile', UserProfileViewSet)
+#router.register('accounts', UserViewSet)
+#router.register('accountsprofile', UserProfileViewSet)
 router.register('customusers', CustomUserViewSet)
 router.register('manager/employees', EmployeeViewSet)
 router.register('manager/courses', CourseView, base_name="CourseView")
