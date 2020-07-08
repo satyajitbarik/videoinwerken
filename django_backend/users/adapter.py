@@ -13,6 +13,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         user.business_name = data.get('business_name')
         user.billing_address = data.get('billing_address')
         user.iban = data.get('iban')
+        user.employees = data.get('employees')
 
         user.save()
         return user

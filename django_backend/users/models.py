@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
     billing_address = models.CharField(max_length=255, blank=True, null=True)
     iban = models.CharField(max_length=255, blank=True, null=True)
 
-    #employees = models.ManyToManyField("self", related_name='employees1')
+    employees = models.ManyToManyField("self", related_name='employees')
 
     def __str__(self):
         return '{} - {}'.format(self.user.pk, self.user.email)

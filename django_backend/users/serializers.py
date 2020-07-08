@@ -10,8 +10,6 @@ from users.models import CustomUser
 
 
 class CustomRegisterSerializer(RegisterSerializer):
-       # iban = serializers.CharField(max_length=255, required=False)
-       # id = serializers.UUIDField()
         is_admin = serializers.BooleanField(default=False)
         is_employee = serializers.BooleanField(default=False)
         is_manager = serializers.BooleanField(default=False)
@@ -19,7 +17,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         business_name = serializers.CharField(max_length=255, allow_blank=True, required=False)
         billing_address = serializers.CharField(max_length=255, allow_blank=True, required=False)
         iban = serializers.CharField(max_length=255, allow_blank=True, required=False)
-
+        employees = serializers.RelatedField(read_only=True, many=True, required=False)
 
         def get_cleaned_data(self):
             data_dict = super().get_cleaned_data()
@@ -31,6 +29,7 @@ class CustomRegisterSerializer(RegisterSerializer):
             data_dict['business_name'] = self.validated_data.get('business_name', '')
             data_dict['billing_address'] = self.validated_data.get('billing_address', '')
             data_dict['iban'] = self.validated_data.get('iban', '')
+            data_dict['employees'] = self.validated_data.get('employees', '')
 
             return data_dict
 
@@ -38,4 +37,4 @@ class CustomRegisterSerializer(RegisterSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'is_admin', 'is_employee', 'is_manager', 'license_expiration_date', 'business_name', 'billing_address', 'iban')
+        fields = ('id', 'email', 'is_admin', 'is_employee', 'is_manager', 'license_expiration_date', 'business_name', 'billing_address', 'iban', 'employees')

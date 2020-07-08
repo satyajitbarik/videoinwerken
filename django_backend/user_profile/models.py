@@ -16,7 +16,7 @@ class UserProfile(models.Model):
     billing_address = models.CharField(max_length=255, blank=True, null=True)
     iban = models.CharField(max_length=255, blank=True, null=True)
 
-    employees = models.ManyToManyField(User, related_name='employees')
+    employees = models.ManyToManyField(User, related_name='employees10')
 
     def __str__(self):
         return '{} - {}'.format(self.user.pk, self.user.email)
