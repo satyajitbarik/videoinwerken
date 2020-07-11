@@ -17,14 +17,16 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        #fields = ('id', 'email', 'is_employee', 'employees')
-        fields = ('id', 'email', 'password')
+        fields = ('id', 'email', 'password', 'is_employee', 'employees')
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data.get('password'))
         return super(CustomUserSerializer, self).create(validated_data)
 
     def update(self, instance, validated_data):
+        instance.email = validated_data.get('email')
         instance.set_password(validated_data.get('password', instance.password))
+        instance.is_employee = validated_data.get('is_employee')
+        instance.employees.set(validated_data.get('employees'))
         instance.save()
         return instance

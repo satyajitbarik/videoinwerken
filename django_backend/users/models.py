@@ -30,7 +30,6 @@ class MyUserManager(BaseUserManager):
 class CustomUser(AbstractBaseUser):
     username = None
     email = models.EmailField(verbose_name='email address', max_length=255, unique=True)
-    #username = models.CharField(max_length=30, unique=True)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin = models.BooleanField(default=False)
@@ -38,8 +37,8 @@ class CustomUser(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
-    #is_employee = models.BooleanField('is_employee', default=False)
-    #employees = models.ManyToManyField("self", related_name='employees', blank=True)
+    is_employee = models.BooleanField('is_employee', default=False)
+    employees = models.ForeignKey("self", related_name='employees1', blank=True, on_delete=models.DO_NOTHING)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
