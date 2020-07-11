@@ -54,7 +54,7 @@ INSTALLED_APPS = (
     # rest cors support
     'corsheaders',
 
-    'user_profile',
+    #'user_profile',
     'videoinwerken_admin',
     'videoinwerken_manager',
     'users'
@@ -146,17 +146,21 @@ AUTHENTICATION_BACKENDS = (
  "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'user_profile.serializers.UserSerializer'
-}
 
 REST_SESSION_LOGIN = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none' #mandatory if enabled
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+
 ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
 LOGOUT_ON_PASSWORD_CHANGE = False
+
+
+#ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 
 
 

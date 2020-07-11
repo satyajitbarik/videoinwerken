@@ -62,6 +62,7 @@ export function signupUser(formValues, dispatch, props) {
       history.push("/signup_done");
     })
     .catch((error) => {
+      console.log(error.response.data);
       // If request is bad...
       // Show an error to the user
       const processedError = processServerError(error.response.data);

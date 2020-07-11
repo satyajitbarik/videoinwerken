@@ -29,17 +29,6 @@ function Signup(props) {
             type="text"
           />
         </fieldset>
-        {/*
-        <fieldset className="form-group">
-          <Field
-            name="username"
-            label="Username"
-            component={renderField}
-            type="text"
-            //validate={[required({ message: "This field is required." })]}
-          />
-        </fieldset>
-*/}
 
         <fieldset className="form-group">
           <Field
@@ -61,9 +50,9 @@ function Signup(props) {
           />
         </fieldset>
 
-        <fieldset className="form-group">
+        {/*} <fieldset className="form-group">
           <Field name="iban" label="iban" component={renderField} type="text" />
-        </fieldset>
+  </fieldset>*/}
 
         {renderError(error)}
 
