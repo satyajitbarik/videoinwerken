@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
 from users.models import CustomUser
@@ -13,7 +14,17 @@ class CustomRegisterSerializer(RegisterSerializer):
             return data_dict
 
 class CustomUserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = CustomUser
         #fields = ('id', 'email', 'is_employee', 'employees')
-        fields = ('id', 'email', 'username',)
+        fields = ('id', 'email', 'password')
+
+    def create(self, validated_data):
+        validated_data['password'] = make_password(validated_data.get('password'))
+        return super(CustomUserSerializer, self).create(validated_data)
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data.get('password', instance.password))
+        instance.save()
+        return instance
