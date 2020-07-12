@@ -37,8 +37,8 @@ class CustomUser(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
-    is_employee = models.BooleanField('is_employee', default=False)
-    employees = models.ManyToManyField("self", related_name='employees', blank=True)
+    employer = models.ForeignKey("self", blank=True, null=True, on_delete=models.DO_NOTHING)
+    #employees = models.ManyToManyField("self", related_name='employees', blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
