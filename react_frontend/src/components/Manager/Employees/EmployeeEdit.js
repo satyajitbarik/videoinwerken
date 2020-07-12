@@ -35,7 +35,7 @@ export default function EmployeeEdit(props) {
     if (employee.id) {
       axios
         .put(
-          `http://localhost:8000/api/manager/courses/${employee.id}/`,
+          `http://localhost:8000/api/manager/employees/${employee.id}/`,
           employee,
           {
             headers: {
@@ -62,7 +62,7 @@ export default function EmployeeEdit(props) {
       <DialogTitle id="form-dialog-title">Edit employee</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Please fill in the details of the course.
+          Please fill in the details of the employee.
         </DialogContentText>
 
         {console.log(employee)}
@@ -70,20 +70,21 @@ export default function EmployeeEdit(props) {
         <form>
           <TextField
             autoFocus
-            name="title"
-            label="Title"
+            name="email"
+            label="Email"
             variant="outlined"
             onChange={handleChange}
             defaultValue={employee.email}
             margin="normal"
+            disabled
             fullWidth
           />
           <TextField
-            name="description"
-            label="Description"
+            name="employer"
+            label="Employer"
             variant="outlined"
             onChange={handleChange}
-            defaultValue={employee.iban}
+            defaultValue={employee.employer}
             margin="normal"
             fullWidth
           />
@@ -94,7 +95,7 @@ export default function EmployeeEdit(props) {
             color="secondary"
             style={{ marginTop: 10 }}
           >
-            Delete Course
+            Delete Employee
           </Button>
         </form>
       </DialogContent>

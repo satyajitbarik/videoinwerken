@@ -34,10 +34,11 @@ export default function EmployeeAdd(props) {
   const [passwordError, setPasswordError] = React.useState("");
   const [employee, setEmployee] = React.useState({
     email: "",
-    password1: "",
-    password2: "",
-    is_employee: true,
-    iban: "555",
+    //password1: "",
+    //password2: "",
+    password: "",
+    //is_employee: true,
+    //iban: "555",
   });
   const [test, setTest] = React.useState("ha");
 
@@ -54,11 +55,11 @@ export default function EmployeeAdd(props) {
     const { name, value } = e.target;
     console.log(name);
     console.log(value);
-    if (name == "password") {
-      setEmployee({ ...employee, ["password1"]: value, ["password2"]: value });
-    } else {
-      setEmployee({ ...employee, [name]: value });
-    }
+    //if (name == "password") {
+    //  setEmployee({ ...employee, ["password1"]: value, ["password2"]: value });
+    //} else {
+    setEmployee({ ...employee, [name]: value });
+    //}
     console.log(employee);
   };
 
@@ -73,7 +74,8 @@ export default function EmployeeAdd(props) {
     const token = getUserToken(store.getState());
 
     apiPost(
-      "http://localhost:8000/rest-auth/registration/",
+      //"http://localhost:8000/rest-auth/registration/",
+      "http://localhost:8000/api/manager/employees/",
       handleResponse,
       handleFail,
       employee
