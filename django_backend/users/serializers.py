@@ -28,5 +28,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         instance.set_password(validated_data.get('password', instance.password))
         #instance.is_employee = validated_data.get('is_employee')
         #instance.employees.set(validated_data.get('employees'))
+        instance.employer = validated_data.get('employer')
         instance.save()
         return instance
