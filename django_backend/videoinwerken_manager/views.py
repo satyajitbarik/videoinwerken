@@ -11,26 +11,16 @@ from .models import Course
 # Create your views here.
 from .serializers import CourseSerializer
 
-class DetailCourse(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
-
-# View all courses of manager_id, and create courses using this
+# display all your courses (as manager)
 class CourseView(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
-    def list(self, request):
-        #print("manager_id="+request.query_params['manager_id'])   #query_params if GET, data if POST!
-        queryset = Course.objects.all()
-        if request.query_params:
-            manager_id = request.query_params['user_id']
-            queryset = Course.objects.filter(manager_id=manager_id)
-        serializer = CourseSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def get_queryset(self):
+        return Course.objects.filter(manager_id=self.request.user.pk)
 
-# this is used to access the api in browser
-# NOT NEEDED ANYMORE SINCE THE ABOVE DOES BOTH
-class CourseViewAll(viewsets.ModelViewSet):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+    def perform_create(self, serializer):
+        if (self.request.user.pk):
+            serializer.save(manager_id = self.request.user.pk)
+        else:
+            serializer.save()
