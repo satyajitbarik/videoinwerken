@@ -9,22 +9,16 @@ import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 import CourseAdd from "./CourseAdd";
 import CourseEdit from "./CourseEdit";
+import { apiGet, apiDelete, apiGetEmp } from "../../../utils/utils";
 
 function Course() {
-  const [detailItem, setDetailItem] = useState(null);
   const [coursesList, setCoursesList] = useState(null);
-  const [current_user, setCurrent_user] = useState(null);
-
   const [openCourseAdd, setOpenCourseAdd] = useState(false);
   const [openCourseEdit, setOpenCourseEdit] = useState(false);
+  const [courseDetail, setCourseDetail] = useState(null);
 
   // Runs on initial render
   useEffect(() => {
-    if (current_user == null) {
-      getCurrentUser();
-      return;
-    }
-
     if (coursesList != null) {
       return;
     }
@@ -32,34 +26,16 @@ function Course() {
     refreshList();
   });
 
-  const getCurrentUser = () => {
-    axios
-      .get(AuthUrls.USER_PROFILE, {
-        headers: {
-          authorization: "Token " + getUserToken(),
-        },
-      })
-      .then((response) => {
-        setCurrent_user(response.data);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
+  const refreshList = () => {
+    apiGet("http://localhost:8000/api/manager/courses/", handleResponse);
   };
 
   const handleResponse = (response) => {
+    console.log(response);
     setCoursesList(response.data);
   };
 
-  const refreshList = () => {
-    apiGetByUserId(AuthUrls.COURSES, handleResponse, current_user.pk);
-  };
-
   const renderCourses = () => {
-    if (coursesList == null) {
-      return;
-    }
-
     if (coursesList.length == 0) {
       return <div>You have no courses!</div>;
     }
@@ -93,8 +69,8 @@ function Course() {
     refreshList();
   };
 
-  const handleOpenEdit = (item) => {
-    setDetailItem(item);
+  const handleOpenEdit = (course) => {
+    setCourseDetail(course);
     setOpenCourseEdit(true);
   };
 
@@ -103,31 +79,34 @@ function Course() {
     refreshList();
   };
 
-  const handleDelete = (item) => {
-    if (item.id) {
-      axios
-        .delete(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
-          headers: {
-            authorization: "Token " + getUserToken(),
-          },
-        })
-        .then((response) => refreshList());
+  const deleteCourse = (course) => {
+    if (course.id) {
+      apiDelete(
+        "http://localhost:8000/api/manager/courses/",
+        course,
+        handleResponseDelete
+      );
+      // `http://localhost:8000/api/manager/courses/${course.id}/`,
       handleCloseEdit();
       return;
     }
   };
 
+  const handleResponseDelete = () => {
+    refreshList();
+  };
+
   const deleteAllCourses = () => {
     let i = 0;
     for (i = 0; i < coursesList.length; i++) {
-      handleDelete(coursesList[i]);
+      deleteCourse(coursesList[i]);
     }
   };
 
   return (
     <div>
       <h3>Courses</h3>
-      {renderCourses()}
+      {coursesList && renderCourses()}
 
       <Button
         onClick={handleOpenAdd}
@@ -147,19 +126,13 @@ function Course() {
         Delete all courses
       </Button>
 
-      {current_user && (
-        <CourseAdd
-          onClose={handleCloseAdd}
-          open={openCourseAdd}
-          manager_id={current_user.pk}
-        />
-      )}
+      <CourseAdd onClose={handleCloseAdd} open={openCourseAdd} />
 
-      {detailItem ? (
+      {courseDetail ? (
         <CourseEdit
-          item={detailItem}
+          item={courseDetail}
           onClose={handleCloseEdit} //not needed possibly
-          handleDelete={handleDelete}
+          handleDelete={deleteCourse}
           open={openCourseEdit}
         />
       ) : null}

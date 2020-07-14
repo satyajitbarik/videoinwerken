@@ -21,6 +21,6 @@ class CourseView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         if (self.request.user.pk):
-            serializer.save(manager_id = self.request.user.pk)
+            serializer.save(manager_id = self.request.user)
         else:
             serializer.save()

@@ -2,11 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React from "react";
-import axios from "axios";
-
-import { reduxForm, Field, propTypes } from "redux-form";
-import { required } from "redux-form-validators";
-import { connect } from "react-redux";
+import { MyTextField, apiPost } from "../../../utils/utils";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -20,15 +16,63 @@ import {
   myRenderCheckBoxField,
 } from "../../../utils/renderUtils";
 import { AuthUrls } from "../../../constants/urls";
+import { renderError } from "../../../utils/renderUtils";
 
-function CourseAdd(props) {
-  const { manager_id, open, onClose, handleSubmit /*redux*/, error } = props;
+export default function CourseAdd(props) {
+  const { open, onClose } = props;
 
-  const test = 1;
+  const [course, setCourse] = React.useState({
+    title: "",
+  });
+
+  const [titleError, setTitleError] = React.useState("");
 
   const handleClose = () => {
     onClose();
-    props.reset();
+    // reset errors
+  };
+
+  const handleChange = (e) => {
+    console.log("handlechange");
+    const { name, value } = e.target;
+    console.log(name);
+    console.log(value);
+    setCourse({ ...course, [name]: value });
+    console.log(course);
+  };
+
+  const handleCheckBox = (e, value) => {
+    const name = e.target.name;
+    setCourse({ ...course, [name]: value });
+  };
+
+  const handleSubmit = (course) => {
+    const token = getUserToken();
+
+    apiPost(
+      "http://localhost:8000/api/manager/courses/",
+      handleResponse,
+      handleFail,
+      course
+    );
+    console.log(course);
+  };
+
+  const handleResponse = (response) => {
+    console.log("handle response");
+    console.log(response.data);
+    handleClose();
+  };
+
+  const handleFail = (response) => {
+    console.log("handle fail");
+    console.log(response.data);
+
+    if (response.data.title) {
+      setTitleError(response.data.title);
+    } else {
+      setTitleError(null);
+    }
   };
 
   return (
@@ -39,46 +83,47 @@ function CourseAdd(props) {
           Please fill in the details of the course.
         </DialogContentText>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Field
+        <form>
+          <MyTextField
             name="title"
             label="Title"
-            component={myRenderField}
-            // validate={[required({ message: "This field is required." })]}
-            autoFocus={true}
+            onChange={handleChange}
+            autoFocus
           />
 
-          <Field
+          {renderError(titleError)}
+
+          <MyTextField
             name="description"
             label="Description"
-            component={myRenderField}
+            onChange={handleChange}
           />
 
-          <Field
+          <MyTextField
             label="Active result"
             name="active"
-            component={myRenderCheckBoxField}
+            onChange={handleChange}
           />
 
-          <Field
+          <MyTextField
             label="Individual result"
             name="individual_result"
-            component={myRenderCheckBoxField}
+            onChange={handleChange}
           />
 
-          <Field
+          <MyTextField
             name="course_duration"
             label="Course duration"
-            component={myRenderField}
+            onChange={handleChange}
           />
 
-          <Field name="video" label="Video" component={myRenderField} />
+          <MyTextField name="video" label="Video" onChange={handleChange} />
 
           <DialogActions>
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button type="submit" color="primary">
+            <Button onClick={() => handleSubmit(course)} color="primary">
               Add
             </Button>
           </DialogActions>
@@ -88,27 +133,7 @@ function CourseAdd(props) {
   );
 }
 
-const handleSubmit = (props, item) => {
-  const { onClose } = props;
-
-  axios
-    .post(AuthUrls.COURSES, item, {
-      headers: {
-        authorization: "Token " + getUserToken(),
-      },
-    })
-    .then((response) => {
-      onClose();
-      props.reset();
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-};
-
 const onSubmit = (values, dispatch, props) => {
-  //const { manager_id, handleClose } = props;
-
   const item = {
     title: values.title,
     description: values.description,
@@ -116,18 +141,5 @@ const onSubmit = (values, dispatch, props) => {
     individual_result: values.individual_result,
     course_duration: values.course_duration,
     video: values.video,
-    manager_id: props.manager_id,
   };
-
-  handleSubmit(props, item);
 };
-
-// state
-const mapStateToProps = (state) => {
-  return { manager_id: state.manager_id };
-};
-
-export default reduxForm({
-  form: "course-create-form",
-  onSubmit,
-})(connect(mapStateToProps)(CourseAdd));

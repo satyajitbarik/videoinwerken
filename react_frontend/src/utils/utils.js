@@ -81,6 +81,20 @@ export function apiGet(url, handleResponse) {
     });
 }
 
+export function apiDelete(url, item, handleResponse) {
+  const token = getUserToken();
+  if (!token) {
+    return;
+  }
+  axios
+    .delete(url + item.id, item, {
+      headers: {
+        authorization: "Token " + getUserToken(),
+      },
+    })
+    .then((response) => handleResponse());
+}
+
 export function apiPost(url, handleResponse, handleFail, object) {
   const token = getUserToken();
   if (!token) {

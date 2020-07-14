@@ -2,22 +2,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React from "react";
-import axios from "axios";
-
-import { reduxForm, Field, propTypes } from "redux-form";
-import { required } from "redux-form-validators";
-import { connect } from "react-redux";
 
 import { MyTextField, apiPost } from "../../../utils/utils";
-import {
-  renderError,
-  myRenderField,
-  myRenderCheckBoxField,
-} from "../../../utils/renderUtils";
-import { SubmissionError } from "redux-form";
-import authActions from "../../../actions/authActions";
-import { getUserToken } from "../../../utils/authUtils";
-import store from "../../../store";
+import { renderError } from "../../../utils/renderUtils";
 
 import {
   Dialog,
@@ -34,20 +21,13 @@ export default function EmployeeAdd(props) {
   const [passwordError, setPasswordError] = React.useState("");
   const [employee, setEmployee] = React.useState({
     email: "",
-    //password1: "",
-    //password2: "",
     password: "",
-    //is_employee: true,
-    //iban: "555",
   });
-  const [test, setTest] = React.useState("ha");
 
   const handleClose = () => {
     onClose();
     setEmailError("");
     setPasswordError("");
-    console.log("testtt");
-    setTest("yo");
   };
 
   const handleChange = (e) => {
@@ -55,11 +35,7 @@ export default function EmployeeAdd(props) {
     const { name, value } = e.target;
     console.log(name);
     console.log(value);
-    //if (name == "password") {
-    //  setEmployee({ ...employee, ["password1"]: value, ["password2"]: value });
-    //} else {
     setEmployee({ ...employee, [name]: value });
-    //}
     console.log(employee);
   };
 
@@ -71,10 +47,8 @@ export default function EmployeeAdd(props) {
   const handleSubmit = (employee) => {
     console.log("employee to submit:");
     console.log(employee);
-    const token = getUserToken(store.getState());
 
     apiPost(
-      //"http://localhost:8000/rest-auth/registration/",
       "http://localhost:8000/api/manager/employees/",
       handleResponse,
       handleFail,
@@ -83,20 +57,6 @@ export default function EmployeeAdd(props) {
 
     console.log("patch");
     console.log(employee);
-    /*
-    axios
-      .patch("http://localhost:8000/rest-auth/user/", employee, {
-        headers: {
-          authorization: "Token " + token,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-      */
   };
 
   const handleResponse = (response) => {
@@ -151,7 +111,7 @@ export default function EmployeeAdd(props) {
               Cancel
             </Button>
             <Button onClick={() => handleSubmit(employee)} color="primary">
-              Confirm
+              Add
             </Button>
           </DialogActions>
         </form>

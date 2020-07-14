@@ -33,7 +33,6 @@ function EmployeeList() {
   // get list of employees of current user (the manager)
   const refreshList = () => {
     apiGet("http://localhost:8000/api/manager/employees/", handleResponse);
-    //apiGet("http://localhost:8000/api/customusers/", handleResponse);
   };
 
   const handleResponse = (response) => {
@@ -41,8 +40,11 @@ function EmployeeList() {
     setEmployeeList(response.data);
   };
 
-  // WHAT TO DO ABOUT THE WARNINGGGG????
   const renderEmployees = () => {
+    if (employeeList.length == 0) {
+      return <div>You have no courses!</div>;
+    }
+
     return (
       <Table>
         <TableBody>
