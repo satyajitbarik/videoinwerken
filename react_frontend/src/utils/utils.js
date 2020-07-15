@@ -120,13 +120,13 @@ export function apiPost(url, handleResponse, handleFail, object) {
     });
 }
 
-export function apiPost(url, handleResponse, handleFail, object) {
+export function apiPut(url, handleResponse, handleFail, object) {
   const token = getUserToken();
   if (!token) {
     return;
   }
   axios
-    .post(url, object, {
+    .put(url + `${object.id}/`, object, {
       headers: {
         authorization: "Token " + token,
       },

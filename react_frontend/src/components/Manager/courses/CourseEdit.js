@@ -25,6 +25,7 @@ export default function CourseEdit(props) {
   let { item } = props;
   const { onClose, handleDelete } = props;
   const [addQuestion, setAddQuestion] = React.useState(false);
+  const [courseQuestions, setCourseQuestions] = React.useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,7 +44,7 @@ export default function CourseEdit(props) {
   const handleSubmit = (item) => {
     if (item.id) {
       apiPut(
-        `http://localhost:8000/api/manager/courses/${item.id}/`,
+        `http://localhost:8000/api/manager/courses/`,
         handleResponseCourseEdit,
         handleFailCourseEdit,
         item
@@ -51,11 +52,11 @@ export default function CourseEdit(props) {
     }
   };
 
-  const handleResponseCourseEdit = () => {
+  const handleResponseCourseEdit = (response) => {
     handleClose();
   };
 
-  const handleFailCourseEdit = () => {};
+  const handleFailCourseEdit = (response) => {};
 
   const handleCourseQuestionAddClose = () => {
     setAddQuestion(false);
@@ -64,11 +65,13 @@ export default function CourseEdit(props) {
   const getCourseQuestions = () => {
     apiGet(
       "http://localhost:8000/api/manager/course/questions/",
-      handleResponse
+      handleResponseGetCourseQuestions
     );
   };
 
-  const handleResponse = () => {};
+  const handleResponseGetCourseQuestions = (response) => {
+    setCourseQuestions(response.data);
+  };
 
   return (
     <div>
@@ -147,6 +150,7 @@ export default function CourseEdit(props) {
         ) : null}
 
         <h4>List of questions</h4>
+        {courseQuestions}
 
         <br />
         <br />
