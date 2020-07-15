@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 const renderLinks = (authenticated, setAuthenticated) => {
   if (authenticated) {
-    return (
+    /* return (
       <React.Fragment>
         <Button color="inherit" href="../manager/employees">
           Manage Employees
@@ -32,6 +32,19 @@ const renderLinks = (authenticated, setAuthenticated) => {
         </Button>
         <Button color="inherit" href="../profile">
           Profile
+        </Button>
+        <Button color="inherit" href="../logout">
+          Log out
+        </Button>
+      </React.Fragment>
+    );*/
+    return (
+      <React.Fragment>
+        <Button color="inherit" href="../manager/createcourse">
+          Create Course
+        </Button>
+        <Button color="inherit" href="../manager/courses">
+          Manage Courses
         </Button>
         <Button color="inherit" href="../logout">
           Log out

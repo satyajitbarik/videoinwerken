@@ -18,15 +18,12 @@ import {
 import { AuthUrls } from "../../../constants/urls";
 import { renderError } from "../../../utils/renderUtils";
 
-export default function CourseAdd(props) {
-  const { open, onClose } = props;
-
+export default function CourseCreate(props) {
   const [course, setCourse] = React.useState(null);
 
   const [titleError, setTitleError] = React.useState("");
 
   const handleClose = () => {
-    onClose();
     // reset errors
   };
 
@@ -45,8 +42,6 @@ export default function CourseAdd(props) {
   };
 
   const handleSubmit = (course) => {
-    const token = getUserToken();
-
     apiPost(
       "http://localhost:8000/api/manager/courses/",
       handleResponse,
@@ -74,59 +69,61 @@ export default function CourseAdd(props) {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth>
-      <DialogTitle id="form-dialog-title">Add course</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Please fill in the details of the course.
-        </DialogContentText>
+    <form>
+      <MyTextField
+        name="title"
+        label="Title"
+        onChange={handleChange}
+        autoFocus
+      />
 
-        <form>
-          <MyTextField
-            name="title"
-            label="Title"
-            onChange={handleChange}
-            autoFocus
-          />
+      {renderError(titleError)}
 
-          {renderError(titleError)}
+      <MyTextField
+        name="description"
+        label="Description"
+        onChange={handleChange}
+      />
 
-          <MyTextField
-            name="description"
-            label="Description"
-            onChange={handleChange}
-          />
+      <MyTextField
+        label="Active result"
+        name="active"
+        onChange={handleChange}
+      />
 
-          <MyTextField
-            label="Active result"
-            name="active"
-            onChange={handleChange}
-          />
+      <MyTextField
+        label="Individual result"
+        name="individual_result"
+        onChange={handleChange}
+      />
 
-          <MyTextField
-            label="Individual result"
-            name="individual_result"
-            onChange={handleChange}
-          />
+      <MyTextField
+        name="course_duration"
+        label="Course duration"
+        onChange={handleChange}
+      />
 
-          <MyTextField
-            name="course_duration"
-            label="Course duration"
-            onChange={handleChange}
-          />
+      <MyTextField name="video" label="Video" onChange={handleChange} />
 
-          <MyTextField name="video" label="Video" onChange={handleChange} />
+      <Button
+        onClick={() => handleSubmit(course)}
+        color="primary"
+        variant="contained"
+        style={{ marginTop: 20 }}
+        href="../manager/courses"
+      >
+        Add
+      </Button>
 
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={() => handleSubmit(course)} color="primary">
-              Add
-            </Button>
-          </DialogActions>
-        </form>
-      </DialogContent>
-    </Dialog>
+      <Button
+        onClick={handleClose}
+        color="primary"
+        variant="contained"
+        style={{ marginTop: 20, marginLeft: 10 }}
+        href="../manager/courses"
+      >
+        Cancel
+      </Button>
+    </form>
   );
 }
