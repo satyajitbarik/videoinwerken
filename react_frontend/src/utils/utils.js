@@ -86,13 +86,19 @@ export function apiDelete(url, item, handleResponse) {
   if (!token) {
     return;
   }
+  url = `http://localhost:8000/api/manager/courses/${item.id}/`;
   axios
-    .delete(url + item.id, item, {
+    .delete(url, item, {
       headers: {
         authorization: "Token " + getUserToken(),
       },
     })
-    .then((response) => handleResponse());
+    .then((response) => {
+      handleResponse(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 export function apiPost(url, handleResponse, handleFail, object) {

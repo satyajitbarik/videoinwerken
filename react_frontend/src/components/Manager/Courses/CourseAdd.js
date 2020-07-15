@@ -21,9 +21,7 @@ import { renderError } from "../../../utils/renderUtils";
 export default function CourseAdd(props) {
   const { open, onClose } = props;
 
-  const [course, setCourse] = React.useState({
-    title: "",
-  });
+  const [course, setCourse] = React.useState(null);
 
   const [titleError, setTitleError] = React.useState("");
 

@@ -27,7 +27,7 @@ function Course() {
   });
 
   const refreshList = () => {
-    apiGet("http://localhost:8000/api/manager/courses/", handleResponse);
+    apiGet("http://localhost:8000/api/manager/mycourses/", handleResponse);
   };
 
   const handleResponse = (response) => {
@@ -92,6 +92,21 @@ function Course() {
     }
   };
 
+  // why doesnt this work??
+  const handleDelete = (item) => {
+    if (item.id) {
+      axios
+        .delete(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
+          headers: {
+            authorization: "Token " + getUserToken(),
+          },
+        })
+        .then((response) => refreshList());
+      handleCloseEdit();
+      return;
+    }
+  };
+
   const handleResponseDelete = () => {
     refreshList();
   };
@@ -132,7 +147,7 @@ function Course() {
         <CourseEdit
           item={courseDetail}
           onClose={handleCloseEdit} //not needed possibly
-          handleDelete={deleteCourse}
+          handleDelete={handleDelete}
           open={openCourseEdit}
         />
       ) : null}

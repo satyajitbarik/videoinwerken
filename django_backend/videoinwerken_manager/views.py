@@ -11,16 +11,24 @@ from .models import Course
 # Create your views here.
 from .serializers import CourseSerializer
 
-# display all your courses (as manager)
-class CourseView(viewsets.ModelViewSet):
+# list my courses (from manager)
+class CourseViewMyCourses(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
     def get_queryset(self):
-        return Course.objects.filter(manager_id=self.request.user.pk)
+        if (self.request.user):
+           return Course.objects.filter(manager_id=self.request.user.pk)
+        else:
+            return Course.objects.all()
+
+# delete/update courses
+class CourseView(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
 
     def perform_create(self, serializer):
         if (self.request.user.pk):
-            serializer.save(manager_id = self.request.user)
+            serializer.save(manager_id=self.request.user)
         else:
             serializer.save()
