@@ -120,6 +120,25 @@ export function apiPost(url, handleResponse, handleFail, object) {
     });
 }
 
+export function apiPost(url, handleResponse, handleFail, object) {
+  const token = getUserToken();
+  if (!token) {
+    return;
+  }
+  axios
+    .post(url, object, {
+      headers: {
+        authorization: "Token " + token,
+      },
+    })
+    .then((response) => {
+      handleResponse(response);
+    })
+    .catch((error) => {
+      handleFail(error.response);
+    });
+}
+
 export function apiGetEmp(url, handleResponse) {
   const token = getUserToken();
   if (!token) {

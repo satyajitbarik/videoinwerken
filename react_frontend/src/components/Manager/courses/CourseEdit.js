@@ -13,6 +13,13 @@ import { MyEditCheckBox } from "../../../utils/utils";
 import axios from "axios";
 import { getUserToken } from "../../../utils/authUtils";
 import CourseQuestionAdd from "./CourseQuestionAdd";
+import {
+  apiGet,
+  apiPost,
+  apiPut,
+  apiDelete,
+  apiGetEmp,
+} from "../../../utils/utils";
 
 export default function CourseEdit(props) {
   let { item } = props;
@@ -35,25 +42,33 @@ export default function CourseEdit(props) {
 
   const handleSubmit = (item) => {
     if (item.id) {
-      axios
-        .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
-          headers: {
-            authorization: "Token " + getUserToken(),
-          },
-        })
-        .then((response) => {
-          handleClose();
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-      return;
+      apiPut(
+        `http://localhost:8000/api/manager/courses/${item.id}/`,
+        handleResponseCourseEdit,
+        handleFailCourseEdit,
+        item
+      );
     }
   };
+
+  const handleResponseCourseEdit = () => {
+    handleClose();
+  };
+
+  const handleFailCourseEdit = () => {};
 
   const handleCourseQuestionAddClose = () => {
     setAddQuestion(false);
   };
+
+  const getCourseQuestions = () => {
+    apiGet(
+      "http://localhost:8000/api/manager/course/questions/",
+      handleResponse
+    );
+  };
+
+  const handleResponse = () => {};
 
   return (
     <div>
@@ -130,6 +145,8 @@ export default function CourseEdit(props) {
             course={item}
           />
         ) : null}
+
+        <h4>List of questions</h4>
 
         <br />
         <br />
