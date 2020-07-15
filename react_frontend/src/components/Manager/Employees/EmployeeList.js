@@ -14,7 +14,7 @@ import {
   TableRow,
   Button,
 } from "@material-ui/core";
-import { apiGet, apiGetEmp } from "../../../utils/utils";
+import { apiGet, apiDelete, apiGetEmp } from "../../../utils/utils";
 
 function EmployeeList() {
   const [employeeList, setEmployeeList] = React.useState(null);

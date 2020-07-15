@@ -16,16 +16,16 @@ class Course(models.Model):
         return self.title
 
 class CourseQuestion(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=False)
     question = models.CharField(max_length=255, blank=False, null=False)
 
 class CourseQuestionAnswer(models.Model):
-    course_question = models.ForeignKey(CourseQuestion, on_delete=models.CASCADE, null=True)
+    course_question = models.ForeignKey(CourseQuestion, on_delete=models.CASCADE, null=False)
     answer = models.CharField(max_length=255, blank=False, null=False)
     correct = models.BooleanField(default=False)
 
 class EmployeeQuizQuestion(models.Model):
-    employee = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
-    course_question = models.ForeignKey(CourseQuestion, on_delete=models.CASCADE, null=True)
+    employee = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False)
+    course_question = models.ForeignKey(CourseQuestion, on_delete=models.CASCADE, null=False)
     attempted = models.BooleanField(default=False)
     passed = models.BooleanField(default=False)

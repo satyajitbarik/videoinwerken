@@ -18,13 +18,13 @@ import {
 import { AuthUrls } from "../../../constants/urls";
 import { renderError } from "../../../utils/renderUtils";
 import { Redirect } from "react-router-dom";
+import CourseQuestionAdd from "./CourseQuestionAdd";
 
 export default function CourseCreate(props) {
   const { onClose } = props;
-
   const [course, setCourse] = React.useState(null);
-
   const [titleError, setTitleError] = React.useState("");
+  const [addQuestion, setAddQuestion] = React.useState(false);
 
   const handleClose = () => {
     onClose();
@@ -71,6 +71,10 @@ export default function CourseCreate(props) {
     }
   };
 
+  const handleCourseQuestionAddClose = () => {
+    setAddQuestion(false);
+  };
+
   return (
     <form>
       <MyTextField
@@ -108,13 +112,35 @@ export default function CourseCreate(props) {
 
       <MyTextField name="video" label="Video" onChange={handleChange} />
 
+      <br />
+      <br />
+      <br />
+
+      <Button
+        onClick={() => setAddQuestion(true)}
+        color="primary"
+        variant="contained"
+      >
+        Add question to course
+      </Button>
+
+      {addQuestion ? (
+        <CourseQuestionAdd
+          onClose={handleCourseQuestionAddClose}
+          course={course}
+        />
+      ) : null}
+
+      <br />
+      <br />
+
       <Button
         onClick={() => handleSubmit(course)}
         color="primary"
         variant="contained"
         style={{ marginTop: 20 }}
       >
-        Add
+        Add course
       </Button>
 
       <Button

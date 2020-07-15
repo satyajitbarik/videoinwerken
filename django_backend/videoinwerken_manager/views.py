@@ -4,12 +4,13 @@ from django.shortcuts import render
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
 
-from .models import Course
+from .models import Course, CourseQuestion, CourseQuestionAnswer
 #from ..user_profile.models import User
 
 
 # Create your views here.
-from .serializers import CourseSerializer
+from .serializers import CourseSerializer, CourseQuestionSerializer, CourseQuestionAnswerSerializer
+
 
 # list my courses (from manager)
 class CourseViewMyCourses(viewsets.ModelViewSet):
@@ -32,3 +33,12 @@ class CourseView(viewsets.ModelViewSet):
             serializer.save(manager_id=self.request.user)
         else:
             serializer.save()
+
+class CourseQuestionView(viewsets.ModelViewSet):
+    queryset = CourseQuestion.objects.all()
+    serializer_class = CourseQuestionSerializer
+
+class CourseQuestionAnswerView(viewsets.ModelViewSet):
+    queryset = CourseQuestionAnswer.objects.all()
+    serializer_class = CourseQuestionAnswerSerializer
+

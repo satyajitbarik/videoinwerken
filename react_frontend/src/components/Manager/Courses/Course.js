@@ -15,7 +15,6 @@ import CourseCreate from "./CourseCreate";
 function Course() {
   const [coursesList, setCoursesList] = useState(null);
   const [openCourseAdd, setOpenCourseAdd] = useState(false);
-  const [openCourseEdit, setOpenCourseEdit] = useState(false);
   const [courseDetail, setCourseDetail] = useState(null);
 
   const [creatingCourse, setCreatingCourse] = useState(false);
@@ -76,11 +75,12 @@ function Course() {
 
   const handleOpenEdit = (course) => {
     setCourseDetail(course);
-    setOpenCourseEdit(true);
+    //setOpenCourseEdit(true);
   };
 
   const handleCloseEdit = () => {
-    setOpenCourseEdit(false);
+    //setOpenCourseEdit(false);
+    setCourseDetail(false);
     refreshList();
   };
 
@@ -149,28 +149,23 @@ function Course() {
         </Button>
 
         <CourseAdd onClose={handleCloseAdd} open={openCourseAdd} />
-
-        {courseDetail ? (
-          <CourseEdit
-            item={courseDetail}
-            onClose={handleCloseEdit} //not needed possibly
-            handleDelete={handleDelete}
-            open={openCourseEdit}
-          />
-        ) : null}
       </div>
     );
   };
 
-  return (
-    <div>
-      {creatingCourse ? (
-        <CourseCreate onClose={handleCloseAdd} />
-      ) : (
-        renderCoursesList()
-      )}
-    </div>
-  );
+  if (creatingCourse) {
+    return <CourseCreate onClose={handleCloseAdd} />;
+  } else if (courseDetail) {
+    return (
+      <CourseEdit
+        item={courseDetail}
+        onClose={handleCloseEdit} //not needed possibly
+        handleDelete={handleDelete}
+      />
+    );
+  } else {
+    return renderCoursesList();
+  }
 }
 
 export default Course;

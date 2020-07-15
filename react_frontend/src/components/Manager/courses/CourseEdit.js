@@ -12,10 +12,12 @@ import { TextField } from "@material-ui/core";
 import { MyEditCheckBox } from "../../../utils/utils";
 import axios from "axios";
 import { getUserToken } from "../../../utils/authUtils";
+import CourseQuestionAdd from "./CourseQuestionAdd";
 
 export default function CourseEdit(props) {
   let { item } = props;
-  const { onClose, handleDelete, open } = props;
+  const { onClose, handleDelete } = props;
+  const [addQuestion, setAddQuestion] = React.useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,92 +51,110 @@ export default function CourseEdit(props) {
     }
   };
 
+  const handleCourseQuestionAddClose = () => {
+    setAddQuestion(false);
+  };
+
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="form-dialog-title"
-    >
-      <DialogTitle id="form-dialog-title">Edit course</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Please fill in the details of the course.
-        </DialogContentText>
+    <div>
+      <form>
+        <TextField
+          autoFocus
+          name="title"
+          label="Title"
+          variant="outlined"
+          onChange={handleChange}
+          defaultValue={item.title}
+          margin="normal"
+          fullWidth
+        />
+        <TextField
+          name="description"
+          label="Description"
+          variant="outlined"
+          onChange={handleChange}
+          defaultValue={item.description}
+          margin="normal"
+          fullWidth
+        />
 
-        <form>
-          <TextField
-            autoFocus
-            name="title"
-            label="Title"
-            variant="outlined"
-            onChange={handleChange}
-            defaultValue={item.title}
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            name="description"
-            label="Description"
-            variant="outlined"
-            onChange={handleChange}
-            defaultValue={item.description}
-            margin="normal"
-            fullWidth
-          />
+        <MyEditCheckBox
+          name="active"
+          label="Active"
+          defaultChecked={item.active}
+          onChange={handleCheckBox}
+        />
 
-          <MyEditCheckBox
-            name="active"
-            label="Active"
-            defaultChecked={item.active}
-            onChange={handleCheckBox}
-          />
+        <MyEditCheckBox
+          name="individual_result"
+          label="Allow to see individual result per question"
+          defaultChecked={item.individual_result}
+          onChange={handleCheckBox}
+        />
 
-          <MyEditCheckBox
-            name="individual_result"
-            label="Allow to see individual result per question"
-            defaultChecked={item.individual_result}
-            onChange={handleCheckBox}
-          />
+        <TextField
+          name="course_duration"
+          label="Course duration"
+          variant="outlined"
+          onChange={handleChange}
+          defaultValue={item.course_duration}
+          margin="normal"
+          fullWidth
+        />
 
-          <TextField
-            name="course_duration"
-            label="Course duration"
-            variant="outlined"
-            onChange={handleChange}
-            defaultValue={item.course_duration}
-            margin="normal"
-            fullWidth
-          />
+        <TextField
+          name="video"
+          label="Video"
+          variant="outlined"
+          onChange={handleChange}
+          defaultValue={item.video}
+          margin="normal"
+          fullWidth
+        />
 
-          <TextField
-            name="video"
-            label="Video"
-            variant="outlined"
-            onChange={handleChange}
-            defaultValue={item.video}
-            margin="normal"
-            fullWidth
-          />
+        <br />
+        <br />
+        <br />
 
-          <Button
-            onClick={() => handleDelete(item)}
-            variant="contained"
-            color="secondary"
-            style={{ marginTop: 10 }}
-          >
-            Delete Course
-          </Button>
-        </form>
-      </DialogContent>
-
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Cancel
+        <Button
+          onClick={() => setAddQuestion(true)}
+          color="primary"
+          variant="contained"
+        >
+          Add question to course
         </Button>
-        <Button onClick={() => handleSubmit(item)} color="primary">
+
+        {addQuestion ? (
+          <CourseQuestionAdd
+            onClose={handleCourseQuestionAddClose}
+            course={item}
+          />
+        ) : null}
+
+        <br />
+        <br />
+
+        <Button
+          onClick={() => handleDelete(item)}
+          variant="contained"
+          color="secondary"
+          style={{ marginTop: 10 }}
+        >
+          Delete Course
+        </Button>
+
+        <Button
+          onClick={() => handleSubmit(item)}
+          color="primary"
+          variant="contained"
+        >
           Confirm
         </Button>
-      </DialogActions>
-    </Dialog>
+
+        <Button onClick={onClose} color="primary" variant="contained">
+          Cancel
+        </Button>
+      </form>
+    </div>
   );
 }
