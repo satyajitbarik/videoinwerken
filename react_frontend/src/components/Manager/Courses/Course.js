@@ -10,12 +10,15 @@ import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 import CourseAdd from "./CourseAdd";
 import CourseEdit from "./CourseEdit";
 import { apiGet, apiDelete, apiGetEmp } from "../../../utils/utils";
+import CourseCreate from "./CourseCreate";
 
 function Course() {
   const [coursesList, setCoursesList] = useState(null);
   const [openCourseAdd, setOpenCourseAdd] = useState(false);
   const [openCourseEdit, setOpenCourseEdit] = useState(false);
   const [courseDetail, setCourseDetail] = useState(null);
+
+  const [creatingCourse, setCreatingCourse] = useState(false);
 
   // Runs on initial render
   useEffect(() => {
@@ -61,11 +64,13 @@ function Course() {
   };
 
   const handleOpenAdd = () => {
-    setOpenCourseAdd(true);
+    //setOpenCourseAdd(true);
+    setCreatingCourse(true);
   };
 
   const handleCloseAdd = () => {
     setOpenCourseAdd(false);
+    setCreatingCourse(false);
     refreshList();
   };
 
@@ -118,40 +123,52 @@ function Course() {
     }
   };
 
+  const renderCoursesList = () => {
+    return (
+      <div>
+        <h3>Courses</h3>
+        {coursesList && renderCourses()}
+
+        <Button
+          onClick={handleOpenAdd}
+          variant="contained"
+          color="primary"
+          style={{ marginTop: 20 }}
+          // href="../manager/createcourse"
+        >
+          Make new course
+        </Button>
+
+        <Button
+          onClick={deleteAllCourses}
+          variant="contained"
+          color="primary"
+          style={{ marginTop: 20, marginLeft: 10 }}
+        >
+          Delete all courses
+        </Button>
+
+        <CourseAdd onClose={handleCloseAdd} open={openCourseAdd} />
+
+        {courseDetail ? (
+          <CourseEdit
+            item={courseDetail}
+            onClose={handleCloseEdit} //not needed possibly
+            handleDelete={handleDelete}
+            open={openCourseEdit}
+          />
+        ) : null}
+      </div>
+    );
+  };
+
   return (
     <div>
-      <h3>Courses</h3>
-      {coursesList && renderCourses()}
-
-      <Button
-        onClick={handleOpenAdd}
-        variant="contained"
-        color="primary"
-        style={{ marginTop: 20 }}
-        // href="../manager/createcourse"
-      >
-        Make new course
-      </Button>
-
-      <Button
-        onClick={deleteAllCourses}
-        variant="contained"
-        color="primary"
-        style={{ marginTop: 20, marginLeft: 10 }}
-      >
-        Delete all courses
-      </Button>
-
-      <CourseAdd onClose={handleCloseAdd} open={openCourseAdd} />
-
-      {courseDetail ? (
-        <CourseEdit
-          item={courseDetail}
-          onClose={handleCloseEdit} //not needed possibly
-          handleDelete={handleDelete}
-          open={openCourseEdit}
-        />
-      ) : null}
+      {creatingCourse ? (
+        <CourseCreate onClose={handleCloseAdd} />
+      ) : (
+        renderCoursesList()
+      )}
     </div>
   );
 }

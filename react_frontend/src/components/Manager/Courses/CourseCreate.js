@@ -17,14 +17,17 @@ import {
 } from "../../../utils/renderUtils";
 import { AuthUrls } from "../../../constants/urls";
 import { renderError } from "../../../utils/renderUtils";
+import { Redirect } from "react-router-dom";
 
 export default function CourseCreate(props) {
+  const { onClose } = props;
+
   const [course, setCourse] = React.useState(null);
 
   const [titleError, setTitleError] = React.useState("");
 
   const handleClose = () => {
-    // reset errors
+    onClose();
   };
 
   const handleChange = (e) => {
@@ -110,7 +113,6 @@ export default function CourseCreate(props) {
         color="primary"
         variant="contained"
         style={{ marginTop: 20 }}
-        href="../manager/courses"
       >
         Add
       </Button>
@@ -120,7 +122,7 @@ export default function CourseCreate(props) {
         color="primary"
         variant="contained"
         style={{ marginTop: 20, marginLeft: 10 }}
-        href="../manager/courses"
+        //href="../manager/courses"
       >
         Cancel
       </Button>
