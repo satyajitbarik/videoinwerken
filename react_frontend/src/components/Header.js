@@ -40,11 +40,11 @@ const renderLinks = (authenticated, setAuthenticated) => {
     );*/
     return (
       <React.Fragment>
-        <Button color="inherit" href="../manager/createcourse">
-          Create Course
-        </Button>
         <Button color="inherit" href="../manager/courses">
-          Manage Courses
+          Courses
+        </Button>
+        <Button color="inherit" href="../manager/employees">
+          Employees
         </Button>
         <Button color="inherit" href="../logout">
           Log out

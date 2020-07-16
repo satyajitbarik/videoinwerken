@@ -16,7 +16,7 @@ export function ListItemLink(props) {
 }
 
 export function MyTextField(props) {
-  const { label, name, onChange, autoFocus } = props;
+  const { label, name, onChange, autoFocus, value } = props;
   return (
     <TextField
       autoFocus={autoFocus}
@@ -24,6 +24,7 @@ export function MyTextField(props) {
       label={label}
       onChange={onChange}
       //defaultValue={defaultValue}
+      value={value}
       variant="outlined"
       margin="normal"
       fullWidth
@@ -116,6 +117,7 @@ export function apiPost(url, handleResponse, handleFail, object) {
       handleResponse(response);
     })
     .catch((error) => {
+      console.log(error);
       handleFail(error.response);
     });
 }

@@ -18,43 +18,43 @@ import {
 import { AuthUrls } from "../../../constants/urls";
 import { renderError } from "../../../utils/renderUtils";
 
+import axios from "axios";
 export default function CourseQuestionAdd(props) {
-  const { onClose, onAdd, course } = props;
-  const [courseQuestion, setCourseQuestion] = React.useState(null); //course question
+  const { onClose, course } = props;
+  const [question, setQuestion] = React.useState({
+    course: null,
+    question: "",
+  }); //course question
   const [titleError, setTitleError] = React.useState("");
 
-  const [inputList, setInputList] = React.useState([
+  const [questionList, setQuestionList] = React.useState([]);
+
+  const [answerList, setAnswerList] = React.useState([
     {
-      firstName: "test",
-      lastName: "last name",
-    },
-    {
-      firstName: "test2",
-      lastName: "last name2",
+      answer: "",
+      correct: true,
     },
   ]);
 
   const handleChangeInputList = (e, index) => {
     const { name, value } = e.target;
-    const list = [...inputList];
+    const list = [...answerList];
     list[index][name] = value;
-    setInputList(list);
+    setAnswerList(list);
   };
 
   const handleAddInput = () => {
     console.log("HANDLE ADD INPUT");
-    //setInputList([...inputList], { firstName: "aaa", lastName: "aaa" });
-    //why does this not work
-    const list = [...inputList];
-    list.push({ firstName: "a", lastName: "b" });
-    setInputList(list);
-    console.log(inputList);
+    const list = [...answerList];
+    list.push({ answer: "", correct: true });
+    setAnswerList(list);
+    console.log(answerList);
   };
 
   const handleRemoveInput = (index) => {
-    const list = [...inputList];
+    const list = [...answerList];
     list.splice(index, 1);
-    setInputList(list);
+    setAnswerList(list);
   };
 
   const handleChange = (e) => {
@@ -62,36 +62,72 @@ export default function CourseQuestionAdd(props) {
     const { name, value } = e.target;
     console.log(name);
     console.log(value);
-    setCourseQuestion({ ...courseQuestion, [name]: value });
-    console.log(courseQuestion);
+    setQuestion({ ...question, [name]: value });
+    console.log(question);
   };
 
   const handleCheckBox = (e, value) => {
     const name = e.target.name;
-    setCourseQuestion({ ...courseQuestion, [name]: value });
+    setQuestion({ ...question, [name]: value });
   };
 
-  const handleSubmit = (courseQuestion) => {
-    courseQuestion.course = course.id;
+  // Submit course question
+  const handleSubmit = () => {
+    question.course = course.id;
+    console.log("handlesubmit question");
+    console.log(question);
+
+    const token = getUserToken();
+    if (!token) {
+      return;
+    }
     apiPost(
       "http://localhost:8000/api/manager/course/questions/",
-      handleResponse,
-      handleFail,
-      courseQuestion
+      handleResponseQuestion,
+      handleFailQuestion,
+      question
     );
-    console.log(courseQuestion);
+    console.log(question);
+
+    /*if (close) {
+      onClose();
+    }*/
+  };
+  const handleResponseQuestion = (response) => {
+    question.id = response.data.id;
+    console.log("handle response question");
+    console.log(response.data);
+
+    sendAnswersToDatabase();
+
+    //question.question = "";
+    //setQuestion(question);
+
+    setQuestion({ question: "" });
   };
 
-  const handleResponse = (response) => {
-    console.log("handle response");
-    console.log(response.data);
-    onAdd();
-    onClose();
+  const sendAnswersToDatabase = () => {
+    // Send answers to database
+    let i;
+    for (i = 0; i < answerList.length; i++) {
+      const answer = answerList[i];
+      if (answer.answer == "") {
+        continue;
+      }
+      answer.course_question = question.id;
+      apiPost(
+        "http://localhost:8000/api/manager/course/question/answers/",
+        handleResponseAnswer,
+        handleFailAnswer,
+        answer
+      );
+      console.log(answer);
+    }
   };
 
-  const handleFail = (response) => {
-    console.log("handle fail");
-    console.log(response.data);
+  const handleFailQuestion = (response) => {
+    console.log("handle fail question");
+    console.log(response);
 
     if (response.data.title) {
       setTitleError(response.data.title);
@@ -100,82 +136,74 @@ export default function CourseQuestionAdd(props) {
     }
   };
 
-  const addInput = () => {
-    setInputList([...inputList], { answer: "" });
+  const handleResponseAnswer = (response) => {
+    console.log("handle response answer");
+    console.log(response.data);
+  };
+  const handleFailAnswer = (response) => {
+    console.log("handle fail answer");
   };
 
-  const renderExtraInputs = () => {
-    console.log("hiiii");
-    return (
-      <div>
-        {inputList.map((item, i) => (
-          <div key={i}>
-            <MyTextField name="answer" label="Answer" onChange={handleChange} />
-          </div>
-        ))}
-        ;
-      </div>
-    );
+  const addInput = () => {
+    setAnswerList([...answerList], { answer: "" });
   };
 
   return (
     <div>
-      <Button onClick={onClose} color="primary">
-        Back
-      </Button>
-
       <form>
         <MyTextField
           name="question"
           label="Question"
           onChange={handleChange}
+          value={question.question}
           autoFocus
         />
-        <MyTextField name="answer" label="Answer" onChange={handleChange} />
-        <br />
+
         {console.log("inputList")}
-        {console.log(inputList)}
-        {inputList.map((item, i) => (
+        {console.log(answerList)}
+        {answerList.map((item, i) => (
           <div key={i}>
-            <input
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              value={item.firstName}
+            <MyTextField
+              name="answer"
+              label="Answer"
+              placeHolder="Answer"
+              value={item.answer}
               onChange={(e) => handleChangeInputList(e, i)}
             />
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-              value={item.lastName}
-              onChange={(e) => handleChangeInputList(e, i)}
-            />
-            {inputList.length > 1 && (
-              <input
-                type="button"
-                value="remove"
-                onClick={() => handleRemoveInput(i)}
-              />
-            )}
           </div>
         ))}
-        <input type="button" value="add" onClick={handleAddInput} />
 
-        <pre>{JSON.stringify(inputList, null, 2)}</pre>
-        <br />
-        <Button onClick={addInput} color="primary" variant="contained">
-          Add answer
-        </Button>
-        <br />
-        <br />
         <Button
-          onClick={() => handleSubmit(courseQuestion)}
           color="primary"
           variant="contained"
+          onClick={handleAddInput}
+          style={{ marginTop: 20 }}
         >
-          Done
+          Add answer
         </Button>
+
+        <Button
+          onClick={handleSubmit}
+          color="primary"
+          variant="contained"
+          style={{ marginTop: 20, marginLeft: 10 }}
+        >
+          Add question
+        </Button>
+
+        <Button
+          onClick={onClose}
+          color="primary"
+          variant="contained"
+          style={{ marginTop: 20, marginLeft: 10 }}
+        >
+          Finish
+        </Button>
+
+        <br />
+        <br />
+        <br />
+        <pre>{JSON.stringify(answerList, null, 2)}</pre>
       </form>
     </div>
   );

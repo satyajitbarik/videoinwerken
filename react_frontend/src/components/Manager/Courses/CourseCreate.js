@@ -22,11 +22,20 @@ import CourseQuestionAdd from "./CourseQuestionAdd";
 
 export default function CourseCreate(props) {
   const { onClose } = props;
-  const [course, setCourse] = React.useState(null);
+  const [course, setCourse] = React.useState({
+    manager_id: null,
+    title: "",
+    description: "",
+    active: true,
+    individual_result: false,
+    course_duration: "",
+    video: "",
+  });
   const [titleError, setTitleError] = React.useState("");
   const [addQuestion, setAddQuestion] = React.useState(false);
 
   const handleClose = () => {
+    setAddQuestion(false);
     onClose();
   };
 
@@ -44,7 +53,7 @@ export default function CourseCreate(props) {
     setCourse({ ...course, [name]: value });
   };
 
-  const handleSubmit = (course) => {
+  const handleSubmit = () => {
     apiPost(
       "http://localhost:8000/api/manager/courses/",
       handleResponse,
@@ -55,15 +64,16 @@ export default function CourseCreate(props) {
   };
 
   const handleResponse = (response) => {
-    console.log("handle response");
-    console.log(response.data);
+    console.log("handle response adding course");
+    course.id = response.data.id;
+    console.log(course);
 
     // Go to add questions page
     setAddQuestion(true);
   };
 
   const handleFail = (response) => {
-    console.log("handle fail");
+    console.log("handle fail adding course");
     console.log(response.data);
 
     if (response.data.title) {
@@ -80,6 +90,7 @@ export default function CourseCreate(props) {
           name="title"
           label="Title"
           onChange={handleChange}
+          value={course.title}
           autoFocus
         />
 
@@ -111,51 +122,37 @@ export default function CourseCreate(props) {
 
         <MyTextField name="video" label="Video" onChange={handleChange} />
 
-        <br />
-        <br />
-        <br />
-
         <Button
-          onClick={() => handleSubmit(course)}
-          color="primary"
-          variant="contained"
-        >
-          Add questions
-        </Button>
-
-        <br />
-        <br />
-
-        <Button
-          onClick={() => handleSubmit(course)}
+          onClick={handleSubmit}
           color="primary"
           variant="contained"
           style={{ marginTop: 20 }}
         >
-          Add course
+          Add questions
         </Button>
 
         <Button
-          onClick={onClose}
+          onClick={handleSubmit}
           color="primary"
           variant="contained"
           style={{ marginTop: 20, marginLeft: 10 }}
-          //href="../manager/courses"
         >
-          Cancel
+          Done
         </Button>
       </form>
     );
   };
 
+  if (course) {
+    console.log(course);
+    console.log("course title:" + course.title);
+  } else {
+    console.log("course is null");
+  }
+
   // MAIN PAGE
   if (addQuestion) {
-    return (
-      <CourseQuestionAdd
-        onClose={() => setAddQuestion(false)}
-        course={course}
-      />
-    );
+    return <CourseQuestionAdd onClose={handleClose} course={course} />;
   } else {
     return courseDetailsPage();
   }

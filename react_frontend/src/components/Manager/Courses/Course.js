@@ -68,6 +68,7 @@ function Course() {
 
   const handleCloseAdd = () => {
     setCreatingCourse(false);
+    setCourseDetail(null);
     retrieveCourses();
   };
 
