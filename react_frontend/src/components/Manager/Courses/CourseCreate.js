@@ -23,7 +23,6 @@ import CourseQuestionAdd from "./CourseQuestionAdd";
 export default function CourseCreate(props) {
   const { onClose } = props;
   const [course, setCourse] = React.useState({
-    manager_id: null,
     title: "",
     description: "",
     active: true,
@@ -66,6 +65,7 @@ export default function CourseCreate(props) {
   const handleResponse = (response) => {
     console.log("handle response adding course");
     course.id = response.data.id;
+    course.manager_id = response.data.manager_id;
     console.log(course);
 
     // Go to add questions page

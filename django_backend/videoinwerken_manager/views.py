@@ -38,7 +38,24 @@ class CourseQuestionView(viewsets.ModelViewSet):
     queryset = CourseQuestion.objects.all()
     serializer_class = CourseQuestionSerializer
 
+    def list(self, request):
+        #print("manager_id="+request.query_params['manager_id'])   #query_params if GET, data if POST!
+        queryset = CourseQuestion.objects.all()
+        if request.query_params:
+            course_id = request.query_params['course_id']
+            queryset = CourseQuestion.objects.filter(course=course_id)
+        serializer = CourseQuestionSerializer(queryset, many=True)
+        return Response(serializer.data)
+
 class CourseQuestionAnswerView(viewsets.ModelViewSet):
     queryset = CourseQuestionAnswer.objects.all()
     serializer_class = CourseQuestionAnswerSerializer
+
+    def list(self, request):
+        queryset = CourseQuestionAnswer.objects.all()
+        if request.query_params:
+            question_id = request.query_params['question_id']
+            queryset = CourseQuestionAnswer.objects.filter(course_question=question_id)
+        serializer = CourseQuestionAnswerSerializer(queryset, many=True)
+        return Response(serializer.data)
 
