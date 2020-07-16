@@ -13,30 +13,34 @@ import { apiGet, apiDelete, apiGetEmp } from "../../../utils/utils";
 import CourseCreate from "./CourseCreate";
 
 function Course() {
+  // The displayed list of courses
   const [coursesList, setCoursesList] = useState(null);
-  const [openCourseAdd, setOpenCourseAdd] = useState(false);
+
+  // The course that is selected (null if none selected)
   const [courseDetail, setCourseDetail] = useState(null);
 
+  // Are we in creating course screen?
   const [creatingCourse, setCreatingCourse] = useState(false);
 
-  // Runs on initial render
+  // Initial run
   useEffect(() => {
     if (coursesList != null) {
       return;
     }
-
-    refreshList();
+    retrieveCourses();
   });
 
-  const refreshList = () => {
+  // Retrieve courses from database
+  const retrieveCourses = () => {
     apiGet("http://localhost:8000/api/manager/mycourses/", handleResponse);
   };
-
   const handleResponse = (response) => {
     console.log(response);
     setCoursesList(response.data);
   };
+  ///
 
+  // Render courses
   const renderCourses = () => {
     if (coursesList.length == 0) {
       return <div>You have no courses!</div>;
@@ -49,7 +53,7 @@ function Course() {
             <TableRow
               key={item.id}
               onClick={() => {
-                handleOpenEdit(item);
+                setCourseDetail(item);
               }}
               style={{ cursor: "pointer" }}
             >
@@ -62,59 +66,31 @@ function Course() {
     );
   };
 
-  const handleOpenAdd = () => {
-    //setOpenCourseAdd(true);
-    setCreatingCourse(true);
-  };
-
   const handleCloseAdd = () => {
-    setOpenCourseAdd(false);
     setCreatingCourse(false);
-    refreshList();
-  };
-
-  const handleOpenEdit = (course) => {
-    setCourseDetail(course);
-    //setOpenCourseEdit(true);
+    retrieveCourses();
   };
 
   const handleCloseEdit = () => {
-    //setOpenCourseEdit(false);
     setCourseDetail(false);
-    refreshList();
+    retrieveCourses();
   };
 
-  const deleteCourse = (course) => {
-    if (course.id) {
+  // Delete course
+  const deleteCourse = (item) => {
+    if (item.id) {
       apiDelete(
         "http://localhost:8000/api/manager/courses/",
-        course,
+        item,
         handleResponseDelete
       );
-      // `http://localhost:8000/api/manager/courses/${course.id}/`,
-      handleCloseEdit();
-      return;
     }
   };
-
-  // why doesnt this work??
-  const handleDelete = (item) => {
-    if (item.id) {
-      axios
-        .delete(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
-          headers: {
-            authorization: "Token " + getUserToken(),
-          },
-        })
-        .then((response) => refreshList());
-      handleCloseEdit();
-      return;
-    }
-  };
-
   const handleResponseDelete = () => {
-    refreshList();
+    retrieveCourses();
+    handleCloseEdit();
   };
+  ///
 
   const deleteAllCourses = () => {
     let i = 0;
@@ -130,11 +106,10 @@ function Course() {
         {coursesList && renderCourses()}
 
         <Button
-          onClick={handleOpenAdd}
+          onClick={() => setCreatingCourse(true)}
           variant="contained"
           color="primary"
           style={{ marginTop: 20 }}
-          // href="../manager/createcourse"
         >
           Make new course
         </Button>
@@ -147,23 +122,24 @@ function Course() {
         >
           Delete all courses
         </Button>
-
-        <CourseAdd onClose={handleCloseAdd} open={openCourseAdd} />
       </div>
     );
   };
 
   if (creatingCourse) {
+    console.log("creating course");
     return <CourseCreate onClose={handleCloseAdd} />;
   } else if (courseDetail) {
+    console.log("course detail");
     return (
       <CourseEdit
         item={courseDetail}
         onClose={handleCloseEdit} //not needed possibly
-        handleDelete={handleDelete}
+        handleDelete={deleteCourse}
       />
     );
   } else {
+    console.log("render courses list");
     return renderCoursesList();
   }
 }

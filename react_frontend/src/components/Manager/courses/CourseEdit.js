@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import {
   Dialog,
@@ -20,12 +20,22 @@ import {
   apiDelete,
   apiGetEmp,
 } from "../../../utils/utils";
+import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
 
 export default function CourseEdit(props) {
   let { item } = props;
   const { onClose, handleDelete } = props;
   const [addQuestion, setAddQuestion] = React.useState(false);
-  const [courseQuestions, setCourseQuestions] = React.useState(false);
+  const [courseQuestions, setCourseQuestions] = React.useState(null);
+
+  // Runs on initial render
+  useEffect(() => {
+    if (courseQuestions != null) {
+      return;
+    }
+
+    getCourseQuestions();
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,6 +72,11 @@ export default function CourseEdit(props) {
     setAddQuestion(false);
   };
 
+  // After adding course question
+  const handleCourseQuestionAddConfirm = () => {
+    getCourseQuestions();
+  };
+
   const getCourseQuestions = () => {
     apiGet(
       "http://localhost:8000/api/manager/course/questions/",
@@ -71,6 +86,28 @@ export default function CourseEdit(props) {
 
   const handleResponseGetCourseQuestions = (response) => {
     setCourseQuestions(response.data);
+  };
+
+  const renderQuestions = () => {
+    return (
+      <Table>
+        <TableBody>
+          {courseQuestions.map((item) => (
+            <TableRow
+              key={item.id}
+              onClick={() => {
+                //handleOpenEdit(item);
+                //edit question
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              <TableCell style={{ width: 50 }}>{item.id}</TableCell>
+              <TableCell>{item.question}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    );
   };
 
   return (
@@ -145,12 +182,13 @@ export default function CourseEdit(props) {
         {addQuestion ? (
           <CourseQuestionAdd
             onClose={handleCourseQuestionAddClose}
+            onAdd={handleCourseQuestionAddConfirm}
             course={item}
           />
         ) : null}
 
         <h4>List of questions</h4>
-        {courseQuestions}
+        {courseQuestions && renderQuestions()}
 
         <br />
         <br />

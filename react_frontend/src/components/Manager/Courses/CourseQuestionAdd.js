@@ -19,7 +19,7 @@ import { AuthUrls } from "../../../constants/urls";
 import { renderError } from "../../../utils/renderUtils";
 
 export default function CourseQuestionAdd(props) {
-  const { onClose, course } = props;
+  const { onClose, onAdd, course } = props;
   const [courseQuestion, setCourseQuestion] = React.useState(null); //course question
   const [titleError, setTitleError] = React.useState("");
 
@@ -56,6 +56,7 @@ export default function CourseQuestionAdd(props) {
   const handleResponse = (response) => {
     console.log("handle response");
     console.log(response.data);
+    onAdd();
     handleClose();
   };
 
