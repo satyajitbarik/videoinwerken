@@ -23,9 +23,38 @@ export default function CourseQuestionAdd(props) {
   const [courseQuestion, setCourseQuestion] = React.useState(null); //course question
   const [titleError, setTitleError] = React.useState("");
 
-  const handleClose = () => {
-    onClose();
-    // reset errors
+  const [inputList, setInputList] = React.useState([
+    {
+      firstName: "test",
+      lastName: "last name",
+    },
+    {
+      firstName: "test2",
+      lastName: "last name2",
+    },
+  ]);
+
+  const handleChangeInputList = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...inputList];
+    list[index][name] = value;
+    setInputList(list);
+  };
+
+  const handleAddInput = () => {
+    console.log("HANDLE ADD INPUT");
+    //setInputList([...inputList], { firstName: "aaa", lastName: "aaa" });
+    //why does this not work
+    const list = [...inputList];
+    list.push({ firstName: "a", lastName: "b" });
+    setInputList(list);
+    console.log(inputList);
+  };
+
+  const handleRemoveInput = (index) => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setInputList(list);
   };
 
   const handleChange = (e) => {
@@ -57,7 +86,7 @@ export default function CourseQuestionAdd(props) {
     console.log("handle response");
     console.log(response.data);
     onAdd();
-    handleClose();
+    onClose();
   };
 
   const handleFail = (response) => {
@@ -71,31 +100,83 @@ export default function CourseQuestionAdd(props) {
     }
   };
 
-  return (
-    <Dialog open={true} onClose={handleClose} fullWidth>
-      <DialogTitle id="form-dialog-title">Add question</DialogTitle>
-      <DialogContent>
-        <form>
-          <MyTextField
-            name="question"
-            label="Question"
-            onChange={handleChange}
-            autoFocus
-          />
+  const addInput = () => {
+    setInputList([...inputList], { answer: "" });
+  };
 
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button
-              onClick={() => handleSubmit(courseQuestion)}
-              color="primary"
-            >
-              Add
-            </Button>
-          </DialogActions>
-        </form>
-      </DialogContent>
-    </Dialog>
+  const renderExtraInputs = () => {
+    console.log("hiiii");
+    return (
+      <div>
+        {inputList.map((item, i) => (
+          <div key={i}>
+            <MyTextField name="answer" label="Answer" onChange={handleChange} />
+          </div>
+        ))}
+        ;
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      <Button onClick={onClose} color="primary">
+        Back
+      </Button>
+
+      <form>
+        <MyTextField
+          name="question"
+          label="Question"
+          onChange={handleChange}
+          autoFocus
+        />
+        <MyTextField name="answer" label="Answer" onChange={handleChange} />
+        <br />
+        {console.log("inputList")}
+        {console.log(inputList)}
+        {inputList.map((item, i) => (
+          <div key={i}>
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+              value={item.firstName}
+              onChange={(e) => handleChangeInputList(e, i)}
+            />
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+              value={item.lastName}
+              onChange={(e) => handleChangeInputList(e, i)}
+            />
+            {inputList.length > 1 && (
+              <input
+                type="button"
+                value="remove"
+                onClick={() => handleRemoveInput(i)}
+              />
+            )}
+          </div>
+        ))}
+        <input type="button" value="add" onClick={handleAddInput} />
+
+        <pre>{JSON.stringify(inputList, null, 2)}</pre>
+        <br />
+        <Button onClick={addInput} color="primary" variant="contained">
+          Add answer
+        </Button>
+        <br />
+        <br />
+        <Button
+          onClick={() => handleSubmit(courseQuestion)}
+          color="primary"
+          variant="contained"
+        >
+          Done
+        </Button>
+      </form>
+    </div>
   );
 }

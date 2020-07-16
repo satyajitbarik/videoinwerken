@@ -57,7 +57,9 @@ export default function CourseCreate(props) {
   const handleResponse = (response) => {
     console.log("handle response");
     console.log(response.data);
-    handleClose();
+
+    // Go to add questions page
+    setAddQuestion(true);
   };
 
   const handleFail = (response) => {
@@ -71,87 +73,90 @@ export default function CourseCreate(props) {
     }
   };
 
-  const handleCourseQuestionAddClose = () => {
-    setAddQuestion(false);
+  const courseDetailsPage = () => {
+    return (
+      <form>
+        <MyTextField
+          name="title"
+          label="Title"
+          onChange={handleChange}
+          autoFocus
+        />
+
+        {renderError(titleError)}
+
+        <MyTextField
+          name="description"
+          label="Description"
+          onChange={handleChange}
+        />
+
+        <MyTextField
+          label="Active result"
+          name="active"
+          onChange={handleChange}
+        />
+
+        <MyTextField
+          label="Individual result"
+          name="individual_result"
+          onChange={handleChange}
+        />
+
+        <MyTextField
+          name="course_duration"
+          label="Course duration"
+          onChange={handleChange}
+        />
+
+        <MyTextField name="video" label="Video" onChange={handleChange} />
+
+        <br />
+        <br />
+        <br />
+
+        <Button
+          onClick={() => handleSubmit(course)}
+          color="primary"
+          variant="contained"
+        >
+          Add questions
+        </Button>
+
+        <br />
+        <br />
+
+        <Button
+          onClick={() => handleSubmit(course)}
+          color="primary"
+          variant="contained"
+          style={{ marginTop: 20 }}
+        >
+          Add course
+        </Button>
+
+        <Button
+          onClick={onClose}
+          color="primary"
+          variant="contained"
+          style={{ marginTop: 20, marginLeft: 10 }}
+          //href="../manager/courses"
+        >
+          Cancel
+        </Button>
+      </form>
+    );
   };
 
-  return (
-    <form>
-      <MyTextField
-        name="title"
-        label="Title"
-        onChange={handleChange}
-        autoFocus
+  // MAIN PAGE
+  if (addQuestion) {
+    return (
+      <CourseQuestionAdd
+        onClose={() => setAddQuestion(false)}
+        course={course}
       />
-
-      {renderError(titleError)}
-
-      <MyTextField
-        name="description"
-        label="Description"
-        onChange={handleChange}
-      />
-
-      <MyTextField
-        label="Active result"
-        name="active"
-        onChange={handleChange}
-      />
-
-      <MyTextField
-        label="Individual result"
-        name="individual_result"
-        onChange={handleChange}
-      />
-
-      <MyTextField
-        name="course_duration"
-        label="Course duration"
-        onChange={handleChange}
-      />
-
-      <MyTextField name="video" label="Video" onChange={handleChange} />
-
-      <br />
-      <br />
-      <br />
-
-      <Button
-        onClick={() => setAddQuestion(true)}
-        color="primary"
-        variant="contained"
-      >
-        Add question to course
-      </Button>
-
-      {addQuestion ? (
-        <CourseQuestionAdd
-          onClose={handleCourseQuestionAddClose}
-          course={course}
-        />
-      ) : null}
-
-      <br />
-      <br />
-
-      <Button
-        onClick={() => handleSubmit(course)}
-        color="primary"
-        variant="contained"
-        style={{ marginTop: 20 }}
-      >
-        Add course
-      </Button>
-
-      <Button
-        onClick={handleClose}
-        color="primary"
-        variant="contained"
-        style={{ marginTop: 20, marginLeft: 10 }}
-        //href="../manager/courses"
-      >
-        Cancel
-      </Button>
-    </form>
-  );
+    );
+  } else {
+    return courseDetailsPage();
+  }
 }
