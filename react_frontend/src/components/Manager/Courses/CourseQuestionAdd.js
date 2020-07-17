@@ -156,6 +156,10 @@ export default function CourseQuestionAdd(props) {
                 <TableRow key={item.question.id}>
                   <TableCell>{item.question.id}</TableCell>
                   <TableCell>{item.question.question}</TableCell>
+                  <TableCell>
+                    Answers:
+                    {item.answers.map((answer) => answer.answer + ", ")}
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
