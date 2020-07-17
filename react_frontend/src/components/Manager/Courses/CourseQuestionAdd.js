@@ -94,10 +94,13 @@ export default function CourseQuestionAdd(props) {
         questionObject.id = questionId;
 
         const newDict = dict;
-        setDict(newDict.concat({ question: questionObject, answers: [] }));
+        dict.push({ question: questionObject, answers: [] });
+        //setDict(newDict.concat({ question: questionObject, answers: [] }));
 
         console.log("questionobject now");
         console.log(questionObject);
+        console.log(dict);
+
         sendAnswersToDatabase(questionObject);
       })
       .catch((error) => {
@@ -123,18 +126,13 @@ export default function CourseQuestionAdd(props) {
         )
         .then((response) => {
           answer = response.data;
-          console.log("cunt");
-          console.log(dict);
-
           for (let i = 0; i < dict.length; i++) {
-            console.log("ayyyyy");
-            console.log(questionObject);
-            console.log(dict[i].question);
-            console.log(answer.course_question);
-
-            if (dict[i].questionObject == questionObject) {
-              console.log("yeha");
-              dict[i].answers = dict[i].answers.concat(answer);
+            if (dict[i].question == questionObject) {
+              const newDict = dict;
+              newDict[i].answers.push(answer);
+              setDict(newDict);
+              console.log("answer-setDict");
+              console.log(dict[i].answers);
               setDict(dict);
             }
           }
@@ -146,7 +144,9 @@ export default function CourseQuestionAdd(props) {
   };
 
   const printDict = () => {
+    console.log("Render dict");
     console.log(dict);
+    console.log(dict.keys);
     return (
       <div>
         <h3>Questions</h3>
@@ -158,143 +158,8 @@ export default function CourseQuestionAdd(props) {
                 <TableRow key={item.question.id}>
                   <TableCell>{item.question.id}</TableCell>
                   <TableCell>{item.question.question}</TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </div>
-    );
-  };
-
-  const handleResponseQuestion = (response) => {
-    question.id = response.data.id;
-    sendAnswersToDatabase();
-
-    dict.push({ key: question, value: answerList });
-    console.log("dict");
-    console.log(dict);
-
-    //refreshQuestionsList();
-    /*
-    for (let i = 0; i < questionList.length; i++) {
-      const question = questionList[i];
-      const answers = retrieveAnswers(question);
-    }*/
-  };
-
-  const handleFailQuestion = (response) => {
-    if (response.data.title) {
-      setTitleError(response.data.title);
-    } else {
-      setTitleError(null);
-    }
-  };
-
-  const handleResponseAnswer = (response) => {};
-  const handleFailAnswer = (response) => {
-    console.log("handle fail answer");
-  };
-
-  const addInput = () => {
-    setAnswerList([...answerList], { answer: "" });
-  };
-
-  const refreshQuestionsList = () => {
-    console.log("refresh querstion list");
-
-    axios
-      .get("http://localhost:8000/api/manager/course/questions/", {
-        headers: {
-          authorization: "Token " + getUserToken(),
-        },
-        params: {
-          course_id: course.id,
-        },
-      })
-      .then((response) => {
-        setQuestionList(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  /*const retrieveAnswers = () => {
-    console.log("retrieve answers");
-    axios
-      .get("http://localhost:8000/api/manager/course/question/answers/", {
-        headers: {
-          authorization: "Token " + getUserToken(),
-        },
-      })
-      .then((response) => {
-        setAllAnswers(response.data);
-        console.log("all answers:");
-        console.log(allAnswers);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };*/
-
-  const retrieveAnswers = (question) => {
-    console.log("retrieve anssr");
-    axios
-      .get("http://localhost:8000/api/manager/course/question/answers/", {
-        headers: {
-          authorization: "Token " + getUserToken(),
-        },
-        params: {
-          question_id: question.id,
-        },
-      })
-      .then((response) => {
-        const key = question;
-        const answers = [];
-        console.log("answers response data");
-        console.log(response.data);
-        console.log(response.data[0]);
-        console.log(response.data[1]);
-
-        for (let i = 0; i < response.data.length; i++) {
-          console.log("hi?");
-          const answer = response.data[i].answer;
-          console.log("answer:" + answer);
-          answers.push(answer);
-        }
-        console.log("answers:");
-        console.log(answers);
-
-        const newDict = dict.push({
-          key: key,
-          value: answers,
-        });
-        setDict(newDict);
-
-        console.log(dict);
-        console.log("YEET DICT");
-      });
-  };
-
-  const printAnswersList = () => {
-    return (
-      <div>
-        <h3>Answers</h3>
-
-        <Table>
-          <TableBody>
-            {allAnswers &&
-              allAnswers.map((item) => (
-                <TableRow
-                  key={item.id}
-                  onClick={() => {
-                    //setCourseDetail(item);
-                    //todo edit question
-                  }}
-                  style={{ cursor: "pointer" }}
-                >
-                  <TableCell style={{ width: 50 }}>{item.id}</TableCell>
-                  <TableCell>{item.answer}</TableCell>
+                  <TableCell>{item.answers[0].answer}</TableCell>
+                  <TableCell>{dict.length}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
