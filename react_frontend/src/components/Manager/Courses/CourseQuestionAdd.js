@@ -89,10 +89,7 @@ export default function CourseQuestionAdd(props) {
         const questionObject = question;
         questionObject.id = response.data.id;
         setQuestion({ question: "" });
-
         dict.push({ question: questionObject, answers: [] });
-        //setDict([...dict, { question: questionObject, answers: [] }]);
-
         sendAnswersToDatabase(questionObject);
       })
       .catch((error) => {
@@ -118,24 +115,22 @@ export default function CourseQuestionAdd(props) {
         )
         .then((response) => {
           answer = response.data;
-          console.log("answer:");
-          console.log(answer);
           for (let i = 0; i < dict.length; i++) {
-            console.log("iteration");
-            console.log(dict[i].question);
-            console.log(questionObject);
-            console.log("end-iteration");
             if (dict[i].question == questionObject) {
-              // setDict([...dict, { question: questionObject, answers: [] }]);
-
               const newDict = [...dict];
-              //newDict[i].answers.push(answer);
               newDict[i].answers = [...newDict[i].answers, answer];
               setDict(newDict);
-              console.log("answer-setDict");
-              console.log(dict[i].answers);
-              //setDict(dict);
             }
+          }
+
+          // On last element, reset answer list.
+          if (i == answerList.length - 1) {
+            setAnswerList([
+              {
+                answer: "",
+                correct: true,
+              },
+            ]);
           }
         })
         .catch((error) => {
@@ -189,6 +184,16 @@ export default function CourseQuestionAdd(props) {
               value={item.answer}
               onChange={(e) => handleChangeInputList(e, i)}
             />
+
+            {answerList.length > 1 && (
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => handleRemoveInput(i)}
+              >
+                Remove button
+              </Button>
+            )}
           </div>
         ))}
 
