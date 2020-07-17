@@ -89,7 +89,10 @@ export default function CourseQuestionAdd(props) {
         const questionObject = question;
         questionObject.id = response.data.id;
         setQuestion({ question: "" });
-        setDict([...dict, { question: questionObject, answers: [] }]);
+
+        dict.push({ question: questionObject, answers: [] });
+        //setDict([...dict, { question: questionObject, answers: [] }]);
+
         sendAnswersToDatabase(questionObject);
       })
       .catch((error) => {
@@ -123,12 +126,15 @@ export default function CourseQuestionAdd(props) {
             console.log(questionObject);
             console.log("end-iteration");
             if (dict[i].question == questionObject) {
-              const newDict = dict;
-              newDict[i].answers.push(answer);
+              // setDict([...dict, { question: questionObject, answers: [] }]);
+
+              const newDict = [...dict];
+              //newDict[i].answers.push(answer);
+              newDict[i].answers = [...newDict[i].answers, answer];
               setDict(newDict);
               console.log("answer-setDict");
               console.log(dict[i].answers);
-              setDict(dict);
+              //setDict(dict);
             }
           }
         })
@@ -149,6 +155,7 @@ export default function CourseQuestionAdd(props) {
               dict.map((item) => (
                 <TableRow key={item.question.id}>
                   <TableCell>{item.question.id}</TableCell>
+                  <TableCell>{item.question.question}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
