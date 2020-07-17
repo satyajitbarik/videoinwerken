@@ -89,8 +89,8 @@ export default function CourseQuestionAdd(props) {
         const questionObject = question;
         questionObject.id = response.data.id;
         setQuestion({ question: "" });
-        setDict(dict.concat({ question: questionObject, answers: [] }));
-        /// sendAnswersToDatabase(questionObject);
+        setDict([...dict, { question: questionObject, answers: [] }]);
+        sendAnswersToDatabase(questionObject);
       })
       .catch((error) => {
         console.log(error);
@@ -115,7 +115,13 @@ export default function CourseQuestionAdd(props) {
         )
         .then((response) => {
           answer = response.data;
+          console.log("answer:");
+          console.log(answer);
           for (let i = 0; i < dict.length; i++) {
+            console.log("iteration");
+            console.log(dict[i].question);
+            console.log(questionObject);
+            console.log("end-iteration");
             if (dict[i].question == questionObject) {
               const newDict = dict;
               newDict[i].answers.push(answer);
