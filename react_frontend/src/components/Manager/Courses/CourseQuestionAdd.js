@@ -23,13 +23,17 @@ import { TableBody, TableCell, TableRow, Table } from "@material-ui/core";
 import axios from "axios";
 export default function CourseQuestionAdd(props) {
   const { onClose, course } = props;
+
+  // text field input
   const [question, setQuestion] = React.useState({
-    course: null,
+    course: course.id,
     question: "",
-  }); //course question
+  });
+
   const [titleError, setTitleError] = React.useState("");
 
   const [questionList, setQuestionList] = React.useState([]);
+  const [allAnswers, setAllAnswers] = React.useState([]);
 
   const [answerList, setAnswerList] = React.useState([
     {
@@ -37,6 +41,8 @@ export default function CourseQuestionAdd(props) {
       correct: true,
     },
   ]);
+
+  const [dict, setDict] = React.useState([]);
 
   const handleChangeInputList = (e, index) => {
     const { name, value } = e.target;
@@ -46,11 +52,9 @@ export default function CourseQuestionAdd(props) {
   };
 
   const handleAddInput = () => {
-    console.log("HANDLE ADD INPUT");
     const list = [...answerList];
     list.push({ answer: "", correct: true });
     setAnswerList(list);
-    console.log(answerList);
   };
 
   const handleRemoveInput = (index) => {
@@ -60,12 +64,8 @@ export default function CourseQuestionAdd(props) {
   };
 
   const handleChange = (e) => {
-    console.log("handlechange");
     const { name, value } = e.target;
-    console.log(name);
-    console.log(value);
     setQuestion({ ...question, [name]: value });
-    console.log(question);
   };
 
   const handleCheckBox = (e, value) => {
@@ -75,57 +75,114 @@ export default function CourseQuestionAdd(props) {
 
   // Submit course question
   const handleSubmit = () => {
-    question.course = course.id;
-    console.log("handlesubmit question");
-    console.log(question);
+    axios
+      .post(
+        "http://localhost:8000/api/manager/course/questions/",
+        { course: course.id, question: question.question },
+        {
+          headers: {
+            authorization: "Token " + getUserToken(),
+          },
+        }
+      )
+      .then((response) => {
+        const questionId = response.data.id;
 
-    apiPost(
-      "http://localhost:8000/api/manager/course/questions/",
-      handleResponseQuestion,
-      handleFailQuestion,
-      question
-    );
-    console.log(question);
+        const questionObject = question;
+        setQuestion({ question: "" });
+
+        questionObject.id = questionId;
+
+        const newDict = dict;
+        setDict(newDict.concat({ question: questionObject, answers: [] }));
+
+        console.log("questionobject now");
+        console.log(questionObject);
+        sendAnswersToDatabase(questionObject);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-  const handleResponseQuestion = (response) => {
-    console.log(response);
-    question.id = response.data.id;
-    console.log("handle response question");
-    console.log(response.data);
 
-    sendAnswersToDatabase();
-
-    //question.question = "";
-    //setQuestion(question);
-
-    setQuestion({ question: "" });
-
-    refreshQuestionsList();
-  };
-
-  const sendAnswersToDatabase = () => {
-    // Send answers to database
-    let i;
-    for (i = 0; i < answerList.length; i++) {
-      const answer = answerList[i];
+  const sendAnswersToDatabase = (questionObject) => {
+    for (let i = 0; i < answerList.length; i++) {
+      let answer = answerList[i];
       if (answer.answer == "") {
         continue;
       }
-      answer.course_question = question.id;
-      apiPost(
-        "http://localhost:8000/api/manager/course/question/answers/",
-        handleResponseAnswer,
-        handleFailAnswer,
-        answer
-      );
-      console.log(answer);
+      axios
+        .post(
+          "http://localhost:8000/api/manager/course/question/answers/",
+          { course_question: questionObject.id, answer: answer.answer },
+          {
+            headers: {
+              authorization: "Token " + getUserToken(),
+            },
+          }
+        )
+        .then((response) => {
+          answer = response.data;
+          console.log("cunt");
+          console.log(dict);
+
+          for (let i = 0; i < dict.length; i++) {
+            console.log("ayyyyy");
+            console.log(questionObject);
+            console.log(dict[i].question);
+            console.log(answer.course_question);
+
+            if (dict[i].questionObject == questionObject) {
+              console.log("yeha");
+              dict[i].answers = dict[i].answers.concat(answer);
+              setDict(dict);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
-  const handleFailQuestion = (response) => {
-    console.log("handle fail question");
-    console.log(response);
+  const printDict = () => {
+    console.log(dict);
+    return (
+      <div>
+        <h3>Questions</h3>
 
+        <Table>
+          <TableBody>
+            {dict &&
+              dict.map((item) => (
+                <TableRow key={item.question.id}>
+                  <TableCell>{item.question.id}</TableCell>
+                  <TableCell>{item.question.question}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </div>
+    );
+  };
+
+  const handleResponseQuestion = (response) => {
+    question.id = response.data.id;
+    sendAnswersToDatabase();
+
+    dict.push({ key: question, value: answerList });
+    console.log("dict");
+    console.log(dict);
+
+    //refreshQuestionsList();
+    /*
+    for (let i = 0; i < questionList.length; i++) {
+      const question = questionList[i];
+      const answers = retrieveAnswers(question);
+    }*/
+  };
+
+  const handleFailQuestion = (response) => {
     if (response.data.title) {
       setTitleError(response.data.title);
     } else {
@@ -133,10 +190,7 @@ export default function CourseQuestionAdd(props) {
     }
   };
 
-  const handleResponseAnswer = (response) => {
-    console.log("handle response answer");
-    console.log(response.data);
-  };
+  const handleResponseAnswer = (response) => {};
   const handleFailAnswer = (response) => {
     console.log("handle fail answer");
   };
@@ -147,7 +201,6 @@ export default function CourseQuestionAdd(props) {
 
   const refreshQuestionsList = () => {
     console.log("refresh querstion list");
-    //setQuestionList(getQuestions(course.id));
 
     axios
       .get("http://localhost:8000/api/manager/course/questions/", {
@@ -159,52 +212,79 @@ export default function CourseQuestionAdd(props) {
         },
       })
       .then((response) => {
-        // console.log(response.data);
         setQuestionList(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    console.log(questionList);
-
-    let i;
-    for (i = 0; i < questionList.length; i++) {
-      retrieveAnswers(questionList[i].id);
-    }
   };
 
-  const retrieveAnswers = (questionId) => {
+  /*const retrieveAnswers = () => {
+    console.log("retrieve answers");
+    axios
+      .get("http://localhost:8000/api/manager/course/question/answers/", {
+        headers: {
+          authorization: "Token " + getUserToken(),
+        },
+      })
+      .then((response) => {
+        setAllAnswers(response.data);
+        console.log("all answers:");
+        console.log(allAnswers);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };*/
+
+  const retrieveAnswers = (question) => {
+    console.log("retrieve anssr");
     axios
       .get("http://localhost:8000/api/manager/course/question/answers/", {
         headers: {
           authorization: "Token " + getUserToken(),
         },
         params: {
-          question_id: questionId,
+          question_id: question.id,
         },
       })
       .then((response) => {
-        // console.log(response.data);
-        //setQuestionList(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
+        const key = question;
+        const answers = [];
+        console.log("answers response data");
+        console.log(response.data);
+        console.log(response.data[0]);
+        console.log(response.data[1]);
+
+        for (let i = 0; i < response.data.length; i++) {
+          console.log("hi?");
+          const answer = response.data[i].answer;
+          console.log("answer:" + answer);
+          answers.push(answer);
+        }
+        console.log("answers:");
+        console.log(answers);
+
+        const newDict = dict.push({
+          key: key,
+          value: answers,
+        });
+        setDict(newDict);
+
+        console.log(dict);
+        console.log("YEET DICT");
       });
   };
 
-  const printQuestionList = () => {
-    console.log("question list:");
-    console.log(questionList);
-
+  const printAnswersList = () => {
     return (
       <div>
-        <h3>Questions</h3>
+        <h3>Answers</h3>
 
         <Table>
           <TableBody>
-            {questionList &&
-              questionList.map((item) => (
+            {allAnswers &&
+              allAnswers.map((item) => (
                 <TableRow
                   key={item.id}
                   onClick={() => {
@@ -214,7 +294,7 @@ export default function CourseQuestionAdd(props) {
                   style={{ cursor: "pointer" }}
                 >
                   <TableCell style={{ width: 50 }}>{item.id}</TableCell>
-                  <TableCell>{item.question}</TableCell>
+                  <TableCell>{item.answer}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
@@ -225,7 +305,7 @@ export default function CourseQuestionAdd(props) {
 
   return (
     <div>
-      {printQuestionList()}
+      {dict && printDict()}
       <form>
         <MyTextField
           name="question"
@@ -235,8 +315,6 @@ export default function CourseQuestionAdd(props) {
           autoFocus
         />
 
-        {console.log("inputList")}
-        {console.log(answerList)}
         {answerList.map((item, i) => (
           <div key={i}>
             <MyTextField
@@ -276,11 +354,7 @@ export default function CourseQuestionAdd(props) {
           Finish
         </Button>
 
-        <br />
-        <br />
-        <br />
-        <pre>{JSON.stringify(answerList, null, 2)}</pre>
-        <pre>{JSON.stringify(questionList, null, 2)}</pre>
+        <pre>{JSON.stringify(dict, null, 2)}</pre>
       </form>
     </div>
   );
