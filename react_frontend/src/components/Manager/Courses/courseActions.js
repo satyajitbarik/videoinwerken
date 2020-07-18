@@ -10,14 +10,16 @@ import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 // question: question object
 // answers: array of answers
 // we assume question and answers do NOT contain empty fields!
-const submitQuestion = (
+export function submitQuestion(
   question,
+  setQuestion,
   answers,
+  setAnswers,
   courseId,
   dict,
   setDict,
   setQuestionError
-) => {
+) {
   axios
     .post(
       "http://localhost:8000/api/manager/course/questions/",
@@ -31,12 +33,13 @@ const submitQuestion = (
     .then((response) => {
       const questionObject = question;
       questionObject.id = response.data.id;
-      //setQuestion({ question: "" });
+      setQuestion({ question: "" });
       dict.push({ question: questionObject, answers: [] });
-      sendAnswersToDatabase(questionObject);
+      sendAnswersToDatabase(questionObject, answers, setAnswers, dict, setDict);
     })
     .catch((error) => {
       console.log("handle submit error");
+      console.log(error);
       console.log(error.response);
       console.log(error.question);
 
@@ -46,15 +49,9 @@ const submitQuestion = (
         setQuestionError(null);
       }
     });
-};
+}
 
-const sendAnswersToDatabase = (
-  question,
-  answers,
-  setAnswers,
-  dict,
-  setDict
-) => {
+function sendAnswersToDatabase(question, answers, setAnswers, dict, setDict) {
   for (let i = 0; i < answers.length; i++) {
     let answer = answers[i];
 
@@ -103,4 +100,4 @@ const sendAnswersToDatabase = (
         console.log(error);
       });
   }
-};
+}

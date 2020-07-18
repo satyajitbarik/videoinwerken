@@ -22,6 +22,7 @@ import { getQuestions } from "../../../actions/myActions";
 import { TableBody, TableCell, TableRow, Table } from "@material-ui/core";
 import axios from "axios";
 import Switch from "@material-ui/core/Switch";
+import { submitQuestion } from "../Courses/courseActions";
 
 export default function CourseQuestionAdd(props) {
   const { onClose, course } = props;
@@ -107,6 +108,7 @@ export default function CourseQuestionAdd(props) {
   // Submit course question
   const handleSubmit = () => {
     let blocked = false; // we do it like this because we cannot setState and call state right after each other, it's not instant.
+
     if (question.question == "") {
       setQuestionError("This field may not be blank.");
       blocked = true;
@@ -126,86 +128,17 @@ export default function CourseQuestionAdd(props) {
     }
 
     console.log("AXIOS");
-
-    axios
-      .post(
-        "http://localhost:8000/api/manager/course/questions/",
-        { course: course.id, question: question.question },
-        {
-          headers: {
-            authorization: "Token " + getUserToken(),
-          },
-        }
-      )
-      .then((response) => {
-        const questionObject = question;
-        questionObject.id = response.data.id;
-        setQuestion({ question: "" });
-        dict.push({ question: questionObject, answers: [] });
-        sendAnswersToDatabase(questionObject);
-      })
-      .catch((error) => {
-        console.log("handle submit error");
-        console.log(error.response);
-        console.log(error.question);
-
-        if (error.response.data.question) {
-          setQuestionError(error.response.data.question);
-        } else {
-          setQuestionError(null);
-        }
-      });
-  };
-
-  const sendAnswersToDatabase = (questionObject) => {
-    for (let i = 0; i < answerList.length; i++) {
-      let answer = answerList[i];
-
-      // On last element, reset answer list.
-      if (i == answerList.length - 1) {
-        setAnswerList([
-          {
-            answer: "",
-            correct: true,
-          },
-          {
-            answer: "",
-            correct: true,
-          },
-        ]);
-      }
-
-      if (answer.answer == "") {
-        continue;
-      }
-      axios
-        .post(
-          "http://localhost:8000/api/manager/course/question/answers/",
-          {
-            course_question: questionObject.id,
-            answer: answer.answer,
-            correct: answer.correct,
-          },
-          {
-            headers: {
-              authorization: "Token " + getUserToken(),
-            },
-          }
-        )
-        .then((response) => {
-          answer = response.data;
-          for (let i = 0; i < dict.length; i++) {
-            if (dict[i].question == questionObject) {
-              const newDict = [...dict];
-              newDict[i].answers = [...newDict[i].answers, answer];
-              setDict(newDict);
-            }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    console.log("courseid:" + course.id);
+    submitQuestion(
+      question,
+      setQuestion,
+      answerList,
+      setAnswerList,
+      course.id,
+      dict,
+      setDict,
+      setQuestionError
+    );
   };
 
   const printDict = () => {
