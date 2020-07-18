@@ -139,6 +139,15 @@ export default function CourseCreate(props) {
         >
           Done
         </Button>
+
+        <Button
+          onClick={onClose}
+          color="primary"
+          variant="contained"
+          style={{ marginTop: 20, marginLeft: 10 }}
+        >
+          Cancel
+        </Button>
       </form>
     );
   };

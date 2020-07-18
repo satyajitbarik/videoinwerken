@@ -30,12 +30,17 @@ export default function CourseQuestionAdd(props) {
     question: "",
   });
 
-  const [titleError, setTitleError] = React.useState("");
+  const [questionError, setQuestionError] = React.useState("");
+  const [answerError, setAnswerError] = React.useState("");
 
   const [questionList, setQuestionList] = React.useState([]);
   const [allAnswers, setAllAnswers] = React.useState([]);
 
   const [answerList, setAnswerList] = React.useState([
+    {
+      answer: "",
+      correct: true,
+    },
     {
       answer: "",
       correct: true,
@@ -73,8 +78,39 @@ export default function CourseQuestionAdd(props) {
     setQuestion({ ...question, [name]: value });
   };
 
+  // Do we have empty answer fields?
+  const emptyAnswerFields = () => {
+    console.log("0:" + answerList[0].answer);
+    console.log("1:" + answerList[1].answer);
+
+    for (let i = 0; i < answerList.length; i++) {
+      console.log("answerlist:" + answerList[i].answer);
+      if (answerList[i].answer == null || answerList[i].answer == "") {
+        return true;
+      }
+    }
+    return false;
+  };
+
   // Submit course question
   const handleSubmit = () => {
+    if (question.question == "") {
+      setQuestionError("This field may not be blank.");
+    } else {
+      setQuestionError(null);
+    }
+
+    if (emptyAnswerFields()) {
+      console.log("answer empty");
+      setAnswerError("Answers may not be blank.");
+    } else {
+      setAnswerError(null);
+    }
+
+    if (questionError != null || answerError != null) {
+      return;
+    }
+
     axios
       .post(
         "http://localhost:8000/api/manager/course/questions/",
@@ -93,13 +129,36 @@ export default function CourseQuestionAdd(props) {
         sendAnswersToDatabase(questionObject);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("handle submit error");
+        console.log(error.response);
+        console.log(error.question);
+
+        if (error.response.data.question) {
+          setQuestionError(error.response.data.question);
+        } else {
+          setQuestionError(null);
+        }
       });
   };
 
   const sendAnswersToDatabase = (questionObject) => {
     for (let i = 0; i < answerList.length; i++) {
       let answer = answerList[i];
+
+      // On last element, reset answer list.
+      if (i == answerList.length - 1) {
+        setAnswerList([
+          {
+            answer: "",
+            correct: true,
+          },
+          {
+            answer: "",
+            correct: true,
+          },
+        ]);
+      }
+
       if (answer.answer == "") {
         continue;
       }
@@ -121,16 +180,6 @@ export default function CourseQuestionAdd(props) {
               newDict[i].answers = [...newDict[i].answers, answer];
               setDict(newDict);
             }
-          }
-
-          // On last element, reset answer list.
-          if (i == answerList.length - 1) {
-            setAnswerList([
-              {
-                answer: "",
-                correct: true,
-              },
-            ]);
           }
         })
         .catch((error) => {
@@ -175,6 +224,8 @@ export default function CourseQuestionAdd(props) {
           autoFocus
         />
 
+        {renderError(questionError)}
+
         {answerList.map((item, i) => (
           <div key={i}>
             <MyTextField
@@ -185,17 +236,15 @@ export default function CourseQuestionAdd(props) {
               onChange={(e) => handleChangeInputList(e, i)}
             />
 
-            {answerList.length > 1 && (
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={() => handleRemoveInput(i)}
-              >
-                Remove button
+            {answerList.length > 2 && (
+              <Button color="primary" onClick={() => handleRemoveInput(i)}>
+                Remove
               </Button>
             )}
           </div>
         ))}
+
+        {renderError(answerError)}
 
         <Button
           color="primary"
@@ -224,6 +273,8 @@ export default function CourseQuestionAdd(props) {
           Finish
         </Button>
 
+        <br />
+        <br />
         <pre>{JSON.stringify(dict, null, 2)}</pre>
       </form>
     </div>
