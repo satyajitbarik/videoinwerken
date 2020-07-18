@@ -10,12 +10,19 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
 
 # display all your employees (as manager)
-class EmployeeViewSet(viewsets.ModelViewSet):
+#list my employes (from manager)
+class MyEmployeeViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
     def get_queryset(self):
         return CustomUser.objects.filter(employer=self.request.user.pk)
+
+# display all your employees (as manager)
+#add/delete
+class EmployeeViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
 
     def perform_create(self, serializer):
         serializer.save(employer=self.request.user)

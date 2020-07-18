@@ -18,6 +18,7 @@ import Course from "./Manager/Courses/Course";
 import CourseCreate from "./Manager/Courses/CourseCreate";
 import ReduxTest from "./Manager/Courses/ReduxTest";
 import EmployeeList from "./Manager/Employees/EmployeeList";
+import EmployeeCourses from "./Employee/EmployeeCourses";
 
 const MainContent = () => (
   <div className="container" style={{ marginTop: 20 }}>
@@ -37,6 +38,10 @@ const MainContent = () => (
       <Route path="/manager/employees" component={RequireAuth(EmployeeList)} />
 
       <Route path="/manager/courses" component={RequireAuth(Course)} />
+      <Route
+        path="/employee/courses"
+        component={RequireAuth(EmployeeCourses)}
+      />
       <Route
         path="/manager/createcourse"
         component={RequireAuth(CourseCreate)}

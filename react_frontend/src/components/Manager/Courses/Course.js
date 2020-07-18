@@ -2,11 +2,12 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { AuthUrls } from "../../../constants/urls";
 import { getUserToken } from "../../../utils/authUtils";
-import { apiGetByUserId } from "../../../utils/utils";
 import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
+
+import { AuthUrls } from "../../../constants/urls";
+import { apiGetByUserId } from "../../../utils/utils";
 import CourseAdd from "./CourseAdd";
 import CourseEdit from "./CourseEdit";
 import { apiGet, apiDelete, apiGetEmp } from "../../../utils/utils";
