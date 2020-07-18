@@ -181,7 +181,11 @@ export default function CourseQuestionAdd(props) {
       axios
         .post(
           "http://localhost:8000/api/manager/course/question/answers/",
-          { course_question: questionObject.id, answer: answer.answer },
+          {
+            course_question: questionObject.id,
+            answer: answer.answer,
+            correct: answer.correct,
+          },
           {
             headers: {
               authorization: "Token " + getUserToken(),
@@ -218,7 +222,14 @@ export default function CourseQuestionAdd(props) {
                   <TableCell>{item.question.question}</TableCell>
                   <TableCell>
                     Answers:
-                    {item.answers.map((answer) => answer.answer + ", ")}
+                    {item.answers.map(
+                      (answer) =>
+                        answer.answer +
+                        " (" +
+                        (answer.correct ? "correct" : "false") +
+                        ")" +
+                        ", "
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

@@ -32,5 +32,6 @@ class CourseQuestionAnswerSerializer(serializers.ModelSerializer):
             'id',
             'course_question',
             'answer',
+            'correct',
         )
 
