@@ -21,6 +21,8 @@ import { getQuestions } from "../../../actions/myActions";
 
 import { TableBody, TableCell, TableRow, Table } from "@material-ui/core";
 import axios from "axios";
+import Switch from "@material-ui/core/Switch";
+
 export default function CourseQuestionAdd(props) {
   const { onClose, course } = props;
 
@@ -53,6 +55,16 @@ export default function CourseQuestionAdd(props) {
     const { name, value } = e.target;
     const list = [...answerList];
     list[index][name] = value;
+    setAnswerList(list);
+  };
+
+  const handleToggleAnswerCorrect = (e, index) => {
+    console.log("start");
+    console.log("checked" + e.target.checked);
+    console.log("name:" + e.target.name);
+    const { name, checked } = e.target;
+    const list = [...answerList];
+    list[index][name] = checked;
     setAnswerList(list);
   };
 
@@ -238,6 +250,14 @@ export default function CourseQuestionAdd(props) {
               placeHolder="Answer"
               value={item.answer}
               onChange={(e) => handleChangeInputList(e, i)}
+            />
+
+            {console.log("correct:" + item.correct)}
+            <Switch
+              checked={item.correct}
+              onChange={(e) => handleToggleAnswerCorrect(e, i)}
+              name="correct"
+              color="primary"
             />
 
             {answerList.length > 2 && (
