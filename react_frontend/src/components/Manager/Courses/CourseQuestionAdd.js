@@ -94,22 +94,26 @@ export default function CourseQuestionAdd(props) {
 
   // Submit course question
   const handleSubmit = () => {
+    let blocked = false; // we do it like this because we cannot setState and call state right after each other, it's not instant.
     if (question.question == "") {
       setQuestionError("This field may not be blank.");
+      blocked = true;
     } else {
       setQuestionError(null);
     }
 
     if (emptyAnswerFields()) {
-      console.log("answer empty");
       setAnswerError("Answers may not be blank.");
+      blocked = true;
     } else {
       setAnswerError(null);
     }
 
-    if (questionError != null || answerError != null) {
+    if (blocked) {
       return;
     }
+
+    console.log("AXIOS");
 
     axios
       .post(
