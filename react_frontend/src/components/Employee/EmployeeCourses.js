@@ -6,54 +6,53 @@ import { getUserToken } from "../../utils/authUtils";
 import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 import { getCourses } from "../Employee/employeeActions";
+import EmployeeDoCourse from "../Employee/EmployeeDoCourse";
 
 function EmployeeCourses() {
   // List of courses
   const [coursesList, setCoursesList] = useState(null);
 
+  const [selectedCourse, setSelectedCourse] = useState(null);
+
   useEffect(() => {
     if (coursesList == null) getCourses(setCoursesList);
   });
 
-  const renderCourses = () => {
+  const showCourses = () => {
     console.log("coursesList:");
     console.log(coursesList);
 
     return (
-      <Table>
-        <TableBody>
-          {coursesList &&
-            coursesList.map((course) => (
-              <TableRow key={course.id}>
-                <TableCell>{course.id}</TableCell>
-                <TableCell>{course.title}</TableCell>
-
-                {/*
-                <TableCell>
-                  Answers:
-                  {item.answers.map(
-                    (answer) =>
-                      answer.answer +
-                      " (" +
-                      (answer.correct ? "correct" : "false") +
-                      ")" +
-                      ", "
-                  )}
-                </TableCell>
-                  */}
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
+      <div>
+        <h3>Courses</h3>
+        <div>Searchbar(todo)</div>
+        <Table>
+          <TableBody>
+            {coursesList &&
+              coursesList.map((course) => (
+                <TableRow key={course.id}>
+                  <TableCell>FinishedCheckbox(todo)</TableCell>
+                  <TableCell>{course.id}</TableCell>
+                  <TableCell>{course.title}</TableCell>
+                  <TableCell>Progress(todo)</TableCell>
+                  <TableCell>
+                    <Button onClick={() => setSelectedCourse(course)}>
+                      Play
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </div>
     );
   };
 
-  return (
-    <div>
-      <h3>Courses</h3>
-      {renderCourses()}
-    </div>
-  );
+  if (selectedCourse) {
+    return <EmployeeDoCourse course={selectedCourse} />;
+  } else {
+    return showCourses();
+  }
 }
 
 export default EmployeeCourses;
