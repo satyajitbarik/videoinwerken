@@ -5,8 +5,8 @@ import axios from "axios";
 import { getUserToken } from "../../utils/authUtils";
 import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
-import { getCourses } from "../Employee/employeeActions";
-import EmployeeDoCourse from "../Employee/EmployeeDoCourse";
+import { getCourses, getEmployeeQuestion } from "../Employee/employeeActions";
+import EmployeeDoCourse from "../Employee/InCourse/EmployeeDoCourse";
 
 function EmployeeCourses() {
   // List of courses
@@ -14,13 +14,22 @@ function EmployeeCourses() {
 
   const [selectedCourse, setSelectedCourse] = useState(null);
 
+  // Employee-Questions pairs. To check if course attempted/passed
+  const [employeeQuestionList, setEmployeeQuestionList] = useState(null);
+
   useEffect(() => {
     if (coursesList == null) getCourses(setCoursesList);
+
+    if (employeeQuestionList == null)
+      getEmployeeQuestion(setEmployeeQuestionList);
   });
 
   const showCourses = () => {
     console.log("coursesList:");
     console.log(coursesList);
+
+    console.log("employeequestionlist:");
+    console.log(employeeQuestionList);
 
     return (
       <div>
@@ -49,7 +58,12 @@ function EmployeeCourses() {
   };
 
   if (selectedCourse) {
-    return <EmployeeDoCourse course={selectedCourse} />;
+    return (
+      <EmployeeDoCourse
+        course={selectedCourse}
+        onClose={() => setSelectedCourse(null)}
+      />
+    );
   } else {
     return showCourses();
   }

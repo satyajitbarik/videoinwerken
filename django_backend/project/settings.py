@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     #'user_profile',
     'videoinwerken_admin',
     'videoinwerken_manager',
+    'videoinwerken_employee',
     'users'
 )
 
