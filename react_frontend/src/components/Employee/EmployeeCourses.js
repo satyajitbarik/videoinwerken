@@ -5,31 +5,43 @@ import axios from "axios";
 import { getUserToken } from "../../utils/authUtils";
 import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
-import { getCourses, getEmployeeQuestion } from "../Employee/employeeActions";
+import {
+  getCourses,
+  getEmployeeQuestion,
+  getQuestionsAndAnswers,
+} from "../Employee/employeeActions";
 import EmployeeDoCourse from "../Employee/InCourse/EmployeeDoCourse";
+import ShowCourse from "../Employee/InCourse/ShowCourse";
 
 function EmployeeCourses() {
   // List of courses
   const [coursesList, setCoursesList] = useState(null);
 
-  const [selectedCourse, setSelectedCourse] = useState(null);
-
   // Employee-Questions pairs. To check if course attempted/passed
   const [employeeQuestionList, setEmployeeQuestionList] = useState(null);
+
+  const [selectedCourse, setSelectedCourse] = useState(null);
 
   useEffect(() => {
     if (coursesList == null) getCourses(setCoursesList);
 
-    if (employeeQuestionList == null)
-      getEmployeeQuestion(setEmployeeQuestionList);
+    // if (employeeQuestionList == null)
+    //   getEmployeeQuestion(setEmployeeQuestionList);
   });
+
+  const finishedCourse = (course) => {
+    // getQuestionsAndAnswers(course.id, setQuestionsAndAnswers);
+    // for (let i = 0; i < employeeQuestionList.length; i++) {
+    //   const question = employeeQuestionList[i].question;
+    //  }
+  };
 
   const showCourses = () => {
     console.log("coursesList:");
     console.log(coursesList);
 
-    console.log("employeequestionlist:");
-    console.log(employeeQuestionList);
+    //console.log("employeequestionlist:");
+    // console.log(employeeQuestionList);
 
     return (
       <div>
@@ -39,17 +51,11 @@ function EmployeeCourses() {
           <TableBody>
             {coursesList &&
               coursesList.map((course) => (
-                <TableRow key={course.id}>
-                  <TableCell>FinishedCheckbox(todo)</TableCell>
-                  <TableCell>{course.id}</TableCell>
-                  <TableCell>{course.title}</TableCell>
-                  <TableCell>Progress(todo)</TableCell>
-                  <TableCell>
-                    <Button onClick={() => setSelectedCourse(course)}>
-                      Play
-                    </Button>
-                  </TableCell>
-                </TableRow>
+                <ShowCourse
+                  key={course.id}
+                  course={course}
+                  setSelectedCourse={setSelectedCourse}
+                />
               ))}
           </TableBody>
         </Table>
