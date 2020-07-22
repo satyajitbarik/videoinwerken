@@ -134,7 +134,7 @@ function Course() {
     console.log("course detail");
     return (
       <CourseEdit
-        item={courseDetail}
+        course={courseDetail}
         onClose={handleCloseEdit} //not needed possibly
         handleDelete={deleteCourse}
       />

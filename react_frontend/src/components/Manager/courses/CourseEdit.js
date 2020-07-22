@@ -1,71 +1,47 @@
+/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@material-ui/core";
+import { getCourseQuestions, submitCourse } from "./courseActions";
+import { getQuestionsAndAnswers } from "../../Employee/employeeActions";
 import { TextField } from "@material-ui/core";
 import { MyEditCheckBox } from "../../../utils/utils";
-import axios from "axios";
-import { getUserToken } from "../../../utils/authUtils";
 import CourseQuestionAdd from "./CourseQuestionAdd";
-import {
-  apiGet,
-  apiPost,
-  apiPut,
-  apiDelete,
-  apiGetEmp,
-} from "../../../utils/utils";
 import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
 
 export default function CourseEdit(props) {
-  let { item } = props;
+  let { course } = props;
   const { onClose, handleDelete } = props;
   const [addQuestion, setAddQuestion] = React.useState(false);
+
   const [courseQuestions, setCourseQuestions] = React.useState(null);
+  const [questionsAndAnswers, setQuestionsAndAnswers] = React.useState(null);
 
   // Runs on initial render
   useEffect(() => {
-    if (courseQuestions != null) {
+    console.log("Initial render of course edit");
+    //console.log(courseQuestions);
+
+    //if (courseQuestions != null) {
+    //   return;
+    // }
+
+    if (questionsAndAnswers != null) {
       return;
     }
 
-    getCourseQuestions();
+    // getCourseQuestions(setCourseQuestions);
+    getQuestionsAndAnswers(course.id, setQuestionsAndAnswers);
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    item = { ...item, [name]: value };
+    course = { ...course, [name]: value };
   };
 
   const handleCheckBox = (e, value) => {
     const name = e.target.name;
-    item = { ...item, [name]: value };
-  };
-
-  const handleClose = () => {
-    onClose();
-  };
-
-  const handleSubmit = (item) => {
-    if (item.id) {
-      axios
-        .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
-          headers: {
-            authorization: "Token " + getUserToken(),
-          },
-        })
-        .then((response) => {
-          handleClose();
-        })
-        .catch((error) => {
-          handleFail(error.response);
-        });
-    }
+    course = { ...course, [name]: value };
   };
 
   const handleCourseQuestionAddClose = () => {
@@ -77,29 +53,20 @@ export default function CourseEdit(props) {
     getCourseQuestions();
   };
 
-  const getCourseQuestions = () => {
-    axios
-      .get("http://localhost:8000/api/manager/course/questions/", {
-        headers: {
-          authorization: "Token " + getUserToken(),
-        },
-      })
-      .then((response) => {
-        setCourseQuestions(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const renderQuestions = () => {
+    console.log("course questinos:");
+
+    //console.log(courseQuestions);
+
+    console.log(questionsAndAnswers);
+
     return (
       <Table>
         <TableBody>
-          {courseQuestions.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell style={{ width: 50 }}>{item.id}</TableCell>
-              <TableCell>{item.question}</TableCell>
+          {questionsAndAnswers.map((question) => (
+            <TableRow key={question.id}>
+              <TableCell>{question.id}</TableCell>
+              <TableCell>{question.question}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -117,7 +84,7 @@ export default function CourseEdit(props) {
             label="Title"
             variant="outlined"
             onChange={handleChange}
-            defaultValue={item.title}
+            defaultValue={course.title}
             margin="normal"
             fullWidth
           />
@@ -126,7 +93,7 @@ export default function CourseEdit(props) {
             label="Description"
             variant="outlined"
             onChange={handleChange}
-            defaultValue={item.description}
+            defaultValue={course.description}
             margin="normal"
             fullWidth
           />
@@ -134,14 +101,14 @@ export default function CourseEdit(props) {
           <MyEditCheckBox
             name="active"
             label="Active"
-            defaultChecked={item.active}
+            defaultChecked={course.active}
             onChange={handleCheckBox}
           />
 
           <MyEditCheckBox
             name="individual_result"
             label="Allow to see individual result per question"
-            defaultChecked={item.individual_result}
+            defaultChecked={course.individual_result}
             onChange={handleCheckBox}
           />
 
@@ -150,7 +117,7 @@ export default function CourseEdit(props) {
             label="Course duration"
             variant="outlined"
             onChange={handleChange}
-            defaultValue={item.course_duration}
+            defaultValue={course.course_duration}
             margin="normal"
             fullWidth
           />
@@ -160,7 +127,7 @@ export default function CourseEdit(props) {
             label="Video"
             variant="outlined"
             onChange={handleChange}
-            defaultValue={item.video}
+            defaultValue={course.video}
             margin="normal"
             fullWidth
           />
@@ -180,13 +147,13 @@ export default function CourseEdit(props) {
     return (
       <div>
         <h4>List of questions</h4>
-        {courseQuestions && renderQuestions()}
+        {questionsAndAnswers && renderQuestions()}
 
         <br />
         <br />
 
         <Button
-          onClick={() => handleDelete(item)}
+          onClick={() => handleDelete(course)}
           variant="contained"
           color="secondary"
           style={{ marginTop: 10 }}
@@ -195,7 +162,7 @@ export default function CourseEdit(props) {
         </Button>
 
         <Button
-          onClick={() => handleSubmit(item)}
+          onClick={() => submitCourse(course, onClose)}
           color="primary"
           variant="contained"
         >
@@ -215,7 +182,7 @@ export default function CourseEdit(props) {
         <CourseQuestionAdd
           onClose={handleCourseQuestionAddClose}
           onAdd={handleCourseQuestionAddConfirm}
-          course={item}
+          course={course}
         />
       ) : (
         courseDetails()

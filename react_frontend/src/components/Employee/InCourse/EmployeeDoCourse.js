@@ -39,6 +39,9 @@ function EmployeeDoCourse(props) {
 
   // Runs on initial render
   useEffect(() => {
+    console.log("questions and asnwers :D");
+    console.log(questionsAndAnswers);
+
     // if questionsAndAnswers is not empty
     if (questionsAndAnswers.length) {
       if (currentQuestion == null) {
@@ -74,23 +77,25 @@ function EmployeeDoCourse(props) {
 
     if (!currentQuestion) return <div>No current question!</div>;
 
+    console.log(currentQuestion);
+
     // question: String
-    const question = currentQuestion.question;
+    const questionText = currentQuestion.question;
 
     // answers: Array
     const answers = currentQuestion.answers;
 
     console.log("showtest");
-    console.log(question);
+    console.log(questionText);
     console.log(answers);
 
     const toggleAnswer = (index) => {
       answers[index].selected = !answers[index].selected;
-      setCurrentQuestion({ question: question, answers: answers });
+      setCurrentQuestion({ ...currentQuestion, answers: answers });
     };
 
     const nextQuestion = () => {
-      getQuestionProgress(question, answers);
+      getQuestionProgress(currentQuestion, answers);
 
       if (questionsAndAnswers[currentIndex + 1]) {
         setCurrentIndex(currentIndex + 1);
@@ -107,7 +112,7 @@ function EmployeeDoCourse(props) {
         <Button onClick={onClose} style={{ color: "red", fontWeight: "bold" }}>
           Quit course
         </Button>
-        <h3>Multiple choice question: {question.question}</h3>
+        <h3>Multiple choice question: {questionText.question}</h3>
 
         <h3>Select answers (multiple possible):</h3>
 

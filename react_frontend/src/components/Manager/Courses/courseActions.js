@@ -6,6 +6,41 @@ import { getUserToken } from "../../../utils/authUtils";
 import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 
+// NOT USED - DELETE
+export function getCourseQuestions(setCourseQuestions) {
+  axios
+    .get("http://localhost:8000/api/manager/course/questions/", {
+      headers: {
+        authorization: "Token " + getUserToken(),
+      },
+    })
+    .then((response) => {
+      setCourseQuestions(response.data);
+      //const courseQuestions = response.data;
+      // getQuestionAnswers();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export function submitCourse(item, onClose) {
+  if (item.id) {
+    axios
+      .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
+        headers: {
+          authorization: "Token " + getUserToken(),
+        },
+      })
+      .then((response) => {
+        onClose();
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
+}
+
 // Submit course question
 // question: question object
 // answers: array of answers

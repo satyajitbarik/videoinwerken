@@ -75,6 +75,9 @@ function getEmployeeQuestionsCourse(coursesDict, courseId, setCoursesDict) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Get questions and answers for course
+// Gets questions for course_id, and gets answers for questions!
+// CAN BE USED FOR BOTH EMPLOYEES AND MANAGERS.
+// returns array of questions, questions has dictionary of answers (key=answer_id)
 export function getQuestionsAndAnswers(courseId, setQuestionsAndAnswers) {
   const questionsAndAnswers = [];
 
@@ -93,7 +96,7 @@ export function getQuestionsAndAnswers(courseId, setQuestionsAndAnswers) {
 
       for (let i = 0; i < questions.length; i++) {
         const question = questions[i];
-        questionsAndAnswers.push({ question: question, answers: [] });
+        questionsAndAnswers.push(question);
         getAnswers(question.id, questionsAndAnswers, i, setQuestionsAndAnswers);
       }
       console.log(questionsAndAnswers);
@@ -121,9 +124,10 @@ function getAnswers(
     })
     .then((response) => {
       const answers = response.data;
-      questionsAndAnswers[index].answers = questionsAndAnswers[
-        index
-      ].answers.concat(answers);
+      questionsAndAnswers[index].answers = answers;
+      //questionsAndAnswers[index].answers = questionsAndAnswers[
+      //  index
+      //].answers.concat(answers);
       console.log(questionsAndAnswers);
       console.log("done loading questions and answers");
       setQuestionsAndAnswers(questionsAndAnswers);
@@ -148,6 +152,8 @@ export function correctlyAnswered(answers) {
 
 export function getQuestionProgress(question, answers) {
   console.log("loading question progress!");
+  console.log(question);
+  console.log(answers);
   axios
     .get("http://localhost:8000/api/employee/employeequestion/", {
       headers: {
@@ -161,6 +167,8 @@ export function getQuestionProgress(question, answers) {
       //setQuestionProgress(response.data);
       console.log("question progress:::::");
       console.log(response.data);
+      console.log(question);
+      console.log(answers);
 
       // if question-progress exists, we PUT
       if (response.data.length) {
@@ -211,6 +219,7 @@ export function submitQuestionProgress(question, answers) {
 export function updateQuestionProgress(id, question, answers) {
   console.log("UPDATE QUESTION PROGRESS!!!");
   console.log("id: " + id);
+  console.log("questionid: " + question.id);
   // getQuestionProgress(question.id);
   axios
     .put(
