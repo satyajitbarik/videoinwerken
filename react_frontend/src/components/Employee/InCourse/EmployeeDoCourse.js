@@ -104,17 +104,18 @@ function EmployeeDoCourse(props) {
 
     return (
       <div>
-        <Button>Back</Button>
-        <Button onClick={onClose}>Back to courses</Button>
-        <h3>Question: {question.question}</h3>
+        <Button onClick={onClose} style={{ color: "red", fontWeight: "bold" }}>
+          Quit course
+        </Button>
+        <h3>Multiple choice question: {question.question}</h3>
 
         <h3>Select answers (multiple possible):</h3>
 
         {answers.map((answer, i) => (
           <div key={answer.id}>
-            {answer.answer}
-            {answer.selected ? " Selected" : " Not selected"}
+            {/*answer.selected ? " Selected" : " Not selected"*/}
             <Checkbox onClick={() => toggleAnswer(i)}></Checkbox>
+            {answer.answer}
           </div>
         ))}
 

@@ -4,7 +4,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getUserToken } from "../../utils/authUtils";
 import Table from "@material-ui/core/Table";
-import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
+import {
+  TableBody,
+  TableHead,
+  TableCell,
+  TableRow,
+  Button,
+} from "@material-ui/core";
 import {
   getCourses,
   getQuestionsAndAnswers,
@@ -31,6 +37,14 @@ function EmployeeCourses() {
       <div>
         <h3>Courses</h3>
         <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Course</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
           <TableBody>
             {Object.keys(coursesDict).map((courseId) => (
               <ShowCourse

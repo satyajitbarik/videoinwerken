@@ -24,6 +24,19 @@ function FinishScreen(props) {
   // qna = questions and answers
   const { qna, onClose } = props;
 
+  // count how many correct questions in course
+  const countCorrectAnswers = (qna) => {
+    let count = 0;
+    for (let i = 0; i < qna.length; i++) {
+      const dict = qna[i];
+      if (correctlyAnswered(dict)) {
+        count++;
+      }
+    }
+    return count;
+  };
+
+  // question correctly answered
   const correctlyAnswered = (dict) => {
     for (let i = 0; i < dict.answers.length; i++) {
       const answer = dict.answers[i];
@@ -40,9 +53,12 @@ function FinishScreen(props) {
         {answers.map((answer) => (
           <li
             key={answer.id}
-            style={{ color: answer.selected ? "green" : "black" }}
+            style={{
+              color: answer.selected ? "green" : "black",
+              fontWeight: answer.selected ? "bold" : "normal",
+            }}
           >
-            {answer.answer}: {answer.correct}
+            {answer.answer}
           </li>
         ))}
       </ul>
@@ -55,9 +71,12 @@ function FinishScreen(props) {
         {answers.map((answer) => (
           <li
             key={answer.id}
-            style={{ color: answer.correct ? "green" : "black" }}
+            style={{
+              color: answer.correct ? "green" : "black",
+              fontWeight: answer.correct ? "bold" : "normal",
+            }}
           >
-            {answer.answer}: {answer.correct}
+            {answer.answer}
           </li>
         ))}
       </ul>
@@ -91,15 +110,45 @@ function FinishScreen(props) {
 
   console.log(qna);
   console.log(qna[0].question.question);
-  return (
+
+  /*return (
     <div>
       <h3>Results</h3>
+      Failed! {countCorrectAnswers(qna)}/{qna.length} correct.
       {qna.map((dict) => (
         <div key={dict.question.id}>
           <h4>Question: {dict.question.question}</h4>
           {printAnswers(dict)}
         </div>
       ))}
+      <Button onClick={onClose}>Back to courses</Button>
+    </div>
+  );*/
+
+  return (
+    <div>
+      <h3>Results</h3>
+      <div>
+        Failed! {countCorrectAnswers(qna)}/{qna.length} correct.
+      </div>
+      <div>Overview of results per question</div>
+      <Table>
+        <TableBody>
+          {qna.map((dict) => (
+            <TableRow key={dict.question.id}>
+              <TableCell>{dict.question.question}</TableCell>
+              <TableCell
+                style={{
+                  color: correctlyAnswered(dict) ? "green" : "red",
+                  fontWeight: "bold",
+                }}
+              >
+                {correctlyAnswered(dict) ? "Passed" : "Failed"}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
       <Button onClick={onClose}>Back to courses</Button>
     </div>
   );
