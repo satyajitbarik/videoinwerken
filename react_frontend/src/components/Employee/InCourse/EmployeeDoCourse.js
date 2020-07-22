@@ -30,13 +30,12 @@ function EmployeeDoCourse(props) {
   // Is employee done with quiz? In finish screen
   const [finished, setFinished] = React.useState(false);
 
+  // Current question
   const [currentQuestion, setCurrentQuestion] = React.useState(null);
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   // Array of question and answers dictionaries
   const [questionsAndAnswers, setQuestionsAndAnswers] = React.useState([]);
-
-  //const [questionProgress, setQuestionProgress] = React.useState(null);
 
   // Runs on initial render
   useEffect(() => {
@@ -52,13 +51,15 @@ function EmployeeDoCourse(props) {
   });
 
   const showVideo = () => {
-    console.log("question progress:");
-    //console.log(questionProgress);
     return (
       <div>
-        <div>"video"</div>
-        <Button onClick={() => setInVideo(false)}>Done, to test</Button>
-        <Button onClick={onClose}>Cancel, back to courses</Button>
+        <div>Video goes here</div>
+        <div>
+          <Button onClick={() => setInVideo(false)}>Done, to test</Button>
+        </div>
+        <div>
+          <Button onClick={onClose}>Cancel, back to courses</Button>
+        </div>
       </div>
     );
   };
@@ -68,9 +69,6 @@ function EmployeeDoCourse(props) {
   };
 
   const showTest = () => {
-    console.log("question progress:");
-    // console.log(questionProgress);
-
     if (!questionsAndAnswers.length)
       return <div>There are no questions in this course!</div>;
 
@@ -92,8 +90,6 @@ function EmployeeDoCourse(props) {
     };
 
     const nextQuestion = () => {
-      //submitQuestionProgress(question, answers);
-      // getQuestionsAndAnswers(question, answers);
       getQuestionProgress(question, answers);
 
       if (questionsAndAnswers[currentIndex + 1]) {
@@ -115,7 +111,7 @@ function EmployeeDoCourse(props) {
         <h3>Select answers (multiple possible):</h3>
 
         {answers.map((answer, i) => (
-          <div key={i}>
+          <div key={answer.id}>
             {answer.answer}
             {answer.selected ? " Selected" : " Not selected"}
             <Checkbox onClick={() => toggleAnswer(i)}></Checkbox>

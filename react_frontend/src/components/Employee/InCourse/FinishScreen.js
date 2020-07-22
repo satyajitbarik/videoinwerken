@@ -71,7 +71,8 @@ function FinishScreen(props) {
     if (correctlyAnswered1) {
       return (
         <div>
-          <h5>Correct!</h5> printMyAnswers(dict.answers)
+          <h5>Correct!</h5>
+          <div>{printMyAnswers(dict.answers)}</div>
         </div>
       );
     } else {
