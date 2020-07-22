@@ -8,7 +8,6 @@ import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 
 import { AuthUrls } from "../../../constants/urls";
 import { apiGetByUserId } from "../../../utils/utils";
-import CourseAdd from "./CourseAdd";
 import CourseEdit from "./CourseEdit";
 import { apiGet, apiDelete, apiGetEmp } from "../../../utils/utils";
 import CourseCreate from "./CourseCreate";

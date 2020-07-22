@@ -29,7 +29,6 @@ function ShowCourse(props) {
         </TableCell>
       );
     }
-    //         <Checkbox checked={course.passed} />
   };
 
   const showCourse = () => {

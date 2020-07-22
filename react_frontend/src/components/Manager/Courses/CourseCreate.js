@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React from "react";
-import { MyTextField, apiPost } from "../../../utils/utils";
+import { MyTextField, apiPost, MyCheckBox } from "../../../utils/utils";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -102,16 +102,12 @@ export default function CourseCreate(props) {
           onChange={handleChange}
         />
 
-        <MyTextField
-          label="Active result"
-          name="active"
-          onChange={handleChange}
-        />
+        <MyCheckBox name="active" label="Active" onChange={handleCheckBox} />
 
-        <MyTextField
-          label="Individual result"
+        <MyCheckBox
           name="individual_result"
-          onChange={handleChange}
+          label="Allow to see individual result per question"
+          onChange={handleCheckBox}
         />
 
         <MyTextField
