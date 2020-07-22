@@ -27,6 +27,7 @@ class EmployeeQuestionSerializer(serializers.ModelSerializer):
         #if serializer.is_valid():
          #   return serializer.save();
 
+# we need update for PUT to work.
     def update(self, instance, validated_data):
         instance.attempted = validated_data.get('attempted')
         instance.passed = validated_data.get('passed')

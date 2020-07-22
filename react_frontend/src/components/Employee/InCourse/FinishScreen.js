@@ -108,9 +108,6 @@ function FinishScreen(props) {
     }
   };
 
-  console.log(qna);
-  console.log(qna[0].question.question);
-
   /*return (
     <div>
       <h3>Results</h3>
@@ -125,6 +122,10 @@ function FinishScreen(props) {
     </div>
   );*/
 
+  console.log("qna:");
+  console.log(qna);
+  console.log(qna[0].question.question);
+  console.log(countCorrectAnswers(qna));
   return (
     <div>
       <h3>Results</h3>
@@ -135,8 +136,8 @@ function FinishScreen(props) {
       <Table>
         <TableBody>
           {qna.map((dict) => (
-            <TableRow key={dict.question.id}>
-              <TableCell>{dict.question.question}</TableCell>
+            <TableRow key={dict.id}>
+              <TableCell>{dict.question}</TableCell>
               <TableCell
                 style={{
                   color: correctlyAnswered(dict) ? "green" : "red",
