@@ -25,7 +25,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.email = validated_data.get('email')
-        instance.set_password(validated_data.get('password', instance.password))
+
+        # so it doesnt change when saving
+        #instance.set_password(validated_data.get('password', instance.password))
+
         #instance.is_employee = validated_data.get('is_employee')
         #instance.employees.set(validated_data.get('employees'))
         instance.employer = validated_data.get('employer')

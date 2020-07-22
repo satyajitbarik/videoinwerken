@@ -5,7 +5,8 @@ from rest_framework import routers
 #from user_profile.views import UserViewSet, EmployeeViewSet, UserProfileViewSet
 from users.views import CustomUserViewSet, EmployeeViewSet, MyEmployeeViewSet
 from videoinwerken_employee.models import EmployeeQuestion
-from videoinwerken_employee.views import EmployeeCourseView, EmployeeQuestionView
+from videoinwerken_employee.views import EmployeeCourseView, EmployeeQuestionView, EmployeeCourseQuestionsView, \
+    EmployeeQuestionsCourse
 from videoinwerken_manager.views import CourseView, CourseViewMyCourses, CourseQuestionView, CourseQuestionAnswerView
 
 router = routers.DefaultRouter()
@@ -20,8 +21,14 @@ router.register('manager/courses', CourseView) # add/update/delete courses
 router.register('manager/course/questions', CourseQuestionView)
 router.register('manager/course/question/answers', CourseQuestionAnswerView)
 
+# employee-questions pairs for course_id and employee
+router.register('employee/employeequestionscourse', EmployeeQuestionsCourse)
+
 #employees
 router.register('employee/courses', EmployeeCourseView)
+
+# Get course-questions pairs for an employee
+router.register('employee/coursequestions', EmployeeCourseQuestionsView)
 
 # Employee question record, use to see if attempted/passed the question
 router.register('employee/employeequestion', EmployeeQuestionView)

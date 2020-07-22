@@ -8,19 +8,35 @@ import {
   getCourses,
   getEmployeeQuestion,
   getQuestionsAndAnswers,
+  getCourseQuestions,
 } from "../employeeActions";
 import EmployeeDoCourse from "../../Employee/InCourse/EmployeeDoCourse";
 
 function ShowCourse(props) {
-  const { course, setSelectedCourse } = props;
+  const { course, setSelectedCourse, employeeQuestionList } = props;
+
+  // course-questions pairs
+  const [passed, setPassed] = React.useState(null);
+
+  const [attempted, setAttempted] = React.useState(null);
+
+  const finishedCourse = () => {
+    getCourseQuestions(course.id, setPassed, setAttempted);
+
+    return <TableCell>Course started: {attempted}</TableCell>;
+  };
+
+  const coursePassed = () => {
+    return <TableCell>Course passed: {passed}</TableCell>;
+  };
 
   const showCourse = () => {
     return (
       <TableRow key={course.id}>
-        <TableCell>FinishedCheckbox(todo)</TableCell>
+        {finishedCourse()}
         <TableCell>{course.id}</TableCell>
         <TableCell>{course.title}</TableCell>
-        <TableCell>Passed: (todo)</TableCell>
+        {coursePassed()}
         <TableCell>
           <Button onClick={() => setSelectedCourse(course)}>Play</Button>
         </TableCell>

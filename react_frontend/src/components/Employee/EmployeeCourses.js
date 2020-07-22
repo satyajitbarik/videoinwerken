@@ -23,25 +23,20 @@ function EmployeeCourses() {
   const [selectedCourse, setSelectedCourse] = useState(null);
 
   useEffect(() => {
-    if (coursesList == null) getCourses(setCoursesList);
+    if (coursesList == null) {
+      getCourses(setCoursesList);
+    }
 
-    // if (employeeQuestionList == null)
-    //   getEmployeeQuestion(setEmployeeQuestionList);
+    if (employeeQuestionList == null)
+      getEmployeeQuestion(setEmployeeQuestionList);
   });
-
-  const finishedCourse = (course) => {
-    // getQuestionsAndAnswers(course.id, setQuestionsAndAnswers);
-    // for (let i = 0; i < employeeQuestionList.length; i++) {
-    //   const question = employeeQuestionList[i].question;
-    //  }
-  };
 
   const showCourses = () => {
     console.log("coursesList:");
     console.log(coursesList);
 
-    //console.log("employeequestionlist:");
-    // console.log(employeeQuestionList);
+    console.log("employeequestionlist:");
+    console.log(employeeQuestionList);
 
     return (
       <div>
@@ -55,6 +50,7 @@ function EmployeeCourses() {
                   key={course.id}
                   course={course}
                   setSelectedCourse={setSelectedCourse}
+                  employeeQuestionList={employeeQuestionList}
                 />
               ))}
           </TableBody>
