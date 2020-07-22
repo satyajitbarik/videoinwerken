@@ -53,20 +53,20 @@ export default function CourseEdit(props) {
 
   const handleSubmit = (item) => {
     if (item.id) {
-      apiPut(
-        `http://localhost:8000/api/manager/courses/`,
-        handleResponseCourseEdit,
-        handleFailCourseEdit,
-        item
-      );
+      axios
+        .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
+          headers: {
+            authorization: "Token " + getUserToken(),
+          },
+        })
+        .then((response) => {
+          handleClose();
+        })
+        .catch((error) => {
+          handleFail(error.response);
+        });
     }
   };
-
-  const handleResponseCourseEdit = (response) => {
-    handleClose();
-  };
-
-  const handleFailCourseEdit = (response) => {};
 
   const handleCourseQuestionAddClose = () => {
     setAddQuestion(false);
@@ -78,14 +78,18 @@ export default function CourseEdit(props) {
   };
 
   const getCourseQuestions = () => {
-    apiGet(
-      "http://localhost:8000/api/manager/course/questions/",
-      handleResponseGetCourseQuestions
-    );
-  };
-
-  const handleResponseGetCourseQuestions = (response) => {
-    setCourseQuestions(response.data);
+    axios
+      .get("http://localhost:8000/api/manager/course/questions/", {
+        headers: {
+          authorization: "Token " + getUserToken(),
+        },
+      })
+      .then((response) => {
+        setCourseQuestions(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const renderQuestions = () => {
@@ -93,14 +97,7 @@ export default function CourseEdit(props) {
       <Table>
         <TableBody>
           {courseQuestions.map((item) => (
-            <TableRow
-              key={item.id}
-              onClick={() => {
-                //handleOpenEdit(item);
-                //edit question
-              }}
-              style={{ cursor: "pointer" }}
-            >
+            <TableRow key={item.id}>
               <TableCell style={{ width: 50 }}>{item.id}</TableCell>
               <TableCell>{item.question}</TableCell>
             </TableRow>
@@ -110,83 +107,78 @@ export default function CourseEdit(props) {
     );
   };
 
-  return (
-    <div>
-      <form>
-        <TextField
-          autoFocus
-          name="title"
-          label="Title"
-          variant="outlined"
-          onChange={handleChange}
-          defaultValue={item.title}
-          margin="normal"
-          fullWidth
-        />
-        <TextField
-          name="description"
-          label="Description"
-          variant="outlined"
-          onChange={handleChange}
-          defaultValue={item.description}
-          margin="normal"
-          fullWidth
-        />
+  const courseDetails = () => {
+    return (
+      <div>
+        <form>
+          <TextField
+            autoFocus
+            name="title"
+            label="Title"
+            variant="outlined"
+            onChange={handleChange}
+            defaultValue={item.title}
+            margin="normal"
+            fullWidth
+          />
+          <TextField
+            name="description"
+            label="Description"
+            variant="outlined"
+            onChange={handleChange}
+            defaultValue={item.description}
+            margin="normal"
+            fullWidth
+          />
 
-        <MyEditCheckBox
-          name="active"
-          label="Active"
-          defaultChecked={item.active}
-          onChange={handleCheckBox}
-        />
+          <MyEditCheckBox
+            name="active"
+            label="Active"
+            defaultChecked={item.active}
+            onChange={handleCheckBox}
+          />
 
-        <MyEditCheckBox
-          name="individual_result"
-          label="Allow to see individual result per question"
-          defaultChecked={item.individual_result}
-          onChange={handleCheckBox}
-        />
+          <MyEditCheckBox
+            name="individual_result"
+            label="Allow to see individual result per question"
+            defaultChecked={item.individual_result}
+            onChange={handleCheckBox}
+          />
 
-        <TextField
-          name="course_duration"
-          label="Course duration"
-          variant="outlined"
-          onChange={handleChange}
-          defaultValue={item.course_duration}
-          margin="normal"
-          fullWidth
-        />
+          <TextField
+            name="course_duration"
+            label="Course duration"
+            variant="outlined"
+            onChange={handleChange}
+            defaultValue={item.course_duration}
+            margin="normal"
+            fullWidth
+          />
 
-        <TextField
-          name="video"
-          label="Video"
-          variant="outlined"
-          onChange={handleChange}
-          defaultValue={item.video}
-          margin="normal"
-          fullWidth
-        />
-
-        <br />
-        <br />
-        <br />
-
+          <TextField
+            name="video"
+            label="Video"
+            variant="outlined"
+            onChange={handleChange}
+            defaultValue={item.video}
+            margin="normal"
+            fullWidth
+          />
+        </form>
         <Button
           onClick={() => setAddQuestion(true)}
           color="primary"
           variant="contained"
         >
-          Add question to course
+          Add questions to course
         </Button>
+      </div>
+    );
+  };
 
-        {addQuestion ? (
-          <CourseQuestionAdd
-            onClose={handleCourseQuestionAddClose}
-            onAdd={handleCourseQuestionAddConfirm}
-            course={item}
-          />
-        ) : null}
-
+  const questions = () => {
+    return (
+      <div>
         <h4>List of questions</h4>
         {courseQuestions && renderQuestions()}
 
@@ -213,7 +205,23 @@ export default function CourseEdit(props) {
         <Button onClick={onClose} color="primary" variant="contained">
           Cancel
         </Button>
-      </form>
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      {addQuestion ? (
+        <CourseQuestionAdd
+          onClose={handleCourseQuestionAddClose}
+          onAdd={handleCourseQuestionAddConfirm}
+          course={item}
+        />
+      ) : (
+        courseDetails()
+      )}
+
+      {questions()}
     </div>
   );
 }

@@ -241,9 +241,7 @@ export default function CourseQuestionAdd(props) {
           Finish
         </Button>
 
-        <br />
-        <br />
-        <pre>{JSON.stringify(dict, null, 2)}</pre>
+        {/*<pre>{JSON.stringify(dict, null, 2)}</pre>*/}
       </form>
     </div>
   );
