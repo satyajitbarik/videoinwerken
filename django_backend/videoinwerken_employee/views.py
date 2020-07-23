@@ -46,11 +46,11 @@ class EmployeeQuestionView(viewsets.ModelViewSet):
         serializer = EmployeeQuestionSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def perform_create(self, serializer):
-        if (self.request.user.pk):
-            serializer.save(employee=self.request.user)
-        else:
-            serializer.save()
+   # def perform_create(self, serializer):
+    #    if (self.request.user.pk):
+    #        serializer.save(employee=self.request.user)
+    #    else:
+     #       serializer.save()
 
 # employee-questions pairs for course_id and employee
 class EmployeeQuestionsCourse(viewsets.ModelViewSet):

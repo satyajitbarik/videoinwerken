@@ -25,7 +25,12 @@ class EmployeeQuestionSerializer(serializers.ModelSerializer):
         #serializer = EmployeeQuestionSerializer(employee=request.user.pk)
         #return super(EmployeeQuestionSerializer, self).create(validated_data)
         #if serializer.is_valid():
-         #   return serializer.save();
+           # return serializer.save();
+
+    #yeees this works, you need to access user from context
+    def create(self, validated_data):
+        validated_data['employee'] = self.context['request'].user.pk
+        return super(EmployeeQuestionSerializer, self).create(validated_data)
 
 # we need update for PUT to work.
     def update(self, instance, validated_data):
