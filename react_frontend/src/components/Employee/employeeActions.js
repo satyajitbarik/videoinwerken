@@ -22,15 +22,18 @@ export function getCourses(setCoursesDict) {
       for (let i = 0; i < coursesList.length; i++) {
         const course = coursesList[i];
         coursesDict[course.id] = course;
-        getEmployeeQuestionsCourse(coursesDict, course.id, setCoursesDict);
+        //getEmployeeQuestionsCourse(coursesDict, course.id, setCoursesDict);
       }
+
+      getEmployeeQuestionsCourse(coursesDict, setCoursesDict);
     })
     .catch((error) => {
       console.log(error);
     });
 }
 
-function getEmployeeQuestionsCourse(coursesDict, courseId, setCoursesDict) {
+// employee specific
+function getEmployeeQuestionsCourse(coursesDict, setCoursesDict) {
   console.log("getting employee-questions-course...");
   axios
     .get("http://localhost:8000/api/employee/employeequestionscourse/", {
@@ -47,6 +50,8 @@ function getEmployeeQuestionsCourse(coursesDict, courseId, setCoursesDict) {
       for (let i = 0; i < employeeQuestionList.length; i++) {
         const employeeQuestion = employeeQuestionList[i];
         // key = question id, value = employee-question
+
+        // question = questionId
         employeeQuestionDict[employeeQuestion.question] = employeeQuestion;
 
         if (employeeQuestion.attempted) {
@@ -58,12 +63,13 @@ function getEmployeeQuestionsCourse(coursesDict, courseId, setCoursesDict) {
         }
       }
 
-      coursesDict[courseId].questions = employeeQuestionDict;
-      coursesDict[courseId].attempted = attempted;
-      coursesDict[courseId].passed = passed;
-      console.log("coursesDict:");
-      console.log(coursesDict);
+      for (let i = 0; i < Object.keys(coursesDict).length; i++) {
+        const course = coursesDict[Object.keys(coursesDict)[i]];
+        course.attempted = attempted;
+        course.passed = passed;
+      }
 
+      console.log(coursesDict);
       setCoursesDict(coursesDict);
     })
     .catch((error) => {
@@ -91,7 +97,7 @@ export function getQuestionsAndAnswers(courseId, setQuestionsAndAnswers) {
       },
     })
     .then((response) => {
-      console.log("getQuestionandAnswers");
+      //console.log("getQuestionandAnswers");
       const questions = response.data;
 
       for (let i = 0; i < questions.length; i++) {
@@ -99,7 +105,7 @@ export function getQuestionsAndAnswers(courseId, setQuestionsAndAnswers) {
         questionsAndAnswers.push(question);
         getAnswers(question.id, questionsAndAnswers, i, setQuestionsAndAnswers);
       }
-      console.log(questionsAndAnswers);
+      //console.log(questionsAndAnswers);
     })
     .catch((error) => {
       console.log(error);
@@ -128,8 +134,9 @@ function getAnswers(
       //questionsAndAnswers[index].answers = questionsAndAnswers[
       //  index
       //].answers.concat(answers);
-      console.log(questionsAndAnswers);
+
       console.log("done loading questions and answers");
+      console.log(questionsAndAnswers);
       setQuestionsAndAnswers(questionsAndAnswers);
     })
     .catch((error) => {
@@ -150,8 +157,8 @@ export function correctlyAnswered(answers) {
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
-export function getQuestionProgress(question, answers) {
-  console.log("loading question progress!");
+export function updateOrCreateQuestionProgress(question, answers) {
+  console.log("update or create question progress");
   console.log(question);
   console.log(answers);
   axios
@@ -165,10 +172,10 @@ export function getQuestionProgress(question, answers) {
     })
     .then((response) => {
       //setQuestionProgress(response.data);
-      console.log("question progress:::::");
-      console.log(response.data);
-      console.log(question);
-      console.log(answers);
+      //console.log("question progress:::::");
+      //console.log(response.data);
+      //console.log(question);
+      // console.log(answers);
 
       // if question-progress exists, we PUT
       if (response.data.length) {
@@ -187,9 +194,9 @@ export function getQuestionProgress(question, answers) {
 export function submitQuestionProgress(question, answers) {
   //getQuestionProgress(question.id);
 
-  console.log("submit question progress -> question, answers");
-  console.log(question);
-  console.log(answers);
+  //console.log("submit question progress -> question, answers");
+  //console.log(question);
+  //console.log(answers);
   axios
     .post(
       "http://localhost:8000/api/employee/employeequestion/",
@@ -206,10 +213,12 @@ export function submitQuestionProgress(question, answers) {
       }
     )
     .then((response) => {
+      console.log("submitted question progress");
       console.log(response);
       console.log(response.data);
     })
     .catch((error) => {
+      console.log("failed question progress submit");
       console.log(error);
       console.log(error.response);
     });
@@ -217,9 +226,9 @@ export function submitQuestionProgress(question, answers) {
 
 // question object
 export function updateQuestionProgress(id, question, answers) {
-  console.log("UPDATE QUESTION PROGRESS!!!");
-  console.log("id: " + id);
-  console.log("questionid: " + question.id);
+  //console.log("UPDATE QUESTION PROGRESS!!!");
+  // console.log("id: " + id);
+  // console.log("questionid: " + question.id);
   // getQuestionProgress(question.id);
   axios
     .put(
@@ -237,6 +246,7 @@ export function updateQuestionProgress(id, question, answers) {
       }
     )
     .then((response) => {
+      console.log("Updated question progress");
       console.log(response);
       console.log(response.data);
     })

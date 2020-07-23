@@ -124,7 +124,7 @@ function FinishScreen(props) {
 
   console.log("qna:");
   console.log(qna);
-  console.log(qna[0].question.question);
+  console.log(qna[0].question);
   console.log(countCorrectAnswers(qna));
   return (
     <div>

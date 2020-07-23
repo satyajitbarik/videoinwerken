@@ -12,6 +12,11 @@ function ShowCourse(props) {
   const { course, setSelectedCourse } = props;
 
   const status = () => {
+    console.log("STATUS");
+    console.log(course);
+    console.log(course.id);
+    console.log(course.attempted);
+
     if (course.passed) {
       <TableCell style={{ color: "green", fontWeight: "bold" }}>
         Passed
@@ -32,8 +37,6 @@ function ShowCourse(props) {
   };
 
   const showCourse = () => {
-    console.log("showing course");
-    console.log(course);
     return (
       <TableRow key={course.id}>
         <TableCell>{course.id}</TableCell>

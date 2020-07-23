@@ -17,7 +17,7 @@ import {
   getQuestionsAndAnswers,
   sendQuestionProgressToDatabase,
   submitQuestionProgress,
-  getQuestionProgress,
+  updateOrCreateQuestionProgress,
 } from "../employeeActions";
 import FinishScreen from "./FinishScreen";
 
@@ -39,8 +39,7 @@ function EmployeeDoCourse(props) {
 
   // Runs on initial render
   useEffect(() => {
-    console.log("questions and asnwers :D");
-    console.log(questionsAndAnswers);
+    //console.log("questions and asnwers :D");
 
     // if questionsAndAnswers is not empty
     if (questionsAndAnswers.length) {
@@ -49,7 +48,8 @@ function EmployeeDoCourse(props) {
       }
       return;
     }
-
+    console.log("useEffect => get questions and asnwers");
+    console.log(questionsAndAnswers);
     getQuestionsAndAnswers(course.id, setQuestionsAndAnswers);
   });
 
@@ -95,7 +95,7 @@ function EmployeeDoCourse(props) {
     };
 
     const nextQuestion = () => {
-      getQuestionProgress(currentQuestion, answers);
+      updateOrCreateQuestionProgress(currentQuestion, answers);
 
       if (questionsAndAnswers[currentIndex + 1]) {
         setCurrentIndex(currentIndex + 1);
