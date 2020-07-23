@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React, { useState, useEffect } from "react";
@@ -54,4 +55,39 @@ export function updateEmployer(employer, onSave) {
       });
     return;
   }
+}
+
+export function submitEmployer(
+  employer,
+  onClose,
+  setEmailError,
+  setPasswordError
+) {
+  axios
+    .post("http://localhost:8000/api/employers/", employer, {
+      headers: {
+        authorization: "Token " + getUserToken(),
+      },
+    })
+    .then((response) => {
+      console.log("handle response");
+      console.log(response.data);
+      onClose();
+    })
+    .catch((error) => {
+      const response = error.response;
+      console.log(response.data);
+
+      if (response.data.email) {
+        setEmailError(response.data.email);
+      } else {
+        setEmailError(null);
+      }
+
+      if (response.data.password) {
+        setPasswordError(response.data.password);
+      } else {
+        setPasswordError(null);
+      }
+    });
 }

@@ -11,7 +11,8 @@ import {
   Button,
 } from "@material-ui/core";
 import { retrieveEmployers, deleteEmployer } from "./actions";
-import EmployerEdit from "./EmployerEdit.js";
+import EmployerEdit from "./EmployerEdit";
+import EmployerAdd from "./EmployerAdd";
 
 function EmployerList() {
   const [employerList, setEmployerList] = React.useState(null);
@@ -54,9 +55,13 @@ function EmployerList() {
     );
   };
 
+  const handleOpenAdd = () => {
+    setOpenEmployeeAdd(true);
+    //retrieveEmployers();
+  };
   const handleCloseAdd = () => {
     setOpenEmployeeAdd(false);
-    retrieveEmployers();
+    retrieveEmployers(setEmployerList);
   };
 
   const afterEdit = () => {
@@ -79,6 +84,17 @@ function EmployerList() {
     <div>
       <h3>Employers</h3>
       {employerList && renderEmployers()}
+
+      <Button
+        onClick={handleOpenAdd}
+        variant="contained"
+        color="primary"
+        style={{ marginTop: 20 }}
+      >
+        Add employer
+      </Button>
+
+      <EmployerAdd open={openEmployeeAdd} onClose={handleCloseAdd} />
 
       {selectedEmployer ? (
         <EmployerEdit

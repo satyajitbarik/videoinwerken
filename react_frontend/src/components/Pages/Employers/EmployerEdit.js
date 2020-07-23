@@ -52,15 +52,6 @@ export default function EmployerEdit(props) {
             disabled
             fullWidth
           />
-          <TextField
-            name="employer"
-            label="Employer"
-            variant="outlined"
-            onChange={handleChange}
-            defaultValue={employer.employer}
-            margin="normal"
-            fullWidth
-          />
 
           <TextField
             name="iban"

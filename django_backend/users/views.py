@@ -35,7 +35,8 @@ class Employers(viewsets.ModelViewSet):
     def list(self, request):
         #queryset = CustomUser.objects.all();
         #queryset = self.queryset.filter(id__in=CustomUser.objects.filter(employer=id))
-        queryset = self.queryset.filter(customuser__isnull=False).distinct()
+        #queryset = self.queryset.filter(customuser__isnull=False).distinct()   #alle users met employees
+        queryset = self.queryset.filter(employer_id__isnull=True) # all users without employer
 
         serializer = CustomUserSerializer(queryset, many=True)
         return Response(serializer.data)
