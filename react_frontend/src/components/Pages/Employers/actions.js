@@ -22,7 +22,7 @@ export function retrieveEmployers(setEmployerList) {
 }
 
 // delete employer
-export function deleteEmployer(employer, setEmployerList, onClose) {
+export function deleteEmployer(employer, onClose) {
   if (employer.id) {
     axios
       .delete(`http://localhost:8000/api/employers/${employer.id}/`, employer, {
@@ -30,8 +30,28 @@ export function deleteEmployer(employer, setEmployerList, onClose) {
           authorization: "Token " + getUserToken(),
         },
       })
-      .then((response) => retrieveEmployers(setEmployerList));
-    onClose();
+      .then((response) => {
+        onClose();
+      });
+
+    return;
+  }
+}
+
+export function updateEmployer(employer, onSave) {
+  if (employer.id) {
+    axios
+      .put(`http://localhost:8000/api/employers/${employer.id}/`, employer, {
+        headers: {
+          authorization: "Token " + getUserToken(),
+        },
+      })
+      .then((response) => {
+        onSave();
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
     return;
   }
 }

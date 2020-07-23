@@ -42,10 +42,7 @@ function EmployerList() {
           {employerList.map((emp) => (
             <TableRow
               key={emp.id}
-              onClick={() => {
-                setSelectedEmployer(emp);
-                // handleOpenEdit(emp);
-              }}
+              onClick={() => setSelectedEmployer(emp)}
               style={{ cursor: "pointer" }}
             >
               <TableCell style={{ width: 50 }}>{emp.id}</TableCell>
@@ -62,24 +59,36 @@ function EmployerList() {
     retrieveEmployers();
   };
 
-  const handleOpenEdit = (employee) => {
-    setEmployeeDetail(employee);
-    setOpenEmployeeEdit(true);
+  const afterEdit = () => {
+    setSelectedEmployer(null);
+    retrieveEmployers(setEmployerList);
   };
 
-  const handleCloseEdit = () => {
-    setOpenEmployeeEdit(false);
-    retrieveEmployers();
-  };
-
+  // When delete button is pressed
   const handleDelete = (employer) => {
-    deleteEmployer(employer, setEmployerList, handleCloseEdit);
+    deleteEmployer(employer, afterDelete);
+  };
+
+  // After delete finished
+  const afterDelete = () => {
+    retrieveEmployers(setEmployerList);
+    setSelectedEmployer(null);
   };
 
   return (
     <div>
       <h3>Employers</h3>
       {employerList && renderEmployers()}
+
+      {selectedEmployer ? (
+        <EmployerEdit
+          open={selectedEmployer != null}
+          employer={selectedEmployer}
+          onCancel={() => setSelectedEmployer(null)}
+          onSave={afterEdit}
+          handleDelete={handleDelete}
+        />
+      ) : null}
     </div>
   );
 }

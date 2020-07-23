@@ -169,7 +169,7 @@ export default function CourseEdit(props) {
           color="secondary"
           style={{ marginTop: 10 }}
         >
-          Delete Course
+          Delete Course (deletes all employees of this employer as well)
         </Button>
 
         <Button

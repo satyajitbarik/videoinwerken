@@ -17,7 +17,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'password', 'employer')
+        fields = ('id', 'email', 'password', 'employer', 'iban')
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data.get('password'))
@@ -32,5 +32,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         #instance.is_employee = validated_data.get('is_employee')
         #instance.employees.set(validated_data.get('employees'))
         instance.employer = validated_data.get('employer')
+        instance.iban = validated_data.get('iban')
         instance.save()
         return instance

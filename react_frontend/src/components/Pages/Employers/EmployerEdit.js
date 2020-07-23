@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 import React from "react";
@@ -12,52 +13,32 @@ import {
 import { TextField } from "@material-ui/core";
 import axios from "axios";
 import { getUserToken } from "../../../utils/authUtils";
+import { updateEmployer } from "./actions";
 
 export default function EmployerEdit(props) {
-  let { employee } = props;
-  const { onClose, handleDelete, open } = props;
+  let { employer } = props;
+  const { onCancel, onSave, handleDelete, open } = props;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    employee = { ...employee, [name]: value };
+    employer = { ...employer, [name]: value };
+    console.log(employer);
   };
 
   const handleCheckBox = (e, value) => {
     const name = e.target.name;
-    employee = { ...employee, [name]: value };
-  };
-
-  const handleSubmit = (employee) => {
-    if (employee.id) {
-      axios
-        .put(
-          `http://localhost:8000/api/manager/employees/${employee.id}/`,
-          employee,
-          {
-            headers: {
-              authorization: "Token " + getUserToken(),
-            },
-          }
-        )
-        .then((response) => {
-          onClose();
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-      return;
-    }
+    employer = { ...employer, [name]: value };
   };
 
   return (
-    <Dialog open={open} onClose={onClose()} aria-labelledby="form-dialog-title">
+    <Dialog open={open} onClose={onCancel} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Edit employee</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Please fill in the details of the employee.
         </DialogContentText>
 
-        {console.log(employee)}
+        {console.log(employer)}
 
         <form>
           <TextField
@@ -66,7 +47,7 @@ export default function EmployerEdit(props) {
             label="Email"
             variant="outlined"
             onChange={handleChange}
-            defaultValue={employee.email}
+            defaultValue={employer.email}
             margin="normal"
             disabled
             fullWidth
@@ -76,13 +57,23 @@ export default function EmployerEdit(props) {
             label="Employer"
             variant="outlined"
             onChange={handleChange}
-            defaultValue={employee.employer}
+            defaultValue={employer.employer}
+            margin="normal"
+            fullWidth
+          />
+
+          <TextField
+            name="iban"
+            label="IBAN"
+            variant="outlined"
+            onChange={handleChange}
+            defaultValue={employer.iban}
             margin="normal"
             fullWidth
           />
 
           <Button
-            onClick={() => handleDelete(employee)}
+            onClick={() => handleDelete(employer)}
             variant="contained"
             color="secondary"
             style={{ marginTop: 10 }}
@@ -93,10 +84,13 @@ export default function EmployerEdit(props) {
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={onCancel} color="primary">
           Cancel
         </Button>
-        <Button onClick={() => handleSubmit(employee)} color="primary">
+        <Button
+          onClick={() => updateEmployer(employer, onSave)}
+          color="primary"
+        >
           Confirm
         </Button>
       </DialogActions>
