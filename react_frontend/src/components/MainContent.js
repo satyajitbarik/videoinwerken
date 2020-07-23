@@ -20,6 +20,8 @@ import ReduxTest from "./Manager/Courses/ReduxTest";
 import EmployeeList from "./Manager/Employees/EmployeeList";
 import EmployeeCourses from "./Employee/EmployeeCourses";
 
+import EmployerList from "./Pages/Employers/EmployerList";
+
 const MainContent = () => (
   <div className="container" style={{ marginTop: 20 }}>
     <Switch>
@@ -36,6 +38,8 @@ const MainContent = () => (
       <Route path="/profile_edit" component={RequireAuth(UserProfileEdit)} />
       <Route path="/change_password" component={RequireAuth(PasswordChange)} />
       <Route path="/manager/employees" component={RequireAuth(EmployeeList)} />
+
+      <Route path="/admin/employers" component={RequireAuth(EmployerList)} />
 
       <Route path="/manager/courses" component={RequireAuth(Course)} />
       <Route

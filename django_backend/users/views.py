@@ -26,3 +26,16 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(employer=self.request.user)
+
+# Get all employers
+class Employers(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+
+    def list(self, request):
+        #queryset = CustomUser.objects.all();
+        #queryset = self.queryset.filter(id__in=CustomUser.objects.filter(employer=id))
+        queryset = self.queryset.filter(customuser__isnull=False).distinct()
+
+        serializer = CustomUserSerializer(queryset, many=True)
+        return Response(serializer.data)

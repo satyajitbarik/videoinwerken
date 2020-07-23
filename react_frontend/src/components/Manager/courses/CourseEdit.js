@@ -149,6 +149,7 @@ export default function CourseEdit(props) {
         >
           Add questions to course
         </Button>
+        {questions()}
       </div>
     );
   };
@@ -197,8 +198,6 @@ export default function CourseEdit(props) {
       ) : (
         courseDetails()
       )}
-
-      {questions()}
     </div>
   );
 }
