@@ -46,10 +46,19 @@ export default function CourseEdit(props) {
   };
 
   const printAnswers = (answers) => {
+    console.log(answers);
     return (
       <TableCell>
-        {answers.map((answer) => (
-          <span key={answer}>answer</span>
+        {answers.map((answer, index) => (
+          <span
+            key={answer.id}
+            style={{
+              color: answer.correct ? "green" : "black",
+              fontWeight: answer.correct ? "bold" : "normal",
+            }}
+          >
+            {answer.answer + (index ? "" : ", ")}
+          </span>
         ))}
       </TableCell>
     );
@@ -58,12 +67,8 @@ export default function CourseEdit(props) {
   const renderQuestions = () => {
     console.log("gggg");
     console.log(questionsAndAnswers);
-    console.log(questionsAndAnswers[0]);
-    console.log(questionsAndAnswers[0].id);
-    console.log(questionsAndAnswers[0].course);
-    console.log(questionsAndAnswers[0].question);
-    console.log(questionsAndAnswers[0].answers);
-    console.log(questionsAndAnswers[0]["answers"]);
+    //console.log(questionsAndAnswers[2].answers);
+
     return (
       <Table>
         <TableBody>
@@ -71,6 +76,7 @@ export default function CourseEdit(props) {
             <TableRow key={question.id}>
               <TableCell>{question.id}</TableCell>
               <TableCell>{question.question}</TableCell>
+              {printAnswers(question.answers)}
             </TableRow>
           ))}
         </TableBody>
