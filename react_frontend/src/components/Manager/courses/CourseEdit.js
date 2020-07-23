@@ -14,23 +14,15 @@ export default function CourseEdit(props) {
   const { onClose, handleDelete } = props;
   const [addQuestion, setAddQuestion] = React.useState(false);
 
-  const [courseQuestions, setCourseQuestions] = React.useState(null);
+  //const [courseQuestions, setCourseQuestions] = React.useState(null);
   const [questionsAndAnswers, setQuestionsAndAnswers] = React.useState(null);
 
   // Runs on initial render
   useEffect(() => {
-    console.log("Initial render of course edit");
-    //console.log(courseQuestions);
-
-    //if (courseQuestions != null) {
-    //   return;
-    // }
-
     if (questionsAndAnswers != null) {
       return;
     }
-
-    // getCourseQuestions(setCourseQuestions);
+    console.log("USEEFFECT: get questions and answers");
     getQuestionsAndAnswers(course.id, setQuestionsAndAnswers);
   });
 
@@ -54,12 +46,6 @@ export default function CourseEdit(props) {
   };
 
   const renderQuestions = () => {
-    console.log("course questinos:");
-
-    //console.log(courseQuestions);
-
-    console.log(questionsAndAnswers);
-
     return (
       <Table>
         <TableBody>

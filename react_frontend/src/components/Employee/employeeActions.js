@@ -104,6 +104,12 @@ export function getQuestionsAndAnswers(courseId, setQuestionsAndAnswers) {
         const question = questions[i];
         questionsAndAnswers.push(question);
         getAnswers(question.id, questionsAndAnswers, i, setQuestionsAndAnswers);
+
+        // On last index, we update dict.
+        if (i == questions.length - 1) {
+          setQuestionsAndAnswers(questionsAndAnswers);
+          console.log("done loading questions and answers");
+        }
       }
       //console.log(questionsAndAnswers);
     })
@@ -131,13 +137,6 @@ function getAnswers(
     .then((response) => {
       const answers = response.data;
       questionsAndAnswers[index].answers = answers;
-      //questionsAndAnswers[index].answers = questionsAndAnswers[
-      //  index
-      //].answers.concat(answers);
-
-      console.log("done loading questions and answers");
-      console.log(questionsAndAnswers);
-      setQuestionsAndAnswers(questionsAndAnswers);
     })
     .catch((error) => {
       console.log(error);
