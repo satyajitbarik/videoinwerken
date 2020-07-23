@@ -45,7 +45,25 @@ export default function CourseEdit(props) {
     getCourseQuestions();
   };
 
+  const printAnswers = (answers) => {
+    return (
+      <TableCell>
+        {answers.map((answer) => (
+          <span key={answer}>answer</span>
+        ))}
+      </TableCell>
+    );
+  };
+
   const renderQuestions = () => {
+    console.log("gggg");
+    console.log(questionsAndAnswers);
+    console.log(questionsAndAnswers[0]);
+    console.log(questionsAndAnswers[0].id);
+    console.log(questionsAndAnswers[0].course);
+    console.log(questionsAndAnswers[0].question);
+    console.log(questionsAndAnswers[0].answers);
+    console.log(questionsAndAnswers[0]["answers"]);
     return (
       <Table>
         <TableBody>

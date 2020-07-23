@@ -103,13 +103,13 @@ export function getQuestionsAndAnswers(courseId, setQuestionsAndAnswers) {
       for (let i = 0; i < questions.length; i++) {
         const question = questions[i];
         questionsAndAnswers.push(question);
-        getAnswers(question.id, questionsAndAnswers, i, setQuestionsAndAnswers);
-
-        // On last index, we update dict.
-        if (i == questions.length - 1) {
-          setQuestionsAndAnswers(questionsAndAnswers);
-          console.log("done loading questions and answers");
-        }
+        getAnswers(
+          question.id,
+          questionsAndAnswers,
+          i,
+          questions,
+          setQuestionsAndAnswers
+        );
       }
       //console.log(questionsAndAnswers);
     })
@@ -123,6 +123,7 @@ function getAnswers(
   questionId,
   questionsAndAnswers,
   index,
+  questions,
   setQuestionsAndAnswers
 ) {
   axios
@@ -137,6 +138,12 @@ function getAnswers(
     .then((response) => {
       const answers = response.data;
       questionsAndAnswers[index].answers = answers;
+
+      // On last index, we update dict.
+      if (index == questions.length - 1) {
+        setQuestionsAndAnswers(questionsAndAnswers);
+        console.log("done loading questions and answers");
+      }
     })
     .catch((error) => {
       console.log(error);
