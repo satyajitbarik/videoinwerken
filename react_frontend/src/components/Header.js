@@ -79,7 +79,9 @@ function Header(props) {
     if (user == null) {
       return "User is null";
     }
-    return user.is_employer ? "EMPLOYER" : "EMPLOYEe";
+    if (user.is_admin) return "ADMIN";
+    if (user.is_employer) return "EMPLOYER";
+    if (user.is_employee) return "EMPLOYEE";
   };
 
   return (
