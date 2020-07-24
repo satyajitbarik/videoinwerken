@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable no-console */
+import React, { Fragment, useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import RequireAuth from "./auth/RequireAuth";
 import Landing from "./Landing";
@@ -21,7 +22,8 @@ import EmployeeList from "./Manager/Employees/EmployeeList";
 import EmployerList from "./Pages/Employers/EmployerList";
 import EmployeeCourses from "./Employee/EmployeeCourses";
 
-function MainContent() {
+function MainContent(props) {
+  const { user } = props;
   return (
     <div className="container" style={{ marginTop: 20 }}>
       <Switch>
@@ -43,10 +45,13 @@ function MainContent() {
           path="/change_password"
           component={RequireAuth(PasswordChange)}
         />
-        <Route
-          path="/manager/employees"
-          component={RequireAuth(EmployeeList)}
-        />
+
+        {user && user.is_employer && (
+          <Route
+            path="/manager/employees"
+            component={RequireAuth(EmployeeList)}
+          />
+        )}
 
         <Route path="/manager/courses" component={RequireAuth(Course)} />
         <Route

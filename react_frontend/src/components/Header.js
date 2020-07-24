@@ -72,7 +72,15 @@ const renderLinks = (authenticated, setAuthenticated) => {
 };
 
 function Header(props) {
+  const { authenticated, setAuthenticated, user } = props;
   const classes = useStyles();
+
+  const userType = () => {
+    if (user == null) {
+      return "User is null";
+    }
+    return user.is_employer ? "EMPLOYER" : "EMPLOYEe";
+  };
 
   return (
     <div className={classes.root}>
@@ -87,10 +95,10 @@ function Header(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Video Inwerken
+            Video Inwerken {userType()}
           </Typography>
 
-          {renderLinks(props.authenticated, props.setAuthenticated)}
+          {renderLinks(authenticated, setAuthenticated)}
         </Toolbar>
       </AppBar>
     </div>

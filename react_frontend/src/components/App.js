@@ -6,6 +6,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import axios from "axios";
 import { AuthUrls } from "../constants/urls";
 import { getUserToken } from "../utils/authUtils";
+import { getUser } from "../actions/authActions";
 
 // If you want to use this, add <Typography> in code
 const theme = createMuiTheme({
@@ -25,15 +26,31 @@ const theme = createMuiTheme({
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
 
+  const [user, setUser] = React.useState(null);
+  //const user = null;
+
+  // Get logged in user
+  useEffect(() => {
+    let mounted = true;
+    if (user == null) {
+      console.log("retrieving user");
+      //getUser(user);
+      getUser(setUser, mounted);
+    }
+
+    return () => (mounted = false);
+  });
+
   return (
     <div>
       <ThemeProvider theme={theme}>
         <Notifs />
         <Header
+          user={user}
           authenticated={authenticated}
           setAuthenticated={setAuthenticated}
         />
-        <MainContent />
+        <MainContent user={user} />
       </ThemeProvider>
     </div>
   );
