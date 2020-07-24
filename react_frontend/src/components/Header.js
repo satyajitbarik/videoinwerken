@@ -98,7 +98,7 @@ function Header(props) {
   // Get logged in user
   useEffect(() => {
     if (user == null) {
-      console.log("retrieving user");
+      console.log("retrieving user header");
       getUser(setUser);
     }
   });

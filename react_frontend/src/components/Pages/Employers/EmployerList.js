@@ -13,6 +13,7 @@ import {
 import { retrieveEmployers, deleteEmployer } from "./actions";
 import EmployerEdit from "./EmployerEdit";
 import EmployerAdd from "./EmployerAdd";
+import { getUser } from "../Account/actions";
 
 function EmployerList() {
   const [employerList, setEmployerList] = React.useState(null);
@@ -22,17 +23,17 @@ function EmployerList() {
   const [openEmployeeEdit, setOpenEmployeeEdit] = React.useState(false);
 
   const [employeeDetail, setEmployeeDetail] = React.useState(null);
-
+  const [user, setUser] = React.useState(null);
   // Runs on initial render
   useEffect(() => {
-    /* if (user == null) {
-      console.log("retrieving user");
+    if (user == null) {
+      console.log("retrieving user employer list");
       getUser(setUser);
-    }*/
+    }
     if (employerList == null) {
       retrieveEmployers(setEmployerList);
     }
-  });
+  }, [user]);
 
   const renderEmployers = () => {
     console.log(employerList);
@@ -83,9 +84,12 @@ function EmployerList() {
     setSelectedEmployer(null);
   };
 
-  /* if (user == null || !user.is_employer) {
-    return <div>This page can only be accessed by employees.</div>;
-  }*/
+  if (user == null) {
+    return <div>Loading...</div>;
+  }
+  if (!user.is_admin) {
+    return <div>This page can only be accessed by admins.</div>;
+  }
 
   return (
     <div>

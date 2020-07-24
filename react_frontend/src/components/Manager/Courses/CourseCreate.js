@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import React from "react";
+import React, { useEffect } from "react";
 import { MyTextField, apiPost, MyCheckBox } from "../../../utils/utils";
 
 import Button from "@material-ui/core/Button";
@@ -19,9 +19,12 @@ import { AuthUrls } from "../../../constants/urls";
 import { renderError } from "../../../utils/renderUtils";
 import { Redirect } from "react-router-dom";
 import CourseQuestionAdd from "./CourseQuestionAdd";
+import { getUser } from "../../Pages/Account/actions";
 
 export default function CourseCreate(props) {
   const { onClose } = props;
+  const [user, setUser] = React.useState(null);
+
   const [course, setCourse] = React.useState({
     title: "",
     description: "",
@@ -32,6 +35,14 @@ export default function CourseCreate(props) {
   });
   const [titleError, setTitleError] = React.useState("");
   const [addQuestion, setAddQuestion] = React.useState(false);
+
+  // Get logged in user
+  useEffect(() => {
+    if (user == null) {
+      console.log("retrieving user");
+      getUser(setUser);
+    }
+  });
 
   const handleClose = () => {
     setAddQuestion(false);
@@ -139,11 +150,11 @@ export default function CourseCreate(props) {
     );
   };
 
-  if (course) {
-    console.log(course);
-    console.log("course title:" + course.title);
-  } else {
-    console.log("course is null");
+  if (user == null) {
+    return <div>Loading...</div>;
+  }
+  if (!user.is_employer) {
+    return <div>This page can only be accessed by employers.</div>;
   }
 
   // MAIN PAGE

@@ -17,16 +17,22 @@ import {
 } from "../Employee/employeeActions";
 import EmployeeDoCourse from "../Employee/InCourse/EmployeeDoCourse";
 import ShowCourse from "../Employee/InCourse/ShowCourse";
+import { getUser } from "../Pages/Account/actions";
 
 function EmployeeCourses() {
   const [coursesDict, setCoursesDict] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [user, setUser] = React.useState(null);
 
   useEffect(() => {
+    if (user == null) {
+      console.log("retrieving user");
+      getUser(setUser);
+    }
     if (coursesDict == null) {
       getCourses(setCoursesDict);
     }
-  });
+  }, [user]);
 
   const showCourses = () => {
     if (coursesDict == null) {
@@ -58,6 +64,13 @@ function EmployeeCourses() {
       </div>
     );
   };
+
+  if (user == null) {
+    return <div>Loading...</div>;
+  }
+  if (!user.is_employee) {
+    return <div>This page can only be accessed by employees.</div>;
+  }
 
   if (selectedCourse) {
     return (

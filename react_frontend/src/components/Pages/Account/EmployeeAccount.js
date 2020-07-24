@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { updateEmployee } from "./actions";
-import { getUser } from "../../../actions/authActions";
+import { getUser } from "../Account/actions";
 import GreenSnackbar from "../Snackbar";
 
 export default function EmployeeAccount() {
@@ -39,6 +39,9 @@ export default function EmployeeAccount() {
 
   if (user == null) {
     return <div>Loading...</div>;
+  }
+  if (!user.is_employee) {
+    return <div>This page can only be accessed by employees.</div>;
   }
 
   return (

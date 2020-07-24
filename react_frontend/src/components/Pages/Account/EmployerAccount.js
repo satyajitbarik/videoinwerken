@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { updateEmployer } from "./actions";
-import { getUser } from "../../../actions/authActions";
+import { getUser } from "../Account/actions";
 import GreenSnackbar from "../Snackbar";
 
 export default function EmployerAccount() {
@@ -18,7 +18,7 @@ export default function EmployerAccount() {
       console.log("retrieving user");
       getUser(setUser);
     }
-  });
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,6 +39,9 @@ export default function EmployerAccount() {
 
   if (user == null) {
     return <div>Loading...</div>;
+  }
+  if (!user.is_employer) {
+    return <div>This page can only be accessed by employers.</div>;
   }
 
   return (

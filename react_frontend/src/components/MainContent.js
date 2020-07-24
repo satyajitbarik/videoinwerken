@@ -23,18 +23,8 @@ import EmployerList from "./Pages/Employers/EmployerList";
 import EmployeeCourses from "./Employee/EmployeeCourses";
 import EmployerAccount from "./Pages/Account/EmployerAccount";
 import EmployeeAccount from "./Pages/Account/EmployeeAccount";
-import { getUser } from "../actions/authActions";
 
 function MainContent() {
-  const [user, setUser] = React.useState(null);
-
-  // Get logged in user
-  useEffect(() => {
-    if (user == null) {
-      console.log("retrieving user");
-      getUser(setUser);
-    }
-  });
   return (
     <div className="container" style={{ marginTop: 20 }}>
       <Switch>
@@ -57,6 +47,8 @@ function MainContent() {
           component={RequireAuth(PasswordChange)}
         />
 
+        <Route path="/admin/employers" component={RequireAuth(EmployerList)} />
+
         <Route
           path="/employer_account"
           component={RequireAuth(EmployerAccount)}
@@ -65,9 +57,6 @@ function MainContent() {
           path="/employee_account"
           component={RequireAuth(EmployeeAccount)}
         />
-
-        <Route path="/admin/employers" component={RequireAuth(EmployerList)} />
-
         <Route
           path="/manager/employees"
           component={RequireAuth(EmployeeList)}

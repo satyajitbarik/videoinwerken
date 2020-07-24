@@ -11,6 +11,7 @@ import { apiGetByUserId } from "../../../utils/utils";
 import CourseEdit from "./CourseEdit";
 import { apiGet, apiDelete, apiGetEmp } from "../../../utils/utils";
 import CourseCreate from "./CourseCreate";
+import { getUser } from "../../Pages/Account/actions";
 
 function Course() {
   // The displayed list of courses
@@ -21,14 +22,18 @@ function Course() {
 
   // Are we in creating course screen?
   const [creatingCourse, setCreatingCourse] = useState(false);
-
+  const [user, setUser] = React.useState(null);
   // Initial run
   useEffect(() => {
-    if (coursesList != null) {
+    if (user == null) {
+      console.log("retrieving user courses list");
+      getUser(setUser);
+    }
+    if (coursesList == null) {
+      retrieveCourses();
       return;
     }
-    retrieveCourses();
-  });
+  }, [user]);
 
   // Retrieve courses from database
   const retrieveCourses = () => {
@@ -126,6 +131,13 @@ function Course() {
       </div>
     );
   };
+
+  if (user == null) {
+    return <div>Loading...</div>;
+  }
+  if (!user.is_employer) {
+    return <div>This page can only be accessed by employers.</div>;
+  }
 
   if (creatingCourse) {
     console.log("creating course");

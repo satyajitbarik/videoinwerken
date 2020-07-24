@@ -5,6 +5,24 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getUserToken } from "../../../utils/authUtils";
 
+// get current logged in user
+export function getUser(setUser) {
+  axios
+    .get("http://localhost:8000/api/getuser/", {
+      headers: {
+        authorization: "Token " + getUserToken(),
+      },
+    })
+    .then((response) => {
+      setUser(response.data);
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log(error.response);
+    });
+}
+
 export function updateEmployer(employer, onSave) {
   if (employer.id) {
     // prevent manipulation
