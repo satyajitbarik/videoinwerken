@@ -39,6 +39,9 @@ const employerLinks = () => {
       <Button color="inherit" href="../manager/employees">
         Manage employees
       </Button>
+      <Button color="inherit" href="../profile">
+        Account
+      </Button>
     </React.Fragment>
   );
 };
@@ -49,13 +52,14 @@ const employeeLinks = () => {
       <Button color="inherit" href="../employee/courses">
         Courses
       </Button>
+      <Button color="inherit" href="../profile">
+        Account
+      </Button>
     </React.Fragment>
   );
 };
 
 const renderLinks = (authenticated, setAuthenticated, user) => {
-  console.log("user:");
-  console.log(user);
   if (authenticated) {
     /* return (
       <React.Fragment>
@@ -108,9 +112,11 @@ function Header(props) {
     if (user == null) {
       return "User is null";
     }
-    if (user.is_admin) return "ADMIN";
-    if (user.is_employer) return "EMPLOYER";
-    if (user.is_employee) return "EMPLOYEE";
+    let type = null;
+    if (user.is_admin) type = "ADMIN ";
+    if (user.is_employer) type = "EMPLOYER ";
+    if (user.is_employee) type = "EMPLOYEE ";
+    return type + user.email;
   };
 
   return (
