@@ -26,31 +26,15 @@ const theme = createMuiTheme({
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
 
-  const [user, setUser] = React.useState(null);
-  //const user = null;
-
-  // Get logged in user
-  useEffect(() => {
-    let mounted = true;
-    if (user == null) {
-      console.log("retrieving user");
-      //getUser(user);
-      getUser(setUser, mounted);
-    }
-
-    return () => (mounted = false);
-  });
-
   return (
     <div>
       <ThemeProvider theme={theme}>
         <Notifs />
         <Header
-          user={user}
           authenticated={authenticated}
           setAuthenticated={setAuthenticated}
         />
-        <MainContent user={user} />
+        <MainContent />
       </ThemeProvider>
     </div>
   );

@@ -21,9 +21,19 @@ import ReduxTest from "./Manager/Courses/ReduxTest";
 import EmployeeList from "./Manager/Employees/EmployeeList";
 import EmployerList from "./Pages/Employers/EmployerList";
 import EmployeeCourses from "./Employee/EmployeeCourses";
+import EmployerAccount from "./Pages/Account/EmployerAccount";
+import { getUser } from "../actions/authActions";
 
-function MainContent(props) {
-  const { user } = props;
+function MainContent() {
+  const [user, setUser] = React.useState(null);
+
+  // Get logged in user
+  useEffect(() => {
+    if (user == null) {
+      console.log("retrieving user");
+      getUser(setUser);
+    }
+  });
   return (
     <div className="container" style={{ marginTop: 20 }}>
       <Switch>
@@ -46,40 +56,28 @@ function MainContent(props) {
           component={RequireAuth(PasswordChange)}
         />
 
-        {user && user.is_admin && (
-          <Route
-            path="/admin/employers"
-            component={RequireAuth(EmployerList)}
-          />
-        )}
+        <Route path="/account" component={RequireAuth(EmployerAccount)} />
 
-        {user && user.is_employer && (
-          <Route
-            path="/manager/employees"
-            component={RequireAuth(EmployeeList)}
-          />
-        )}
+        <Route path="/admin/employers" component={RequireAuth(EmployerList)} />
 
-        {user && user.is_employer && (
-          <Route path="/manager/courses" component={RequireAuth(Course)} />
-        )}
+        <Route
+          path="/manager/employees"
+          component={RequireAuth(EmployeeList)}
+        />
 
-        {user && user.is_employer && (
-          <Route
-            path="/manager/createcourse"
-            component={RequireAuth(CourseCreate)}
-          />
-        )}
+        <Route path="/manager/courses" component={RequireAuth(Course)} />
 
-        {user && user.is_employee && (
-          <Route
-            path="/employee/courses"
-            component={RequireAuth(EmployeeCourses)}
-          />
-        )}
+        <Route
+          path="/manager/createcourse"
+          component={RequireAuth(CourseCreate)}
+        />
+
+        <Route
+          path="/employee/courses"
+          component={RequireAuth(EmployeeCourses)}
+        />
 
         {/*<Route path="/testredux" component={ReduxTest} />*/}
-
         <Route component={NoMatch} />
       </Switch>
     </div>

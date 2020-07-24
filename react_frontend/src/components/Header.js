@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import { getUser } from "../actions/authActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +40,7 @@ const employerLinks = () => {
       <Button color="inherit" href="../manager/employees">
         Manage employees
       </Button>
-      <Button color="inherit" href="../profile">
+      <Button color="inherit" href="../account">
         Account
       </Button>
     </React.Fragment>
@@ -52,7 +53,7 @@ const employeeLinks = () => {
       <Button color="inherit" href="../employee/courses">
         Courses
       </Button>
-      <Button color="inherit" href="../profile">
+      <Button color="inherit" href="../account">
         Account
       </Button>
     </React.Fragment>
@@ -89,13 +90,20 @@ const renderLinks = (authenticated, setAuthenticated, user) => {
 };
 
 function Header(props) {
-  const { authenticated, setAuthenticated, user } = props;
+  const { authenticated, setAuthenticated } = props;
   const classes = useStyles();
 
-  const userType = () => {
+  const [user, setUser] = React.useState(null);
+
+  // Get logged in user
+  useEffect(() => {
     if (user == null) {
-      return "User is null";
+      console.log("retrieving user");
+      getUser(setUser);
     }
+  });
+
+  const userType = () => {
     let type = null;
     if (user.is_admin) type = "ADMIN ";
     if (user.is_employer) type = "EMPLOYER ";
@@ -116,7 +124,7 @@ function Header(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Video Inwerken {userType()}
+            Video Inwerken {user && userType()}
           </Typography>
 
           {renderLinks(authenticated, setAuthenticated, user)}

@@ -17,7 +17,7 @@ export function authLogin(token) {
 }
 
 //export function getUser(user) {
-export function getUser(setUser, mounted) {
+export function getUser(setUser) {
   axios
     .get("http://localhost:8000/api/getuser/", {
       headers: {
@@ -25,8 +25,7 @@ export function getUser(setUser, mounted) {
       },
     })
     .then((response) => {
-      //user = response.data;
-      if (mounted) setUser(response.data);
+      setUser(response.data);
       console.log(response.data);
     })
     .catch((error) => {
