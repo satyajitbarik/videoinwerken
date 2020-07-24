@@ -17,12 +17,10 @@ import PasswordResetConfirm from "./auth/PasswordResetConfirm";
 import NoMatch from "./NoMatch";
 import Course from "./Manager/Courses/Course";
 import CourseCreate from "./Manager/Courses/CourseCreate";
-import ReduxTest from "./Manager/Courses/ReduxTest";
 import EmployeeList from "./Manager/Employees/EmployeeList";
 import EmployerList from "./Pages/Employers/EmployerList";
 import EmployeeCourses from "./Employee/EmployeeCourses";
-import EmployerAccount from "./Pages/Account/EmployerAccount";
-import EmployeeAccount from "./Pages/Account/EmployeeAccount";
+import Account from "./Pages/Account/Account";
 
 function MainContent() {
   return (
@@ -49,14 +47,7 @@ function MainContent() {
 
         <Route path="/admin/employers" component={RequireAuth(EmployerList)} />
 
-        <Route
-          path="/employer_account"
-          component={RequireAuth(EmployerAccount)}
-        />
-        <Route
-          path="/employee_account"
-          component={RequireAuth(EmployeeAccount)}
-        />
+        <Route path="/account" component={RequireAuth(Account)} />
         <Route
           path="/manager/employees"
           component={RequireAuth(EmployeeList)}

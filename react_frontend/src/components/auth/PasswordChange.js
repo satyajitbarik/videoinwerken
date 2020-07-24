@@ -5,6 +5,7 @@ import { required } from "redux-form-validators";
 import { changePassword } from "../../actions/authActions";
 import { renderField, renderError } from "../../utils/renderUtils";
 
+import Button from "@material-ui/core/Button";
 class PasswordChange extends Component {
   static propTypes = {
     ...propTypes,
@@ -14,48 +15,58 @@ class PasswordChange extends Component {
     const { handleSubmit, error } = this.props;
 
     return (
-      <div className="row justify-content-center">
-        <form className="col col-sm-4 card mt-5 p-2" onSubmit={handleSubmit}>
-          <h4 className="text-md-center">Change Password</h4>
-          <hr />
+      <form onSubmit={handleSubmit}>
+        <h4>Change Password</h4>
+        <hr />
 
-          <fieldset className="form-group">
-            <Field
-              name="old_password"
-              label="Old Password"
-              component={renderField}
-              type="password"
-              validate={[required({ message: "This field is required." })]}
-            />
-          </fieldset>
+        <fieldset className="form-group">
+          <Field
+            name="old_password"
+            label="Old Password"
+            component={renderField}
+            type="password"
+            variant="outlined"
+            validate={[required({ message: "This field is required." })]}
+          />
+        </fieldset>
 
-          <fieldset className="form-group">
-            <Field
-              name="new_password1"
-              label="New Password"
-              component={renderField}
-              type="password"
-              validate={[required({ message: "This field is required." })]}
-            />
-          </fieldset>
+        <fieldset className="form-group">
+          <Field
+            name="new_password1"
+            label="New Password"
+            component={renderField}
+            type="password"
+            validate={[required({ message: "This field is required." })]}
+          />
+        </fieldset>
 
-          <fieldset className="form-group">
-            <Field
-              name="new_password2"
-              label="Confirm New Password"
-              component={renderField}
-              type="password"
-              validate={[required({ message: "This field is required." })]}
-            />
-          </fieldset>
+        <fieldset className="form-group">
+          <Field
+            name="new_password2"
+            label="Confirm New Password"
+            component={renderField}
+            type="password"
+            validate={[required({ message: "This field is required." })]}
+          />
+        </fieldset>
 
-          <fieldset className="form-group">
-            <button action="submit" className="btn btn-primary">
-              Submit
-            </button>
-          </fieldset>
-        </form>
-      </div>
+        {error && error.length > 0 && renderError(error)}
+
+        <fieldset className="form-group">
+          <Button variant="contained" color="primary" type="submit">
+            Submit
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginLeft: 10 }}
+            href="../account"
+          >
+            Cancel
+          </Button>
+        </fieldset>
+      </form>
     );
   }
 }

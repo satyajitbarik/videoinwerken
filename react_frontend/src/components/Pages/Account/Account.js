@@ -4,11 +4,13 @@
 import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
-import { updateEmployee } from "./actions";
+import { updateEmployer } from "./actions";
 import { getUser } from "../Account/actions";
 import GreenSnackbar from "../Snackbar";
+import AccountEmployee from "./AccountEmployee";
+import AccountEmployer from "./AccountEmployer";
 
-export default function EmployeeAccount() {
+export default function Account() {
   const [user, setUser] = React.useState(null);
   const [success, setSuccess] = React.useState(false);
 
@@ -18,7 +20,7 @@ export default function EmployeeAccount() {
       console.log("retrieving user");
       getUser(setUser);
     }
-  });
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,43 +42,26 @@ export default function EmployeeAccount() {
   if (user == null) {
     return <div>Loading...</div>;
   }
-  if (!user.is_employee) {
-    return <div>This page can only be accessed by employees.</div>;
+
+  if (user.is_employer) {
+    return (
+      <AccountEmployer
+        user={user}
+        success={success}
+        setSuccess={setSuccess}
+        handleChange={handleChange}
+        onSave={onSave}
+      />
+    );
+  } else if (user.is_employee) {
+    return (
+      <AccountEmployee
+        user={user}
+        success={success}
+        setSuccess={setSuccess}
+        handleChange={handleChange}
+        onSave={onSave}
+      />
+    );
   }
-
-  return (
-    <form>
-      <TextField
-        autoFocus
-        name="email"
-        label="Email"
-        variant="outlined"
-        onChange={handleChange}
-        defaultValue={user.email}
-        margin="normal"
-        //disabled
-        fullWidth
-      />
-
-      <TextField
-        name="iban"
-        label="IBAN"
-        variant="outlined"
-        onChange={handleChange}
-        defaultValue={user.iban}
-        margin="normal"
-        fullWidth
-      />
-
-      <Button onClick={() => updateEmployee(user, onSave)} color="primary">
-        Save
-      </Button>
-
-      <GreenSnackbar
-        open={success}
-        setOpen={setSuccess}
-        text="Account saved!"
-      />
-    </form>
-  );
 }

@@ -5,42 +5,13 @@ import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { updateEmployer } from "./actions";
-import { getUser } from "../Account/actions";
+import { getUser } from "./actions";
 import GreenSnackbar from "../Snackbar";
 
-export default function EmployerAccount() {
-  const [user, setUser] = React.useState(null);
-  const [success, setSuccess] = React.useState(false);
+export default function AccountEmployee(props) {
+  const { user, success, setSuccess, handleChange, onSave } = props;
 
-  // Get logged in user
-  useEffect(() => {
-    if (user == null) {
-      console.log("retrieving user");
-      getUser(setUser);
-    }
-  }, [user]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
-    console.log(user);
-  };
-
-  const handleCheckBox = (e, value) => {
-    const name = e.target.name;
-    setUser({ ...user, [name]: value });
-  };
-
-  const onSave = () => {
-    // send message update profile succesful!
-    console.log("Saved!");
-    setSuccess(true);
-  };
-
-  if (user == null) {
-    return <div>Loading...</div>;
-  }
-  if (!user.is_employer) {
+  if (!user.is_employee) {
     return <div>This page can only be accessed by employers.</div>;
   }
 
@@ -68,8 +39,22 @@ export default function EmployerAccount() {
         fullWidth
       />
 
-      <Button onClick={() => updateEmployer(user, onSave)} color="primary">
+      <Button
+        style={{ marginTop: 20 }}
+        onClick={() => updateEmployer(user, onSave)}
+        variant="contained"
+        color="primary"
+      >
         Save
+      </Button>
+
+      <Button
+        style={{ marginTop: 20, marginLeft: 10 }}
+        href="/change_password"
+        variant="contained"
+        color="primary"
+      >
+        Change Password
       </Button>
 
       <GreenSnackbar

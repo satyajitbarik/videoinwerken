@@ -204,7 +204,7 @@ export function changePassword(formValues, dispatch, props) {
           })
         );
         // redirect to the route '/profile'
-        history.push("/profile");
+        history.push("/account");
       })
       .catch((error) => {
         // If request is bad...
