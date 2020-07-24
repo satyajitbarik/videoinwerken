@@ -29,6 +29,8 @@ class MyUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser):
     username = None
+    first_name = None
+    last_name = None
     email = models.EmailField(verbose_name='email address', max_length=255, unique=True)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
@@ -40,6 +42,9 @@ class CustomUser(AbstractBaseUser):
     employer = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
     #employees = models.ManyToManyField("self", related_name='employees', blank=True)
     iban = models.CharField(max_length=255, blank=True, null=True)
+
+    #is_manager = models.BooleanField(default=False)
+    #is_employer = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
