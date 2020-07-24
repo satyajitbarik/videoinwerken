@@ -44,7 +44,8 @@ class CustomUser(AbstractBaseUser):
     iban = models.CharField(max_length=255, blank=True, null=True)
 
     #is_manager = models.BooleanField(default=False)
-    #is_employer = models.BooleanField(default=False)
+    is_employer = models.BooleanField(default=False)
+    is_employee = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

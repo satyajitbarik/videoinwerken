@@ -3,7 +3,7 @@ from django.contrib import admin
 from rest_framework import routers
 
 #from user_profile.views import UserViewSet, EmployeeViewSet, UserProfileViewSet
-from users.views import CustomUserViewSet, EmployeeViewSet, MyEmployeeViewSet, Employers
+from users.views import CustomUserViewSet, EmployeeViewSet, MyEmployeeViewSet, Employers, GetLoggedInUser
 from videoinwerken_employee.models import EmployeeQuestion
 from videoinwerken_employee.views import EmployeeCourseView, EmployeeQuestionView, EmployeeCourseQuestionsView, \
     EmployeeQuestionsCourse
@@ -35,6 +35,8 @@ router.register('employee/coursequestions', EmployeeCourseQuestionsView)
 # Employee question record, use to see if attempted/passed the question
 router.register('employee/employeequestion', EmployeeQuestionView)
 
+router.register('getuser', GetLoggedInUser)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -45,4 +47,7 @@ urlpatterns = [
     path('account/', include('allauth.urls')),
 
     path('api/',  include(router.urls)),
+
+   #path('api/api-auth/', include('rest_framework.urls')),
+   # path('login/', include('rest_framework.urls')),
 ]

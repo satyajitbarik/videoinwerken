@@ -18,43 +18,58 @@ import Course from "./Manager/Courses/Course";
 import CourseCreate from "./Manager/Courses/CourseCreate";
 import ReduxTest from "./Manager/Courses/ReduxTest";
 import EmployeeList from "./Manager/Employees/EmployeeList";
+import EmployerList from "./Pages/Employers/EmployerList";
 import EmployeeCourses from "./Employee/EmployeeCourses";
 
-import EmployerList from "./Pages/Employers/EmployerList";
+function MainContent() {
+  return (
+    <div className="container" style={{ marginTop: 20 }}>
+      <Switch>
+        <Route exact path="/" component={Landing} />
+        <Route path="/login" component={Login} />
+        <Route path="/logout" component={Logout} />
+        <Route path="/signup" component={Signup} />
+        <Route
+          path="/account/confirm-email/:key"
+          component={AccountActivation}
+        />
+        <Route path="/signup_done" component={SignupDone} />
+        <Route path="/reset_password" component={PasswordReset} />
+        <Route path="/reset_password_done" component={PasswordResetDone} />
+        <Route path="/reset/:uid/:token/" component={PasswordResetConfirm} />
+        <Route path="/profile" component={RequireAuth(UserProfile)} />
+        <Route path="/profile_edit" component={RequireAuth(UserProfileEdit)} />
+        <Route
+          path="/change_password"
+          component={RequireAuth(PasswordChange)}
+        />
+        <Route
+          path="/manager/employees"
+          component={RequireAuth(EmployeeList)}
+        />
 
-const MainContent = () => (
-  <div className="container" style={{ marginTop: 20 }}>
-    <Switch>
-      <Route exact path="/" component={Landing} />
-      <Route path="/login" component={Login} />
-      <Route path="/logout" component={Logout} />
-      <Route path="/signup" component={Signup} />
-      <Route path="/account/confirm-email/:key" component={AccountActivation} />
-      <Route path="/signup_done" component={SignupDone} />
-      <Route path="/reset_password" component={PasswordReset} />
-      <Route path="/reset_password_done" component={PasswordResetDone} />
-      <Route path="/reset/:uid/:token/" component={PasswordResetConfirm} />
-      <Route path="/profile" component={RequireAuth(UserProfile)} />
-      <Route path="/profile_edit" component={RequireAuth(UserProfileEdit)} />
-      <Route path="/change_password" component={RequireAuth(PasswordChange)} />
-      <Route path="/manager/employees" component={RequireAuth(EmployeeList)} />
+        <Route path="/manager/courses" component={RequireAuth(Course)} />
+        <Route
+          path="/employee/courses"
+          component={RequireAuth(EmployeeCourses)}
+        />
+        <Route
+          path="/manager/createcourse"
+          component={RequireAuth(CourseCreate)}
+        />
 
-      <Route path="/admin/employers" component={RequireAuth(EmployerList)} />
+        <Route path="/testredux" component={ReduxTest} />
 
-      <Route path="/manager/courses" component={RequireAuth(Course)} />
-      <Route
-        path="/employee/courses"
-        component={RequireAuth(EmployeeCourses)}
-      />
-      <Route
-        path="/manager/createcourse"
-        component={RequireAuth(CourseCreate)}
-      />
+        <Route
+          path="/manager/employees"
+          component={RequireAuth(EmployeeList)}
+        />
 
-      <Route path="/testredux" component={ReduxTest} />
-      <Route component={NoMatch} />
-    </Switch>
-  </div>
-);
+        <Route path="/admin/employers" component={RequireAuth(EmployerList)} />
+        <Route component={NoMatch} />
+      </Switch>
+    </div>
+  );
+}
 
 export default MainContent;

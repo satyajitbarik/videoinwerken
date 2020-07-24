@@ -17,7 +17,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'password', 'employer', 'iban')
+        fields = ('id', 'email', 'password', 'is_admin', 'is_employer', 'is_employee', 'employer', 'iban')
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data.get('password'))
@@ -28,9 +28,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
         # so it doesnt change when saving
         #instance.set_password(validated_data.get('password', instance.password))
+        instance.is_admin = validated_data.get('is_admin')
+        instance.is_employer = validated_data.get('is_employer')
+        instance.is_employee = validated_data.get('is_employee')
 
-        #instance.is_employee = validated_data.get('is_employee')
-        #instance.employees.set(validated_data.get('employees'))
         instance.employer = validated_data.get('employer')
         instance.iban = validated_data.get('iban')
         instance.save()

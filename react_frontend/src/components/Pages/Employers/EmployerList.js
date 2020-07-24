@@ -25,10 +25,13 @@ function EmployerList() {
 
   // Runs on initial render
   useEffect(() => {
-    if (employerList != null) {
-      return;
+    /* if (user == null) {
+      console.log("retrieving user");
+      getUser(setUser);
+    }*/
+    if (employerList == null) {
+      retrieveEmployers(setEmployerList);
     }
-    retrieveEmployers(setEmployerList);
   });
 
   const renderEmployers = () => {
@@ -79,6 +82,10 @@ function EmployerList() {
     retrieveEmployers(setEmployerList);
     setSelectedEmployer(null);
   };
+
+  /* if (user == null || !user.is_employer) {
+    return <div>This page can only be accessed by employees.</div>;
+  }*/
 
   return (
     <div>

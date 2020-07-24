@@ -15,6 +15,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { apiGet, apiDelete, apiGetEmp } from "../../../utils/utils";
+import { getUser } from "../../../actions/authActions";
 
 function EmployeeList() {
   const [employeeList, setEmployeeList] = React.useState(null);
@@ -22,12 +23,19 @@ function EmployeeList() {
   const [openEmployeeEdit, setOpenEmployeeEdit] = React.useState(false);
   const [employeeDetail, setEmployeeDetail] = React.useState(null);
 
+  // currently logged in user
+  const [user, setUser] = React.useState(null);
+
   // Runs on initial render
   useEffect(() => {
-    if (employeeList != null) {
-      return;
+    if (user == null) {
+      console.log("retrieving user");
+      getUser(setUser);
     }
-    refreshList();
+
+    if (employeeList == null) {
+      refreshList();
+    }
   });
 
   // get list of employees of current user (the manager)
@@ -101,6 +109,10 @@ function EmployeeList() {
       return;
     }
   };
+
+  if (user == null || !user.is_employer) {
+    return <div>This page can only be accessed by employers.</div>;
+  }
 
   return (
     <div>

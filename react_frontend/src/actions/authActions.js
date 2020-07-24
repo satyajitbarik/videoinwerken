@@ -18,6 +18,23 @@ export function authLogin(token) {
 
 export function getUser(setUserProfile) {
   axios
+    .get("http://localhost:8000/api/getuser/", {
+      headers: {
+        authorization: "Token " + getUserToken(),
+      },
+    })
+    .then((response) => {
+      setUserProfile(response.data);
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log(error.response);
+    });
+}
+/*
+export function getUser(setUserProfile) {
+  axios
     .get("http://localhost:8000/rest-auth/user/", {
       headers: {
         authorization: "Token " + getUserToken(),
@@ -32,7 +49,7 @@ export function getUser(setUserProfile) {
       console.log(error.response);
     });
 }
-
+*/
 export function loginUser(formValues, dispatch, props) {
   const loginUrl = AuthUrls.LOGIN;
 

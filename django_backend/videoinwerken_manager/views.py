@@ -12,10 +12,15 @@ from .models import Course, CourseQuestion, CourseQuestionAnswer
 from .serializers import CourseSerializer, CourseQuestionSerializer, CourseQuestionAnswerSerializer
 
 
-# list my courses (from manager)
+from rest_framework.permissions import (AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly)
+
+
+
+# view my courses (from manager)
 class CourseViewMyCourses(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         if (self.request.user):
@@ -23,7 +28,7 @@ class CourseViewMyCourses(viewsets.ModelViewSet):
         else:
             return Course.objects.all()
 
-# delete/update courses
+# add/update/delete courses
 class CourseView(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer

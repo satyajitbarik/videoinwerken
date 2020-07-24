@@ -6,7 +6,6 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import axios from "axios";
 import { AuthUrls } from "../constants/urls";
 import { getUserToken } from "../utils/authUtils";
-import { getUser } from "../actions/authActions";
 
 // If you want to use this, add <Typography> in code
 const theme = createMuiTheme({
@@ -25,17 +24,6 @@ const theme = createMuiTheme({
 
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
-
-  const [userProfile, setUserProfile] = React.useState(null);
-
-  // Runs on initial render
-  useEffect(() => {
-    if (userProfile == null) {
-      console.log("retrieve user");
-      getUser(setUserProfile);
-    }
-    console.log(userProfile);
-  });
 
   return (
     <div>
