@@ -53,7 +53,8 @@ export default function CourseQuestionAdd(props) {
   //console.log("YOOOOOOO");
   //console.log(questionsAndAnswers);
 
-  const [dict, setDict] = React.useState([]);
+  const [dict, setDict] = React.useState([...questionsAndAnswers]);
+  //const [dict, setDict] = React.useState([]);
 
   const handleChangeInputList = (e, index) => {
     const { name, value } = e.target;

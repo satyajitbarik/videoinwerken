@@ -159,7 +159,13 @@ export default function CourseCreate(props) {
 
   // MAIN PAGE
   if (addQuestion) {
-    return <CourseQuestionAdd onClose={handleClose} course={course} />;
+    return (
+      <CourseQuestionAdd
+        onClose={handleClose}
+        course={course}
+        questionsAndAnswers={[]}
+      />
+    );
   } else {
     return courseDetailsPage();
   }

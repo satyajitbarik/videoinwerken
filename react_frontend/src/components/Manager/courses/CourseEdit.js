@@ -40,45 +40,6 @@ export default function CourseEdit(props) {
     setAddQuestion(false);
   };
 
-  const printAnswers = (answers) => {
-    console.log(answers);
-    return (
-      <TableCell>
-        {answers.map((answer, index) => (
-          <span
-            key={answer.id}
-            style={{
-              color: answer.correct ? "green" : "black",
-              fontWeight: answer.correct ? "bold" : "normal",
-            }}
-          >
-            {answer.answer + (index ? "" : ", ")}
-          </span>
-        ))}
-      </TableCell>
-    );
-  };
-
-  const renderQuestions = () => {
-    console.log("gggg");
-    console.log(questionsAndAnswers);
-    //console.log(questionsAndAnswers[2].answers);
-
-    return (
-      <Table>
-        <TableBody>
-          {questionsAndAnswers.map((question) => (
-            <TableRow key={question.id}>
-              <TableCell>{question.id}</TableCell>
-              <TableCell>{question.question}</TableCell>
-              {printAnswers(question.answers)}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    );
-  };
-
   const courseDetails = () => {
     return (
       <div>
@@ -137,34 +98,14 @@ export default function CourseEdit(props) {
             fullWidth
           />
         </form>
+
         <Button
           onClick={() => setAddQuestion(true)}
           color="primary"
           variant="contained"
-        >
-          Add questions to course
-        </Button>
-        {questions()}
-      </div>
-    );
-  };
-
-  const questions = () => {
-    return (
-      <div>
-        <h4>List of questions</h4>
-        {questionsAndAnswers && renderQuestions()}
-
-        <br />
-        <br />
-
-        <Button
-          onClick={() => handleDelete(course)}
-          variant="contained"
-          color="secondary"
           style={{ marginTop: 10 }}
         >
-          Delete Course
+          Add questions to course
         </Button>
 
         <Button
@@ -173,7 +114,7 @@ export default function CourseEdit(props) {
           variant="contained"
           style={{ marginTop: 10, marginLeft: 10 }}
         >
-          Confirm
+          Save
         </Button>
 
         <Button
@@ -183,6 +124,15 @@ export default function CourseEdit(props) {
           style={{ marginTop: 10, marginLeft: 10 }}
         >
           Cancel
+        </Button>
+
+        <Button
+          onClick={() => handleDelete(course)}
+          variant="contained"
+          color="secondary"
+          style={{ marginTop: 10, marginLeft: 10 }}
+        >
+          Delete Course
         </Button>
       </div>
     );

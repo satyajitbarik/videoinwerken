@@ -132,7 +132,7 @@ function sendAnswersToDatabase(question, answers, setAnswers, dict, setDict) {
 
         // last answer
         if (i == answers.length - 1) {
-          setDict(dict);
+          setDict([...dict]); // refresh dict, setDict(dict) doesnt work.
         }
       })
       .catch((error) => {

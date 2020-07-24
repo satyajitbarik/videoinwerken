@@ -141,7 +141,7 @@ function getAnswers(
 
       // On last index, we update dict.
       if (index == questions.length - 1) {
-        setQuestionsAndAnswers(questionsAndAnswers);
+        setQuestionsAndAnswers([...questionsAndAnswers]);
         console.log("done loading questions and answers");
       }
     })
