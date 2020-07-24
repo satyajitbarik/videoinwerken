@@ -61,22 +61,6 @@ const employeeLinks = () => {
 
 const renderLinks = (authenticated, setAuthenticated, user) => {
   if (authenticated) {
-    /* return (
-      <React.Fragment>
-        <Button color="inherit" href="../manager/employees">
-          Manage Employees
-        </Button>
-        <Button color="inherit" href="../manager/courses">
-          Manage Courses
-        </Button>
-        <Button color="inherit" href="../profile">
-          Profile
-        </Button>
-        <Button color="inherit" href="../logout">
-          Log out
-        </Button>
-      </React.Fragment>
-    );*/
     return (
       <React.Fragment>
         {user && user.is_admin && adminLinks()}
