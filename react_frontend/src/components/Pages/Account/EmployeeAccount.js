@@ -4,11 +4,11 @@
 import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
-import { updateEmployer } from "./actions";
+import { updateEmployee } from "./actions";
 import { getUser } from "../../../actions/authActions";
 import GreenSnackbar from "../Snackbar";
 
-export default function EmployerAccount() {
+export default function EmployeeAccount() {
   const [user, setUser] = React.useState(null);
   const [success, setSuccess] = React.useState(false);
 
@@ -65,7 +65,7 @@ export default function EmployerAccount() {
         fullWidth
       />
 
-      <Button onClick={() => updateEmployer(user, onSave)} color="primary">
+      <Button onClick={() => updateEmployee(user, onSave)} color="primary">
         Save
       </Button>
 

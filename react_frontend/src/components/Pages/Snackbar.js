@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedSnackbars(props) {
+export default function GreenSnackbar(props) {
   const classes = useStyles();
-  const { open, setOpen } = props;
+  const { open, setOpen, text } = props;
 
   const handleClick = () => {
     setOpen(true);
@@ -42,7 +41,7 @@ export default function CustomizedSnackbars(props) {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          Account saved!
+          {text}
         </Alert>
       </Snackbar>
     </div>

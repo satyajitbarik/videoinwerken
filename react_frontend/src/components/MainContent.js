@@ -22,6 +22,7 @@ import EmployeeList from "./Manager/Employees/EmployeeList";
 import EmployerList from "./Pages/Employers/EmployerList";
 import EmployeeCourses from "./Employee/EmployeeCourses";
 import EmployerAccount from "./Pages/Account/EmployerAccount";
+import EmployeeAccount from "./Pages/Account/EmployeeAccount";
 import { getUser } from "../actions/authActions";
 
 function MainContent() {
@@ -56,7 +57,14 @@ function MainContent() {
           component={RequireAuth(PasswordChange)}
         />
 
-        <Route path="/account" component={RequireAuth(EmployerAccount)} />
+        <Route
+          path="/employer_account"
+          component={RequireAuth(EmployerAccount)}
+        />
+        <Route
+          path="/employee_account"
+          component={RequireAuth(EmployeeAccount)}
+        />
 
         <Route path="/admin/employers" component={RequireAuth(EmployerList)} />
 

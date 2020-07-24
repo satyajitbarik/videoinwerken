@@ -40,7 +40,7 @@ const employerLinks = () => {
       <Button color="inherit" href="../manager/employees">
         Manage employees
       </Button>
-      <Button color="inherit" href="../account">
+      <Button color="inherit" href="../employer_account">
         Account
       </Button>
     </React.Fragment>
@@ -53,7 +53,7 @@ const employeeLinks = () => {
       <Button color="inherit" href="../employee/courses">
         Courses
       </Button>
-      <Button color="inherit" href="../account">
+      <Button color="inherit" href="../employee_account">
         Account
       </Button>
     </React.Fragment>
