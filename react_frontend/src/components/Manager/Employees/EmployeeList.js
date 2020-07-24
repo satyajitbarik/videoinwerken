@@ -18,20 +18,21 @@ import { apiGet, apiDelete, apiGetEmp } from "../../../utils/utils";
 import { getUser } from "../../../actions/authActions";
 
 function EmployeeList() {
+  //const { user } = props;
   const [employeeList, setEmployeeList] = React.useState(null);
   const [openEmployeeAdd, setOpenEmployeeAdd] = React.useState(false);
   const [openEmployeeEdit, setOpenEmployeeEdit] = React.useState(false);
   const [employeeDetail, setEmployeeDetail] = React.useState(null);
 
   // currently logged in user
-  const [user, setUser] = React.useState(null);
+  //const [user, setUser] = React.useState(null);
 
   // Runs on initial render
   useEffect(() => {
-    if (user == null) {
-      console.log("retrieving user");
-      getUser(setUser);
-    }
+    //if (user == null) {
+    //  console.log("retrieving user");
+    //   getUser(setUser);
+    // }
 
     if (employeeList == null) {
       refreshList();
@@ -110,9 +111,9 @@ function EmployeeList() {
     }
   };
 
-  if (user == null || !user.is_employer) {
-    return <div>This page can only be accessed by employers.</div>;
-  }
+  // if (user == null || !user.is_employer) {
+  //  return <div>This page can only be accessed by employers.</div>;
+  // }
 
   return (
     <div>

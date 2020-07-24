@@ -46,6 +46,13 @@ function MainContent(props) {
           component={RequireAuth(PasswordChange)}
         />
 
+        {user && user.is_admin && (
+          <Route
+            path="/admin/employers"
+            component={RequireAuth(EmployerList)}
+          />
+        )}
+
         {user && user.is_employer && (
           <Route
             path="/manager/employees"
@@ -53,24 +60,26 @@ function MainContent(props) {
           />
         )}
 
-        <Route path="/manager/courses" component={RequireAuth(Course)} />
-        <Route
-          path="/employee/courses"
-          component={RequireAuth(EmployeeCourses)}
-        />
-        <Route
-          path="/manager/createcourse"
-          component={RequireAuth(CourseCreate)}
-        />
+        {user && user.is_employer && (
+          <Route path="/manager/courses" component={RequireAuth(Course)} />
+        )}
 
-        <Route path="/testredux" component={ReduxTest} />
+        {user && user.is_employer && (
+          <Route
+            path="/manager/createcourse"
+            component={RequireAuth(CourseCreate)}
+          />
+        )}
 
-        <Route
-          path="/manager/employees"
-          component={RequireAuth(EmployeeList)}
-        />
+        {user && user.is_employee && (
+          <Route
+            path="/employee/courses"
+            component={RequireAuth(EmployeeCourses)}
+          />
+        )}
 
-        <Route path="/admin/employers" component={RequireAuth(EmployerList)} />
+        {/*<Route path="/testredux" component={ReduxTest} />*/}
+
         <Route component={NoMatch} />
       </Switch>
     </div>

@@ -20,7 +20,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const renderLinks = (authenticated, setAuthenticated) => {
+const adminLinks = () => {
+  return (
+    <React.Fragment>
+      <Button color="inherit" href="../admin/employers">
+        Manage employers
+      </Button>
+    </React.Fragment>
+  );
+};
+
+const employerLinks = () => {
+  return (
+    <React.Fragment>
+      <Button color="inherit" href="../manager/courses">
+        Manage courses
+      </Button>
+      <Button color="inherit" href="../manager/employees">
+        Manage employees
+      </Button>
+    </React.Fragment>
+  );
+};
+
+const employeeLinks = () => {
+  return (
+    <React.Fragment>
+      <Button color="inherit" href="../employee/courses">
+        Courses
+      </Button>
+    </React.Fragment>
+  );
+};
+
+const renderLinks = (authenticated, setAuthenticated, user) => {
+  console.log("user:");
+  console.log(user);
   if (authenticated) {
     /* return (
       <React.Fragment>
@@ -40,18 +75,12 @@ const renderLinks = (authenticated, setAuthenticated) => {
     );*/
     return (
       <React.Fragment>
-        <Button color="inherit" href="../admin/employers">
-          Employers
-        </Button>
-        <Button color="inherit" href="../employee/courses">
-          Employee Courses
-        </Button>
-        <Button color="inherit" href="../manager/courses">
-          Manager Courses
-        </Button>
-        <Button color="inherit" href="../manager/employees">
-          Employees
-        </Button>
+        {user && user.is_admin && adminLinks()}
+
+        {user && user.is_employer && employerLinks()}
+
+        {user && user.is_employee && employeeLinks()}
+
         <Button color="inherit" href="../logout">
           Log out
         </Button>
@@ -100,7 +129,7 @@ function Header(props) {
             Video Inwerken {userType()}
           </Typography>
 
-          {renderLinks(authenticated, setAuthenticated)}
+          {renderLinks(authenticated, setAuthenticated, user)}
         </Toolbar>
       </AppBar>
     </div>
