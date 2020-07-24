@@ -69,7 +69,7 @@ export default function EmployerEdit(props) {
             color="secondary"
             style={{ marginTop: 10 }}
           >
-            Delete Employee
+            Delete Employee (Delete employees as well!)
           </Button>
         </form>
       </DialogContent>

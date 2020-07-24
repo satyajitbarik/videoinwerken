@@ -40,11 +40,6 @@ export default function CourseEdit(props) {
     setAddQuestion(false);
   };
 
-  // After adding course question
-  const handleCourseQuestionAddConfirm = () => {
-    getCourseQuestions();
-  };
-
   const printAnswers = (answers) => {
     console.log(answers);
     return (
@@ -169,18 +164,24 @@ export default function CourseEdit(props) {
           color="secondary"
           style={{ marginTop: 10 }}
         >
-          Delete Course (deletes all employees of this employer as well)
+          Delete Course
         </Button>
 
         <Button
           onClick={() => submitCourse(course, onClose)}
           color="primary"
           variant="contained"
+          style={{ marginTop: 10, marginLeft: 10 }}
         >
           Confirm
         </Button>
 
-        <Button onClick={onClose} color="primary" variant="contained">
+        <Button
+          onClick={onClose}
+          color="primary"
+          variant="contained"
+          style={{ marginTop: 10, marginLeft: 10 }}
+        >
           Cancel
         </Button>
       </div>
@@ -192,8 +193,8 @@ export default function CourseEdit(props) {
       {addQuestion ? (
         <CourseQuestionAdd
           onClose={handleCourseQuestionAddClose}
-          onAdd={handleCourseQuestionAddConfirm}
           course={course}
+          questionsAndAnswers={questionsAndAnswers}
         />
       ) : (
         courseDetails()

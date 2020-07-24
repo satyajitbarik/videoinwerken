@@ -25,7 +25,7 @@ import Switch from "@material-ui/core/Switch";
 import { submitQuestion } from "../Courses/courseActions";
 
 export default function CourseQuestionAdd(props) {
-  const { onClose, course } = props;
+  const { onClose, course, questionsAndAnswers } = props;
 
   // text field input
   const [question, setQuestion] = React.useState({
@@ -49,6 +49,9 @@ export default function CourseQuestionAdd(props) {
       correct: true,
     },
   ]);
+
+  //console.log("YOOOOOOO");
+  //console.log(questionsAndAnswers);
 
   const [dict, setDict] = React.useState([]);
 
@@ -142,6 +145,8 @@ export default function CourseQuestionAdd(props) {
   };
 
   const printDict = () => {
+    console.log("dict");
+    console.log(dict);
     return (
       <div>
         <h3>Questions</h3>
@@ -150,9 +155,9 @@ export default function CourseQuestionAdd(props) {
           <TableBody>
             {dict &&
               dict.map((item) => (
-                <TableRow key={item.question.id}>
-                  <TableCell>{item.question.id}</TableCell>
-                  <TableCell>{item.question.question}</TableCell>
+                <TableRow key={item.id}>
+                  <TableCell>{item.id}</TableCell>
+                  <TableCell>{item.question}</TableCell>
                   <TableCell>
                     Answers:
                     {item.answers.map(

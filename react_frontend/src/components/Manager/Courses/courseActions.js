@@ -68,8 +68,13 @@ export function submitQuestion(
     .then((response) => {
       const questionObject = question;
       questionObject.id = response.data.id;
-      setQuestion({ question: "" });
-      dict.push({ question: questionObject, answers: [] });
+      setQuestion({ question: "" }); // reset question input field
+
+      questionObject.answers = [];
+      console.log("questionObject");
+      console.log(questionObject);
+
+      dict.push(questionObject);
       sendAnswersToDatabase(questionObject, answers, setAnswers, dict, setDict);
     })
     .catch((error) => {
@@ -123,12 +128,11 @@ function sendAnswersToDatabase(question, answers, setAnswers, dict, setDict) {
       )
       .then((response) => {
         answer = response.data;
-        for (let i = 0; i < dict.length; i++) {
-          if (dict[i].question == question) {
-            const newDict = [...dict];
-            newDict[i].answers = [...newDict[i].answers, answer];
-            setDict(newDict);
-          }
+        question.answers.push(answer);
+
+        // last answer
+        if (i == answers.length - 1) {
+          setDict(dict);
         }
       })
       .catch((error) => {
