@@ -21,6 +21,9 @@ import EmployeeList from "./Manager/Employees/EmployeeList";
 import EmployerList from "./Pages/Employers/EmployerList";
 import EmployeeCourses from "./Employee/EmployeeCourses";
 import Account from "./Pages/Account/Account";
+import Youtube from "../components/Pages/Youtube/Youtube";
+import Youtube1 from "../components/Pages/Youtube/Youtube1";
+import Success from "../components/Pages/Youtube/Success";
 
 function MainContent() {
   return (
@@ -64,6 +67,12 @@ function MainContent() {
           path="/employee/courses"
           component={RequireAuth(EmployeeCourses)}
         />
+
+        <Route path="/youtube" component={Youtube} />
+
+        <Route path="/success" component={Success} />
+
+        <Route path="/youtube1" component={Youtube1} />
 
         {/*<Route path="/testredux" component={ReduxTest} />*/}
         <Route component={NoMatch} />
