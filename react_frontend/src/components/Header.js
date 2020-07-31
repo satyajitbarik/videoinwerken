@@ -99,7 +99,7 @@ function Header(props) {
   useEffect(() => {
     if (user == null) {
       console.log("retrieving user header");
-      //getUser(setUser);
+      getUser(setUser);
     }
   });
 

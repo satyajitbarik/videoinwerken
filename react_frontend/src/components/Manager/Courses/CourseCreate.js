@@ -20,7 +20,7 @@ import { renderError } from "../../../utils/renderUtils";
 import { Redirect } from "react-router-dom";
 import CourseQuestionAdd from "./CourseQuestionAdd";
 import { getUser } from "../../Pages/Account/actions";
-
+import VideoUpload from "../../Pages/Youtube/VideoUpload";
 export default function CourseCreate(props) {
   const { onClose } = props;
   const [user, setUser] = React.useState(null);
@@ -35,6 +35,8 @@ export default function CourseCreate(props) {
   });
   const [titleError, setTitleError] = React.useState("");
   const [addQuestion, setAddQuestion] = React.useState(false);
+
+  const [selectedVideo, setSelectedVideo] = React.useState(null);
 
   // Get logged in user
   useEffect(() => {
@@ -104,31 +106,29 @@ export default function CourseCreate(props) {
           value={course.title}
           autoFocus
         />
-
         {renderError(titleError)}
-
         <MyTextField
           name="description"
           label="Description"
           onChange={handleChange}
         />
-
         <MyCheckBox name="active" label="Active" onChange={handleCheckBox} />
-
         <MyCheckBox
           name="individual_result"
           label="Allow to see individual result per question"
           onChange={handleCheckBox}
         />
-
         <MyTextField
           name="course_duration"
           label="Course duration"
           onChange={handleChange}
         />
-
-        <MyTextField name="video" label="Video" onChange={handleChange} />
-
+        Video: {selectedVideo ? selectedVideo.name : "None"}
+        <VideoUpload
+          setSelectedVideo={setSelectedVideo}
+          course={course}
+          setCourse={setCourse}
+        />
         <Button
           onClick={handleSubmit}
           color="primary"
@@ -137,7 +137,6 @@ export default function CourseCreate(props) {
         >
           Add questions
         </Button>
-
         <Button
           onClick={onClose}
           color="primary"

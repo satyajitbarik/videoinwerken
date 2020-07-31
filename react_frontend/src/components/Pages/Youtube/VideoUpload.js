@@ -3,11 +3,14 @@ import axios from "axios";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { withStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
+import Course from "../../Manager/Courses/Course";
 // VIMEO
 
-export default function VideoUpload() {
+export default function VideoUpload(props) {
   const [form, setForm] = React.useState(null);
   const [progress, setProgress] = React.useState(0);
+  const [progressText, setProgressText] = React.useState(null);
+  const { setSelectedVideo, setCourse, course } = props;
 
   function handleChange(event) {
     const inputValue =
@@ -17,24 +20,28 @@ export default function VideoUpload() {
   }
 
   function handleSubmit() {
+    const videoFile = form.file;
     const data = new FormData();
-    data.append("file", form.file);
-    console.log(form.file);
+    data.append("file", videoFile);
 
     const options = {
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
         let percent = Math.floor((loaded * 100) / total);
-        console.log(`${loaded}kb of ${total}kb | ${percent}%`);
+        //console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         setProgress(percent);
+        setProgressText(`${loaded}kb of ${total}kb | ${percent}%`);
       },
     };
 
-    axios.post("http://localhost:3000/upload", data, options).then((res) => {
-      // then print response status
-      console.log(res.statusText);
-      console.log(res);
-    });
+    axios
+      .post("http://localhost:3000/upload", data, options)
+      .then((response) => {
+        console.log(response.statusText);
+        const path = response.data.path;
+        setSelectedVideo(videoFile);
+        setCourse({ ...course, video: path });
+      });
   }
 
   const BorderLinearProgress = withStyles((theme) => ({
@@ -54,28 +61,25 @@ export default function VideoUpload() {
 
   return (
     <div>
-      <h1>Upload video</h1>
-      <div>
-        <Button color="primary" component="label">
-          Browse video
-          <input
-            onChange={handleChange}
-            type="file"
-            name="file"
-            style={{ display: "none" }}
-          />
-        </Button>
-      </div>
-      <div>
-        <Button color="primary" onClick={handleSubmit}>
-          Submit
-        </Button>
-      </div>
-      <div>
-        <BorderLinearProgress variant="determinate" value={progress} />
+      <Button color="primary" component="label">
+        Browse video
+        <input
+          onChange={handleChange}
+          type="file"
+          name="file"
+          style={{ display: "none" }}
+        />
+      </Button>
 
-        {progress ? "Finished uploading!" : null}
-      </div>
+      <Button color="primary" onClick={handleSubmit}>
+        Submit
+      </Button>
+
+      <BorderLinearProgress variant="determinate" value={progress} />
+      {progressText ? progressText : null}
+
+      <br />
+      {progress ? "Finished uploading!" : null}
     </div>
   );
 }
