@@ -16,11 +16,14 @@ function ShowCourse(props) {
     console.log(course);
     console.log(course.id);
     console.log(course.attempted);
+    console.log(course.passed);
 
     if (course.passed) {
-      <TableCell style={{ color: "green", fontWeight: "bold" }}>
-        Passed
-      </TableCell>;
+      return (
+        <TableCell style={{ color: "green", fontWeight: "bold" }}>
+          Passed
+        </TableCell>
+      );
     } else if (course.attempted) {
       return (
         <TableCell style={{ color: "purple", fontWeight: "bold" }}>

@@ -7,6 +7,7 @@ import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 
 // NOT USED - DELETE
+/*
 export function getCourseQuestions(setCourseQuestions) {
   axios
     .get("http://localhost:8000/api/manager/course/questions/", {
@@ -22,7 +23,7 @@ export function getCourseQuestions(setCourseQuestions) {
     .catch((error) => {
       console.log(error);
     });
-}
+}*/
 
 export function submitCourse(item, onClose) {
   if (item.id) {

@@ -5,8 +5,9 @@ import axios from "axios";
 import { getUserToken } from "../../utils/authUtils";
 import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
+//import { getCourseQuestions } from "../Manager/Courses/courseActions";
 
-// Gets all courses for logged in employee.
+// Gets all courses for logged in employee. With attempted/passed variable
 export function getCourses(setCoursesDict) {
   console.log("getting courses...");
   axios
@@ -21,8 +22,9 @@ export function getCourses(setCoursesDict) {
       // convert list to dict, where key is id of course.
       for (let i = 0; i < coursesList.length; i++) {
         const course = coursesList[i];
+        course.attempted = false;
+        course.passed = true;
         coursesDict[course.id] = course;
-        //getEmployeeQuestionsCourse(coursesDict, course.id, setCoursesDict);
       }
 
       getEmployeeQuestionsCourse(coursesDict, setCoursesDict);
@@ -42,35 +44,74 @@ function getEmployeeQuestionsCourse(coursesDict, setCoursesDict) {
       },
     })
     .then((response) => {
+      //employee, questionid, passed, attempted
       const employeeQuestionList = response.data;
+
+      //console.log("coursesDict");
+      //console.log(coursesDict);
+
+      //console.log("employeequestionscourse");
+      //console.log(employeeQuestionList);
+
       const employeeQuestionDict = {};
 
-      let attempted = false;
-      let passed = true;
       for (let i = 0; i < employeeQuestionList.length; i++) {
         const employeeQuestion = employeeQuestionList[i];
         // key = question id, value = employee-question
-
-        // question = questionId
         employeeQuestionDict[employeeQuestion.question] = employeeQuestion;
-
-        if (employeeQuestion.attempted) {
-          attempted = true;
-        }
-
-        if (!employeeQuestion.passed) {
-          passed = false;
-        }
       }
+      getCourseQuestion(coursesDict, setCoursesDict, employeeQuestionDict);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
-      for (let i = 0; i < Object.keys(coursesDict).length; i++) {
-        const course = coursesDict[Object.keys(coursesDict)[i]];
-        course.attempted = attempted;
-        course.passed = passed;
-      }
+// all course-question pairs
+function getCourseQuestion(coursesDict, setCoursesDict, employeeQuestionDict) {
+  console.log("getting employee-questions-course...");
+  axios
+    .get("http://localhost:8000/api/employee/coursequestions/", {
+      headers: {
+        authorization: "Token " + getUserToken(),
+      },
+    })
+    .then((response) => {
+      //employee, questionid, passed, attempted
+      const courseQuestionList = response.data;
 
+      console.log("coursesDict");
       console.log(coursesDict);
-      setCoursesDict(coursesDict);
+
+      console.log("courseQuestionsList");
+      console.log(courseQuestionList);
+
+      console.log("employeeQuestionDict");
+      console.log(employeeQuestionDict);
+
+      for (let i = 0; i < courseQuestionList.length; i++) {
+        const courseQuestions = courseQuestionList[i];
+        const questionId = courseQuestions.id;
+        const courseId = courseQuestions.course;
+        console.log("questionid:" + questionId);
+
+        if (employeeQuestionDict[questionId]) {
+          const attempted = employeeQuestionDict[questionId].attempted;
+          const passed = employeeQuestionDict[questionId].passed;
+
+          if (attempted) {
+            coursesDict[courseId].attempted = true;
+          }
+
+          if (!passed) {
+            coursesDict[courseId].passed = false;
+          }
+        }
+
+        if (i == courseQuestionList.length - 1) {
+          setCoursesDict(coursesDict);
+        }
+      }
     })
     .catch((error) => {
       console.log(error);

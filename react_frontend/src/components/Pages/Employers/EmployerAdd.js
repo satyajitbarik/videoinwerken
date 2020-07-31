@@ -23,6 +23,7 @@ export default function EmployerAdd(props) {
   const [employer, setEmployer] = React.useState({
     email: "",
     password: "",
+    is_employer: true,
   });
 
   // Errors

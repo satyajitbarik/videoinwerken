@@ -22,6 +22,7 @@ export default function EmployeeAdd(props) {
   const [employee, setEmployee] = React.useState({
     email: "",
     password: "",
+    is_employee: true,
   });
 
   const handleClose = () => {
