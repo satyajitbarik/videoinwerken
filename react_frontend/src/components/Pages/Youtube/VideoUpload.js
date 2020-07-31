@@ -10,7 +10,7 @@ export default function VideoUpload(props) {
   const [form, setForm] = React.useState(null);
   const [progress, setProgress] = React.useState(0);
   const [progressText, setProgressText] = React.useState(null);
-  const { setSelectedVideo, setCourse, course } = props;
+  const { handleUpdateVideo } = props;
 
   function handleChange(event) {
     const inputValue =
@@ -38,9 +38,13 @@ export default function VideoUpload(props) {
       .post("http://localhost:3000/upload", data, options)
       .then((response) => {
         console.log(response.statusText);
-        const path = response.data.path;
-        setSelectedVideo(videoFile);
-        setCourse({ ...course, video: path });
+        const name = response.data.filename;
+        console.log("name:" + name);
+        console.log(response.data);
+        //setSelectedVideo(videoFile);
+        //setCourse({ ...course, video: name });
+        // course.video = name;
+        handleUpdateVideo(name);
       });
   }
 

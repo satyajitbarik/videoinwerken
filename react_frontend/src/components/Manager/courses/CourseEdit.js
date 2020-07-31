@@ -9,13 +9,18 @@ import { MyEditCheckBox } from "../../../utils/utils";
 import CourseQuestionAdd from "./CourseQuestionAdd";
 import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
 
+import VideoUpload from "../../Pages/Youtube/VideoUpload";
+
 export default function CourseEdit(props) {
-  let { course } = props;
+  //const { courseProps } = props;
+  const [course, setCourse] = React.useState({ ...props.course });
   const { onClose, handleDelete } = props;
   const [addQuestion, setAddQuestion] = React.useState(false);
 
   //const [courseQuestions, setCourseQuestions] = React.useState(null);
   const [questionsAndAnswers, setQuestionsAndAnswers] = React.useState(null);
+
+  //const [selectedVideo, setSelectedVideo] = React.useState(course.video);
 
   // Runs on initial render
   useEffect(() => {
@@ -27,13 +32,23 @@ export default function CourseEdit(props) {
   });
 
   const handleChange = (e) => {
+    console.log("handlechange");
     const { name, value } = e.target;
-    course = { ...course, [name]: value };
+    console.log(name);
+    console.log(value);
+    setCourse({ ...course, [name]: value });
+    console.log(course);
+  };
+
+  const handleUpdateVideo = (name) => {
+    setCourse({ ...course, ["video"]: name });
+    console.log(course);
   };
 
   const handleCheckBox = (e, value) => {
     const name = e.target.name;
-    course = { ...course, [name]: value };
+    //course = { ...course, [name]: value };
+    setCourse({ ...course, [name]: value });
   };
 
   const handleCourseQuestionAddClose = () => {
@@ -63,21 +78,18 @@ export default function CourseEdit(props) {
             margin="normal"
             fullWidth
           />
-
           <MyEditCheckBox
             name="active"
             label="Active"
             defaultChecked={course.active}
             onChange={handleCheckBox}
           />
-
           <MyEditCheckBox
             name="individual_result"
             label="Allow to see individual result per question"
             defaultChecked={course.individual_result}
             onChange={handleCheckBox}
           />
-
           <TextField
             name="course_duration"
             label="Course duration"
@@ -87,16 +99,8 @@ export default function CourseEdit(props) {
             margin="normal"
             fullWidth
           />
-
-          <TextField
-            name="video"
-            label="Video"
-            variant="outlined"
-            onChange={handleChange}
-            defaultValue={course.video}
-            margin="normal"
-            fullWidth
-          />
+          Video: {course.video ? course.video : "None"}
+          <VideoUpload handleUpdateVideo={handleUpdateVideo} />
         </form>
 
         <Button

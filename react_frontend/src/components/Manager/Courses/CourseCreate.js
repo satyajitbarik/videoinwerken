@@ -21,6 +21,7 @@ import { Redirect } from "react-router-dom";
 import CourseQuestionAdd from "./CourseQuestionAdd";
 import { getUser } from "../../Pages/Account/actions";
 import VideoUpload from "../../Pages/Youtube/VideoUpload";
+
 export default function CourseCreate(props) {
   const { onClose } = props;
   const [user, setUser] = React.useState(null);
@@ -31,12 +32,12 @@ export default function CourseCreate(props) {
     active: true,
     individual_result: false,
     course_duration: "",
-    video: "",
+    video: null,
   });
   const [titleError, setTitleError] = React.useState("");
   const [addQuestion, setAddQuestion] = React.useState(false);
 
-  const [selectedVideo, setSelectedVideo] = React.useState(null);
+  //const [selectedVideo, setSelectedVideo] = React.useState(null);
 
   // Get logged in user
   useEffect(() => {
@@ -57,6 +58,11 @@ export default function CourseCreate(props) {
     console.log(name);
     console.log(value);
     setCourse({ ...course, [name]: value });
+    console.log(course);
+  };
+
+  const handleUpdateVideo = (name) => {
+    setCourse({ ...course, ["video"]: name });
     console.log(course);
   };
 
@@ -123,12 +129,8 @@ export default function CourseCreate(props) {
           label="Course duration"
           onChange={handleChange}
         />
-        Video: {selectedVideo ? selectedVideo.name : "None"}
-        <VideoUpload
-          setSelectedVideo={setSelectedVideo}
-          course={course}
-          setCourse={setCourse}
-        />
+        Video: {course.video ? course.video : "None"}
+        <VideoUpload handleUpdateVideo={handleUpdateVideo} />
         <Button
           onClick={handleSubmit}
           color="primary"
