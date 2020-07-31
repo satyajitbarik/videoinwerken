@@ -32,7 +32,7 @@ export default function VideoUpload() {
     const size = form.file.size; // size of video in bytes
 
     axios
-      .post("http://localhost:8000/upload", data, {
+      .post("http://localhost:3000/upload", data, {
         // receive two parameter endpoint url ,form data
       })
       .then((res) => {

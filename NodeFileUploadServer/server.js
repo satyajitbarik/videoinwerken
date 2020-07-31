@@ -27,6 +27,6 @@ app.post("/upload", function (req, res) {
   });
 });
 
-app.listen(8000, function () {
-  console.log("App running on port 8000");
+app.listen(3000, function () {
+  console.log("App running on port 3000");
 });
