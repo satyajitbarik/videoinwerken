@@ -24,6 +24,7 @@ import Account from "./Pages/Account/Account";
 import Youtube from "../components/Pages/Youtube/Youtube";
 import Youtube1 from "../components/Pages/Youtube/Youtube1";
 import Success from "../components/Pages/Youtube/Success";
+import VideoUpload from "../components/Pages/Youtube/VideoUpload";
 
 function MainContent() {
   return (
@@ -73,6 +74,7 @@ function MainContent() {
         <Route path="/success" component={Success} />
 
         <Route path="/youtube1" component={Youtube1} />
+        <Route path="/videoupload" component={VideoUpload} />
 
         {/*<Route path="/testredux" component={ReduxTest} />*/}
         <Route component={NoMatch} />

@@ -29,7 +29,16 @@ export default function Youtube1() {
     // https://developer.vimeo.com/apps/184383#personal_access_tokens
     //const accessToken = "5c8ae27e8982f0883a544aa0bf223f19";
     const accessToken = "fe946ff802e41a4cdf5a783f3bc50d54";
+    // const accessToken = "2796fc43548ff7441ca1ad245d41e1a7";
     const size = form.file.size; // size of video in bytes
+
+    axios
+      .get(
+        "https://api.vimeo.com/me/videos?access_token=fe946ff802e41a4cdf5a783f3bc50d54"
+      )
+      .then((response) => {
+        console.log(response.data);
+      });
 
     axios
       .post("https://api.vimeo.com/me/videos", {
