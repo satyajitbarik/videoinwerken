@@ -14,12 +14,12 @@ export default function Youtube() {
     setForm({ ...form, [event.target.name]: inputValue });
   }
 
-  function handleSubmit(event) {
+  function handleSubmit() {
     event.preventDefault();
-    console.log({ form });
+    console.log(form);
 
     const videoData = new FormData();
-    videoData.append("videoFile", form.file);
+    videoData.append("file", form.file);
     videoData.append("title", form.title);
     videoData.append("description", form.description);
 
@@ -37,35 +37,33 @@ export default function Youtube() {
   return (
     <div>
       <h1>Upload youtube</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="title"
-            autoComplete="off"
-            placeholder="Title"
-          />
-        </div>
-        <div>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="description"
-            autoComplete="off"
-            placeholder="Description"
-          />
-        </div>
-        <div>
-          <input
-            onChange={handleChange}
-            type="file"
-            name="file"
-            placeholder="Add video file"
-          />
-        </div>
-        <button type="submit">Upload Video</button>
-      </form>
+      <div>
+        <input
+          onChange={handleChange}
+          type="text"
+          name="title"
+          autoComplete="off"
+          placeholder="Title"
+        />
+      </div>
+      <div>
+        <input
+          onChange={handleChange}
+          type="text"
+          name="description"
+          autoComplete="off"
+          placeholder="Description"
+        />
+      </div>
+      <div>
+        <input
+          onChange={handleChange}
+          type="file"
+          name="file"
+          placeholder="Add video file"
+        />
+      </div>
+      <button onClick={handleSubmit}>Upload Video</button>
     </div>
   );
 }
