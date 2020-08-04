@@ -3,8 +3,8 @@ import axios from "axios";
 
 export default function Youtube() {
   const [form, setForm] = React.useState({
-    title: "",
-    description: "",
+    title: "test",
+    description: "test",
     file: null,
   });
 
@@ -19,10 +19,11 @@ export default function Youtube() {
     console.log(form);
 
     const videoData = new FormData();
-    videoData.append("file", form.file);
+    videoData.append("videoFile", form.file);
     videoData.append("title", form.title);
     videoData.append("description", form.description);
 
+    console.log("before uplopad");
     axios
       .post("http://localhost:3000/upload", videoData)
       .then((response) => {
@@ -30,8 +31,10 @@ export default function Youtube() {
       })
       .catch((error) => {
         console.log(error);
-        console.log(error.response);
+        console.log(error.data);
       });
+
+    console.log("after uplopad");
   }
 
   return (
@@ -39,7 +42,7 @@ export default function Youtube() {
       <h1>Upload youtube</h1>
       <div>
         <input
-          onChange={handleChange}
+          //onChange={handleChange}
           type="text"
           name="title"
           autoComplete="off"
@@ -48,7 +51,7 @@ export default function Youtube() {
       </div>
       <div>
         <input
-          onChange={handleChange}
+          //onChange={handleChange}
           type="text"
           name="description"
           autoComplete="off"

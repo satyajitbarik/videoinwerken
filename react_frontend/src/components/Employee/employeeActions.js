@@ -7,7 +7,11 @@ import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 //import { getCourseQuestions } from "../Manager/Courses/courseActions";
 
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 // Gets all courses for logged in employee. With attempted/passed variable
+// Used for employee's courses screen
 export function getCourses(setCoursesDict) {
   console.log("getting courses...");
   axios

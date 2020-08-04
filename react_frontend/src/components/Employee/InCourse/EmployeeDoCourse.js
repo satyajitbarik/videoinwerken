@@ -20,6 +20,7 @@ import {
   updateOrCreateQuestionProgress,
 } from "../employeeActions";
 import FinishScreen from "./FinishScreen";
+import ReactPlayer from "react-player";
 
 function EmployeeDoCourse(props) {
   const { course, onClose } = props;
@@ -56,7 +57,10 @@ function EmployeeDoCourse(props) {
   const showVideo = () => {
     return (
       <div>
-        <div>Video goes here</div>
+        <div>
+          Video
+          <ReactPlayer url="../NodeFileUploadServer/public/ff.mp4" playing />
+        </div>
         <div>
           <Button onClick={() => setInVideo(false)}>Done, to test</Button>
         </div>

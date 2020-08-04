@@ -21,39 +21,23 @@ app.use(express.json());
 
 app.use(cors());
 
-/*const storage = multer.diskStorage({
-  destination: "./",
-  filename(req, file, cb) {
-    const newFileName = `${uuidv4()}-${file.originalName}`;
-
-    cb(null, newFileName);
-  },
-});*/
-
 const storage = multer.diskStorage({
   destination: "./",
-  /* filename(req, file, cb) {
-    const newFileName = `${file.originalName}`;
-
+  filename(req, file, cb) {
+    const newFileName = file.originalname;
     cb(null, newFileName);
-  },*/
-
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
 const uploadVideoFile = multer({
   storage: storage,
-}).single("file");
+}).single("videoFile");
 
 app.post("/upload", uploadVideoFile, (req, res) => {
+  console.log("Hii");
   if (req.file) {
-    console.log("req file");
-    console.log(req.file);
     const filename = req.file.filename;
     const { title, description } = req.body;
-
     open(
       oAuth.generateAuthUrl({
         access_type: "offline",
@@ -65,10 +49,9 @@ app.post("/upload", uploadVideoFile, (req, res) => {
 });
 
 app.get("/oauth2callback", (req, res) => {
-  res.redirect("http://localhost:8083/success");
+  res.redirect("http://google.com");
   const { filename, title, description } = JSON.parse(req.query.state);
-
-  oAuth.getToken(req.query.code, (err, token) => {
+  oAuth.getToken(req.query.code, (err, tokens) => {
     if (err) {
       console.log(err);
       return;
@@ -83,7 +66,7 @@ app.get("/oauth2callback", (req, res) => {
         },
         part: "snippet,status",
         media: {
-          body: fs.createReadStream(filename),
+          body: fs.createReadStream(fileName),
         },
       },
       (err, data) => {

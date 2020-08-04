@@ -4,9 +4,9 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import { withStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import Course from "../../Manager/Courses/Course";
-// VIMEO
+// API.VIDEO
 
-export default function VideoUpload(props) {
+export default function ApiVideo(props) {
   const [form, setForm] = React.useState(null);
   const [progress, setProgress] = React.useState(0);
   const [progressText, setProgressText] = React.useState(null);
@@ -34,18 +34,22 @@ export default function VideoUpload(props) {
       },
     };
 
+    const apiKey = "C1XnniSyvCE1RiNQAqOlBzU9PhiToJD9iabOJO8DPnB";
     axios
-      // .post("http://localhost:3000/upload", data, options)
-      .post("http://85.214.169.235:3000/upload", data, options)
+      .post("https://sandbox.api.video/auth/api-key", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          apiKey: apiKey,
+        },
+      })
       .then((response) => {
-        console.log(response.statusText);
-        const name = response.data.filename;
-        console.log("name:" + name);
         console.log(response.data);
-        //setSelectedVideo(videoFile);
-        //setCourse({ ...course, video: name });
-        // course.video = name;
-        if (handleUpdateVideo) handleUpdateVideo(name);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log(error.response);
       });
   }
 
