@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { getUserProfile } from "../../actions/authActions";
 
 import Button from "@material-ui/core/Button";
@@ -12,7 +12,7 @@ class UserProfile extends Component {
     user: PropTypes.object,
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.getUserProfile();
   }
 

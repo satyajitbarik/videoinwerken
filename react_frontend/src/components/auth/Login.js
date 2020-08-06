@@ -1,6 +1,8 @@
-import React, { Component } from "react";
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+import React from "react";
 // import PropTypes from "prop-types";
-import { reduxForm, Field, propTypes } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import { Link } from "react-router-dom";
 import { required } from "redux-form-validators";
 

@@ -6,7 +6,7 @@ import { MyCheckBox } from "../utils/utils";
 export const myRenderField = ({
   input,
   label,
-  type,
+  //type,
   autoFocus,
   meta: { touched, error },
 }) => (

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { Fragment, useState, useEffect } from "react";
+import React from "react";
 import { Switch, Route } from "react-router-dom";
 import RequireAuth from "./auth/RequireAuth";
 import Landing from "./Landing";

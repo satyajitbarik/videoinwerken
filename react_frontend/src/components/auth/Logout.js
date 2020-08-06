@@ -8,7 +8,7 @@ class Logout extends Component {
     logoutUser: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.logoutUser();
   }
 

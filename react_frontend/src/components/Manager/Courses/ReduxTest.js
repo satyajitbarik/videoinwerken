@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 
-import { reduxForm, Field, propTypes } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import { required } from "redux-form-validators";
 import { renderField, renderError } from "../../../utils/renderUtils";
 

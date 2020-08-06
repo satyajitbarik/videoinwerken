@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from "react";
 import axios from "axios";
 //import vimeoupload from "vimeo-upload";

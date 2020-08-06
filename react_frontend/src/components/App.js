@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Notifs } from "redux-notifications";
 import Header from "./Header";
 import MainContent from "./MainContent";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import axios from "axios";
-import { AuthUrls } from "../constants/urls";
-import { getUserToken } from "../utils/authUtils";
-import { getUser } from "../actions/authActions";
 
 // If you want to use this, add <Typography> in code
 const theme = createMuiTheme({

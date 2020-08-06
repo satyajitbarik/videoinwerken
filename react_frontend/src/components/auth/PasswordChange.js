@@ -78,7 +78,6 @@ const validateForm = (values) => {
   if (new_password1 !== new_password2) {
     errors.new_password2 = "Password does not match.";
   }
-  console.log(values);
   return errors;
 };
 

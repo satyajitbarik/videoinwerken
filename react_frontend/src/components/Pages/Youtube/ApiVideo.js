@@ -1,9 +1,11 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from "react";
 import axios from "axios";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { withStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import Course from "../../Manager/Courses/Course";
 // API.VIDEO
 
 export default function ApiVideo(props) {
@@ -27,7 +29,7 @@ export default function ApiVideo(props) {
     const options = {
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
-        let percent = Math.floor((loaded * 100) / total);
+        const percent = Math.floor((loaded * 100) / total);
         //console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         setProgress(percent);
         setProgressText(`${loaded}kb of ${total}kb | ${percent}%`);

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 import axios from "axios";
 import { SubmissionError } from "redux-form";
 import history from "../utils/historyUtils";
@@ -33,24 +35,7 @@ export function getUser(setUser) {
       console.log(error.response);
     });
 }
-/*
-export function getUser(setUserProfile) {
-  axios
-    .get("http://localhost:8000/rest-auth/user/", {
-      headers: {
-        authorization: "Token " + getUserToken(),
-      },
-    })
-    .then((response) => {
-      setUserProfile(response.data);
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-      console.log(error.response);
-    });
-}
-*/
+
 export function loginUser(formValues, dispatch, props) {
   const loginUrl = AuthUrls.LOGIN;
 

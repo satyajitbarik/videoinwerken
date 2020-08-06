@@ -4,13 +4,7 @@ import { reduxForm, Field } from "redux-form";
 import { required } from "redux-form-validators";
 import { renderField, renderError } from "../../utils/renderUtils";
 import { signupUser } from "../../actions/authActions";
-import {
-  FormControl,
-  InputLabel,
-  Input,
-  FormHelperText,
-  Button,
-} from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 function Signup(props) {
   const { handleSubmit, error } = props;

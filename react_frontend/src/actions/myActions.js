@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import axios from "axios";
-import { apiGet, apiPut, apiPost } from "../utils/utils";
 import { getUserToken } from "./../utils/authUtils";
 
 /*export function getQuestions(courseId) {

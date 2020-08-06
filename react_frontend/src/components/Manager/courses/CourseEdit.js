@@ -2,12 +2,11 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
-import { getCourseQuestions, submitCourse } from "./courseActions";
+import { submitCourse } from "./courseActions";
 import { getQuestionsAndAnswers } from "../../Employee/employeeActions";
 import { TextField } from "@material-ui/core";
 import { MyEditCheckBox } from "../../../utils/utils";
 import CourseQuestionAdd from "./CourseQuestionAdd";
-import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
 
 import VideoUpload from "../../Pages/Youtube/VideoUpload";
 
