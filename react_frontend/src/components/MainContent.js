@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import RequireAuth from "./auth/RequireAuth";
 import Landing from "./Landing";
 import Login from "./auth/Login";
@@ -29,8 +29,9 @@ import ApiVideo from "../components/Pages/Youtube/ApiVideo";
 
 function MainContent() {
   return (
+    // Changed Switch to Router. Router does not support nested routes.
     <div className="container" style={{ marginTop: 20 }}>
-      <Switch>
+      <BrowserRouter basename="/dashboard">
         <Route exact path="/" component={Landing} />
         <Route path="/login" component={Login} />
         <Route path="/logout" component={Logout} />
@@ -79,8 +80,8 @@ function MainContent() {
         <Route path="/apivideo" component={ApiVideo} />
 
         {/*<Route path="/testredux" component={ReduxTest} />*/}
-        <Route component={NoMatch} />
-      </Switch>
+        {/*  <Route component={NoMatch} />*/}
+      </BrowserRouter>
     </div>
   );
 }
