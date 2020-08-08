@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import React from "react";
+//mport { Router, Route } from "react-router-dom";
 import { BrowserRouter, Route } from "react-router-dom";
 import RequireAuth from "./auth/RequireAuth";
 import Landing from "./Landing";
@@ -14,7 +15,7 @@ import PasswordChange from "./auth/PasswordChange";
 import PasswordReset from "./auth/PasswordReset";
 import PasswordResetDone from "./auth/PasswordResetDone";
 import PasswordResetConfirm from "./auth/PasswordResetConfirm";
-import NoMatch from "./NoMatch";
+//import NoMatch from "./NoMatch";
 import Course from "./Manager/Courses/Course";
 import CourseCreate from "./Manager/Courses/CourseCreate";
 import EmployeeList from "./Manager/Employees/EmployeeList";
@@ -31,9 +32,12 @@ function MainContent() {
   return (
     // Changed Switch to Router. Router does not support nested routes.
     <div className="container" style={{ marginTop: 20 }}>
-      <BrowserRouter basename="/dashboard">
+      <BrowserRouter basename={"/videoinwerken"}>
         <Route exact path="/" component={Landing} />
+
         <Route path="/login" component={Login} />
+
+        {/* <Route path="/videoinwerken/dist/login" component={Login} />*/}
         <Route path="/logout" component={Logout} />
         <Route path="/signup" component={Signup} />
         <Route
@@ -80,7 +84,7 @@ function MainContent() {
         <Route path="/apivideo" component={ApiVideo} />
 
         {/*<Route path="/testredux" component={ReduxTest} />*/}
-        {/*  <Route component={NoMatch} />*/}
+        {/* <Route component={NoMatch} /> */}
       </BrowserRouter>
     </div>
   );

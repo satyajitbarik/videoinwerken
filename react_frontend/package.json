@@ -4,6 +4,7 @@
   "description": "React Authentication Frontend",
   "main": "src/index.js",
   "repository": "https://github.com/ZachLiuGIS/reactjs-auth-django-rest",
+  "homepage": "/videoinwerken/",
   "scripts": {
     "clean": "rimraf ./dist",
     "lint": "eslint ./src ./tests",

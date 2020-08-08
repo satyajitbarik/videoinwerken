@@ -24,7 +24,7 @@ if (token) {
 ReactDOM.render(
   <MuiThemeProvider theme={getMuiTheme()}>
     <Provider store={store}>
-      <Router history={history}>
+      <Router basename={"/videoinwerken"} history={history}>
         <App />
       </Router>
     </Provider>

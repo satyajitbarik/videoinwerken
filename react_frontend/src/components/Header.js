@@ -63,6 +63,7 @@ const employeeLinks = () => {
 };
 
 const renderLinks = (authenticated, setAuthenticated, user) => {
+  const subfolder = "videoinwerken";
   if (authenticated) {
     return (
       <React.Fragment>
@@ -80,10 +81,10 @@ const renderLinks = (authenticated, setAuthenticated, user) => {
   } else {
     return (
       <React.Fragment>
-        <Button color="inherit" href="../login">
+        <Button color="inherit" href={`./login`}>
           Login
         </Button>
-        <Button color="inherit" href="../signup">
+        <Button color="inherit" href={`../${subfolder}/signup`}>
           Sign up
         </Button>
       </React.Fragment>
