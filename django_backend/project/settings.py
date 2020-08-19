@@ -26,7 +26,7 @@ SECRET_KEY = '$!r)@8^pv#=wd7ksxso22sc#+=jc*e2ssyqihnh64+*lor_+-d'
 DEBUG = False
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '85.214.169.235']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '85.214.142.85', 'h2900735.stratoserver.net', 'http://h2900735.stratoserver.net/' ]
 
 
 # Application definition
@@ -107,11 +107,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
+        #'ENGINE': 'mysql.connector.django',
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'admin_videoinwerken',
         'USER': 'adminvi',
-        'PASSWORD': 'jailbreak',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'YXzQH772!',
+        'HOST': 'h2900735.stratoserver.net',
         'PORT': '3306',
     }
 }
@@ -207,10 +208,21 @@ CORS_ORIGIN_WHITELIST = (
 
 )
 
-CORS_ORIGIN_REGEX_WHITELIST = (
-    r'^(https?://)?localhost',
-    r'^(https?://)?127.',
-)
+#CORS_ORIGIN_REGEX_WHITELIST = (
+#   r'^(https?://)?localhost',
+#    r'^(https?://)?127.',
+#)
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost",
+    "http://127.0.0.1",
+    "http://localhost:8080",
+    "http://127.0.0.1:8000",
+    "http://h2899189.stratoserver.net",
+    "http://85.214.169.235",
+    "http://h2899189.stratoserver.net:8000",
+    "http://85.214.169.235:8000",
+]
 
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'

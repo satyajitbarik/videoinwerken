@@ -23,6 +23,7 @@ six = "==1.11.0"
 urllib3 = "==1.22"
 Django = "==2.2.13"
 django-six = "*"
+mysqlclient = "*"
 
 [requires]
 python_version = "3.8"
