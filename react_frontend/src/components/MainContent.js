@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React from "react";
 //mport { Router, Route } from "react-router-dom";
-import { BrowserRouter, Route } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 import RequireAuth from "./auth/RequireAuth";
 import Landing from "./Landing";
 import Login from "./auth/Login";
@@ -85,7 +85,7 @@ function MainContent() {
 
         {/*<Route path="/testredux" component={ReduxTest} />*/}
         {/* <Route component={NoMatch} /> */}
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
