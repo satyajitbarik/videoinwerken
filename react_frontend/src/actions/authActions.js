@@ -67,7 +67,7 @@ export function logoutUser() {
 
 export function signupUser(formValues, dispatch, props) {
   const signupUrl = AuthUrls.SIGNUP;
-
+  formValues.is_employer = true;
   return axios
     .post(signupUrl, formValues)
     .then((response) => {
@@ -82,7 +82,7 @@ export function signupUser(formValues, dispatch, props) {
       history.push("/signup_done");
     })
     .catch((error) => {
-      console.log(error.response.data);
+      console.log(error.response);
       // If request is bad...
       // Show an error to the user
       const processedError = processServerError(error.response.data);

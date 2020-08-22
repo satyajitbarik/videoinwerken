@@ -12,7 +12,7 @@ function Signup(props) {
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-        <h4>Sign Up</h4>
+        <h4>Sign up as Employer (testing purposes only)</h4>
         <hr />
 
         <fieldset className="form-group">

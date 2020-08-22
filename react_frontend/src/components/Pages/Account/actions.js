@@ -4,11 +4,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getUserToken } from "../../../utils/authUtils";
+import { AuthUrls } from "../../../constants/urls";
 
 // get current logged in user
 export function getUser(setUser) {
   axios
-    .get("http://localhost:8000/api/getuser/", {
+    //.get("http://localhost:8000/api/getuser/", {
+    .get(AuthUrls.API_USER, {
       headers: {
         authorization: "Token " + getUserToken(),
       },
@@ -31,7 +33,8 @@ export function updateEmployer(employer, onSave) {
     employer.is_admin = false;
     employer.employer = null;
     axios
-      .put(`http://localhost:8000/api/employers/${employer.id}/`, employer, {
+      // .put(`http://localhost:8000/api/employers/${employer.id}/`, employer, {
+      .put(AuthUrls.API_EMPLOYERS + employer.id + "/", employer, {
         headers: {
           authorization: "Token " + getUserToken(),
         },
@@ -46,7 +49,8 @@ export function updateEmployer(employer, onSave) {
   }
 }
 
-export function updateEmployee(employee, onSave) {
+// Is this even used?
+/*export function updateEmployee(employee, onSave) {
   if (employee.id) {
     // prevent manipulation
     employer.is_employer = false;
@@ -66,7 +70,7 @@ export function updateEmployee(employee, onSave) {
       });
     return;
   }
-}
+}*/
 
 /*
 // get list of employees of current user (the manager)

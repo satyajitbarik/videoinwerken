@@ -4,11 +4,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getUserToken } from "../../../utils/authUtils";
+import { AuthUrls } from "../../../constants/urls";
 
 // get list of employees of current user (the manager)
 export function retrieveEmployers(setEmployerList) {
   axios
-    .get("http://localhost:8000/api/employers/", {
+    // .get("http://localhost:8000/api/employers/", {
+    .get(AuthUrls.API_EMPLOYERS, {
       headers: {
         authorization: "Token " + getUserToken(),
       },
@@ -26,7 +28,8 @@ export function retrieveEmployers(setEmployerList) {
 export function deleteEmployer(employer, onClose) {
   if (employer.id) {
     axios
-      .delete(`http://localhost:8000/api/employers/${employer.id}/`, employer, {
+      // .delete(`http://localhost:8000/api/employers/${employer.id}/`, employer, {
+      .delete(AuthUrls.API_EMPLOYERS + employer.id + "/", employer, {
         headers: {
           authorization: "Token " + getUserToken(),
         },
@@ -42,7 +45,8 @@ export function deleteEmployer(employer, onClose) {
 export function updateEmployer(employer, onSave) {
   if (employer.id) {
     axios
-      .put(`http://localhost:8000/api/employers/${employer.id}/`, employer, {
+      //  .put(`http://localhost:8000/api/employers/${employer.id}/`, employer, {
+      .put(AuthUrls.API_EMPLOYERS + employer.id + "/", employer, {
         headers: {
           authorization: "Token " + getUserToken(),
         },
@@ -64,7 +68,7 @@ export function submitEmployer(
   setPasswordError
 ) {
   axios
-    .post("http://localhost:8000/api/employers/", employer, {
+    .post(AuthUrls.API_EMPLOYERS, employer, {
       headers: {
         authorization: "Token " + getUserToken(),
       },

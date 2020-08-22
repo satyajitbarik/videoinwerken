@@ -5,6 +5,7 @@ import axios from "axios";
 import { getUserToken } from "../../../utils/authUtils";
 import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
+import { AuthUrls } from "../../../constants/urls";
 
 // NOT USED - DELETE
 /*
@@ -28,7 +29,8 @@ export function getCourseQuestions(setCourseQuestions) {
 export function submitCourse(item, onClose) {
   if (item.id) {
     axios
-      .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
+      .put(AuthUrls.API_MANAGER_COURSES + item.id + "/", item, {
+        // .put(`http://localhost:8000/api/manager/courses/${item.id}/`, item, {
         headers: {
           authorization: "Token " + getUserToken(),
         },
@@ -58,7 +60,8 @@ export function submitQuestion(
 ) {
   axios
     .post(
-      "http://localhost:8000/api/manager/course/questions/",
+      AuthUrls.API_MANAGER_COURSE_QUESTIONS,
+      //"http://localhost:8000/api/manager/course/questions/",
       { course: courseId, question: question.question },
       {
         headers: {
@@ -115,7 +118,7 @@ function sendAnswersToDatabase(question, answers, setAnswers, dict, setDict) {
     }
     axios
       .post(
-        "http://localhost:8000/api/manager/course/question/answers/",
+        AuthUrls.API_MANAGER_COURSE_QUESTION_ANSWERS,
         {
           course_question: question.id,
           answer: answer.answer,

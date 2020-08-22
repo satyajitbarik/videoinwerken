@@ -6,6 +6,7 @@ import { getUserToken } from "../../utils/authUtils";
 import Table from "@material-ui/core/Table";
 import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 //import { getCourseQuestions } from "../Manager/Courses/courseActions";
+import { AuthUrls } from "../../constants/urls";
 
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
@@ -15,7 +16,7 @@ import { TableBody, TableCell, TableRow, Button } from "@material-ui/core";
 export function getCourses(setCoursesDict) {
   console.log("getting courses...");
   axios
-    .get("http://localhost:8000/api/employee/courses/", {
+    .get(AuthUrls.API_EMPLOYEE_COURSES, {
       headers: {
         authorization: "Token " + getUserToken(),
       },
@@ -42,7 +43,7 @@ export function getCourses(setCoursesDict) {
 function getEmployeeQuestionsCourse(coursesDict, setCoursesDict) {
   console.log("getting employee-questions-course...");
   axios
-    .get("http://localhost:8000/api/employee/employeequestionscourse/", {
+    .get(AuthUrls.API_EMPLOYEE_EMPLOYEEQUESTIONSCOURSE, {
       headers: {
         authorization: "Token " + getUserToken(),
       },
@@ -50,13 +51,6 @@ function getEmployeeQuestionsCourse(coursesDict, setCoursesDict) {
     .then((response) => {
       //employee, questionid, passed, attempted
       const employeeQuestionList = response.data;
-
-      //console.log("coursesDict");
-      //console.log(coursesDict);
-
-      //console.log("employeequestionscourse");
-      //console.log(employeeQuestionList);
-
       const employeeQuestionDict = {};
 
       for (let i = 0; i < employeeQuestionList.length; i++) {
@@ -75,7 +69,7 @@ function getEmployeeQuestionsCourse(coursesDict, setCoursesDict) {
 function getCourseQuestion(coursesDict, setCoursesDict, employeeQuestionDict) {
   console.log("getting employee-questions-course...");
   axios
-    .get("http://localhost:8000/api/employee/coursequestions/", {
+    .get(AuthUrls.API_EMPLOYEE_COURSEQUESTIONS, {
       headers: {
         authorization: "Token " + getUserToken(),
       },
@@ -133,7 +127,7 @@ export function getQuestionsAndAnswers(courseId, setQuestionsAndAnswers) {
   const questionsAndAnswers = [];
 
   axios
-    .get("http://localhost:8000/api/manager/course/questions/", {
+    .get(AuthUrls.API_MANAGER_COURSE_QUESTIONS, {
       headers: {
         authorization: "Token " + getUserToken(),
       },
@@ -172,7 +166,7 @@ function getAnswers(
   setQuestionsAndAnswers
 ) {
   axios
-    .get("http://localhost:8000/api/manager/course/question/answers/", {
+    .get(AuthUrls.API_MANAGER_COURSE_QUESTION_ANSWERS, {
       headers: {
         authorization: "Token " + getUserToken(),
       },
@@ -213,7 +207,7 @@ export function updateOrCreateQuestionProgress(question, answers) {
   console.log(question);
   console.log(answers);
   axios
-    .get("http://localhost:8000/api/employee/employeequestion/", {
+    .get(AuthUrls.API_EMPLOYEE_EMPLOYEEQUESTION, {
       headers: {
         authorization: "Token " + getUserToken(),
       },
@@ -222,12 +216,6 @@ export function updateOrCreateQuestionProgress(question, answers) {
       },
     })
     .then((response) => {
-      //setQuestionProgress(response.data);
-      //console.log("question progress:::::");
-      //console.log(response.data);
-      //console.log(question);
-      // console.log(answers);
-
       // if question-progress exists, we PUT
       if (response.data.length) {
         updateQuestionProgress(response.data[0].id, question, answers);
@@ -243,14 +231,9 @@ export function updateOrCreateQuestionProgress(question, answers) {
 
 // question object
 export function submitQuestionProgress(question, answers) {
-  //getQuestionProgress(question.id);
-
-  //console.log("submit question progress -> question, answers");
-  //console.log(question);
-  //console.log(answers);
   axios
     .post(
-      "http://localhost:8000/api/employee/employeequestion/",
+      AuthUrls.API_EMPLOYEE_EMPLOYEEQUESTION,
       {
         //employee: 0,
         question: question.id,
@@ -277,13 +260,10 @@ export function submitQuestionProgress(question, answers) {
 
 // question object
 export function updateQuestionProgress(id, question, answers) {
-  //console.log("UPDATE QUESTION PROGRESS!!!");
-  // console.log("id: " + id);
-  // console.log("questionid: " + question.id);
-  // getQuestionProgress(question.id);
   axios
     .put(
-      `http://localhost:8000/api/employee/employeequestion/${id}/`,
+      AuthUrls.API_EMPLOYEE_EMPLOYEEQUESTION + id + "/",
+      //`http://localhost:8000/api/employee/employeequestion/${id}/`,
       {
         //employee: 0,
         question: question.id,

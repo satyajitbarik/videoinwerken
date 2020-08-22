@@ -24,6 +24,7 @@ import { getUserToken } from "./../utils/authUtils";
     });
 }*/
 
+/*
 export function getQuestions(courseId) {
   return function (dispatch) {
     const token = getUserToken();
@@ -48,4 +49,4 @@ export function getQuestions(courseId) {
         });
     }
   };
-}
+}*/
