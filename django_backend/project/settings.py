@@ -215,10 +215,6 @@ CORS_ORIGIN_WHITELIST = [
     "http://127.0.0.1",
     "http://localhost:8080",
     "http://127.0.0.1:8000",
-    "http://h2899189.stratoserver.net",
-    "http://85.214.169.235",
-    "http://h2899189.stratoserver.net:8000",
-    "http://85.214.169.235:8000",
     "https://h2900735.stratoserver.net"
 ]
 
