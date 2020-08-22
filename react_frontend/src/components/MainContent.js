@@ -32,7 +32,7 @@ function MainContent() {
   return (
     // Changed Switch to Router. Router does not support nested routes.
     <div className="container" style={{ marginTop: 20 }}>
-      <BrowserRouter basename={"/videoinwerken"}>
+      <HashRouter>
         <Route exact path="/" component={Landing} />
 
         <Route path="/login" component={Login} />

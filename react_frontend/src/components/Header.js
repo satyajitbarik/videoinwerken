@@ -81,10 +81,10 @@ const renderLinks = (authenticated, setAuthenticated, user) => {
   } else {
     return (
       <React.Fragment>
-        <Button color="inherit" href={`./login`}>
+        <Button color="inherit" href="./login">
           Login
         </Button>
-        <Button color="inherit" href={`../${subfolder}/signup`}>
+        <Button color="inherit" href="./signup">
           Sign up
         </Button>
       </React.Fragment>
