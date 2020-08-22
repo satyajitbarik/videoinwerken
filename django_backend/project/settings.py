@@ -204,9 +204,6 @@ REST_FRAMEWORK = {
 # Change CORS settings as needed
 
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-
-)
 
 #CORS_ORIGIN_REGEX_WHITELIST = (
 #   r'^(https?://)?localhost',
@@ -222,6 +219,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://85.214.169.235",
     "http://h2899189.stratoserver.net:8000",
     "http://85.214.169.235:8000",
+    "https://h2900735.stratoserver.net"
 ]
 
 # Email Settings
