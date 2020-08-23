@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import axios from "axios";
-import { getUserToken } from "./../utils/authUtils";
+//import axios from "axios";
+//import { getUserToken } from "./../utils/authUtils";
 
 /*export function getQuestions(courseId) {
   const token = getUserToken();

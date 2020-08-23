@@ -21,7 +21,8 @@ export function authLogin(token) {
 //export function getUser(user) {
 export function getUser(setUser) {
   axios
-    .get("http://localhost:8000/api/getuser/", {
+    // .get("http://localhost:8000/api/getuser/", {
+    .get(AuthUrls.API_USER, {
       headers: {
         authorization: "Token " + getUserToken(),
       },

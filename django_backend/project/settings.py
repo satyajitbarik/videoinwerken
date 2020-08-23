@@ -25,8 +25,8 @@ SECRET_KEY = '$!r)@8^pv#=wd7ksxso22sc#+=jc*e2ssyqihnh64+*lor_+-d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-#ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '85.214.142.85', 'h2900735.stratoserver.net', 'http://h2900735.stratoserver.net/' ]
+
 
 
 # Application definition
@@ -137,6 +137,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
@@ -215,7 +217,13 @@ CORS_ORIGIN_WHITELIST = [
     "http://127.0.0.1",
     "http://localhost:8080",
     "http://127.0.0.1:8000",
-    "https://h2900735.stratoserver.net"
+    "http://h2899189.stratoserver.net",
+    "http://85.214.169.235",
+    "http://h2899189.stratoserver.net:8000",
+    "http://85.214.169.235:8000",
+    "https://h2900735.stratoserver.net",
+    "http://84.29.178.13:8083",
+    "http://84.29.178.13"
 ]
 
 # Email Settings
