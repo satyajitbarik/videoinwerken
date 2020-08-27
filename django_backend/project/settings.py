@@ -25,7 +25,7 @@ SECRET_KEY = '$!r)@8^pv#=wd7ksxso22sc#+=jc*e2ssyqihnh64+*lor_+-d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '85.214.142.85', 'h2900735.stratoserver.net', 'http://h2900735.stratoserver.net/' ]
+ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1', '85.214.142.85', 'h2900735.stratoserver.net', 'http://h2900735.stratoserver.net/' ]
 
 
 
@@ -72,6 +72,7 @@ MIDDLEWARE = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
 )
 
 ROOT_URLCONF = 'project.urls'
@@ -217,6 +218,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://127.0.0.1",
     "http://localhost:8080",
     "http://127.0.0.1:8000",
+    "http://localhost:3000",
     "http://h2899189.stratoserver.net",
     "http://85.214.169.235",
     "http://h2899189.stratoserver.net:8000",
@@ -224,6 +226,15 @@ CORS_ORIGIN_WHITELIST = [
     "https://h2900735.stratoserver.net",
     "http://84.29.178.13:8083",
     "http://84.29.178.13"
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
 ]
 
 # Email Settings
